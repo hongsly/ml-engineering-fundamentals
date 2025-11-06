@@ -1,0 +1,436 @@
+# Daily Knowledge Check Protocol
+
+**Purpose**: Test knowledge retention using spaced repetition based on forgetting curve
+**Frequency**: End of each study day
+**Duration**: 10-15 minutes
+
+---
+
+## Protocol
+
+### Timing
+- **When**: After completing the day's work (theory + implementation)
+- **Before documentation**: Run knowledge check before creating quick reference sheets
+
+### Question Distribution
+
+**70% Today's Content** (Fresh learning):
+- Core concepts from today's theory
+- Implementation details from today's algorithm
+- Key formulas or techniques learned
+
+**30% Previous Content** (Spaced repetition):
+- Based on forgetting curve intervals:
+  - **1 day ago**: 40% of review questions
+  - **3 days ago**: 30% of review questions
+  - **7 days ago**: 20% of review questions
+  - **14+ days ago**: 10% of review questions
+
+### Question Types
+
+1. **Conceptual** (40%):
+   - "Explain X"
+   - "When would you use X vs Y?"
+   - "What are the limitations of X?"
+
+2. **Implementation** (40%):
+   - "Walk me through how to implement X"
+   - "What's the time complexity and why?"
+   - "What edge cases need handling?"
+
+3. **Applied/Scenario** (20%):
+   - "Given scenario X, which approach would you use?"
+   - "How would you debug this issue?"
+   - "What metric would you use for this problem?"
+
+### Scoring
+
+**Per Question**:
+- ✅ **100%**: Correct, clear explanation, can elaborate
+- 🟡 **75%**: Mostly correct, minor gaps or unclear explanation
+- 🟠 **50%**: Partial understanding, significant gaps
+- ❌ **25%**: Incorrect or "I don't know"
+
+**Overall Score Interpretation**:
+- **90-100%**: Excellent retention, ready to move forward
+- **80-89%**: Good retention, minor review needed
+- **70-79%**: Adequate, consider reviewing weak areas before moving on
+- **<70%**: Significant gaps, should review before proceeding
+
+### Feedback Format
+
+For each answer:
+1. ✅/🟡/🟠/❌ Score with brief assessment
+2. What was correct
+3. What needs improvement (if applicable)
+4. Interview-ready answer (if significantly different)
+
+At the end:
+- Overall score percentage
+- Summary of strong areas
+- Summary of areas needing review
+- Recommendation (proceed / review specific topics / review day)
+
+---
+
+## Forgetting Curve Schedule
+
+### Example for Day 5:
+
+**Today's content (70%)**:
+- Day 5 new material
+
+**Review questions (30%)**:
+- 40% from Day 4 (1 day ago)
+- 30% from Day 3 (2 days ago)
+- 20% from Day 2 (3 days ago)
+- 10% from Day 1 (4 days ago)
+
+### Example for Day 10:
+
+**Today's content (70%)**:
+- Day 10 new material
+
+**Review questions (30%)**:
+- 40% from Day 9 (1 day ago)
+- 30% from Day 7 (3 days ago)
+- 20% from Day 3 (7 days ago)
+- 10% from Days 1-2 (8-9 days ago)
+
+---
+
+## Benefits
+
+1. **Spaced repetition**: Reviews content at optimal intervals before forgetting
+2. **Early gap detection**: Identifies weak areas before they become problems
+3. **Interview simulation**: Mimics interview question patterns
+4. **Confidence building**: Proves retention and improvement over time
+5. **Adjustment signal**: Low scores indicate need to slow down or review
+
+---
+
+## Integration with Study Plan
+
+### Daily Routine:
+```
+1. Theory refresh (if applicable)
+2. Implementation practice
+3. ✅ KNOWLEDGE CHECK (10-15 min) ← NEW STEP
+4. Create quick reference sheet
+5. Update progress files
+```
+
+### Weekly Review:
+- Compare knowledge check scores across week
+- Identify persistent weak areas
+- Adjust study focus for next week
+
+---
+
+## Sample Knowledge Check (Day 4 Example)
+
+### Today's Content (70% - Regularization, Regression Metrics, K-Means):
+
+**Q1**: Explain when to use L1 vs L2 regularization.
+
+**Q2**: Why is Elastic Net better for correlated variables?
+
+**Q3**: What are R²'s main limitations and how do you address them?
+
+**Q4**: Walk me through the K-Means algorithm steps.
+
+**Q5**: Why are K-Means results unstable across runs?
+
+**Q6**: What is inertia and how do you compute it?
+
+**Q7**: Implement the K-Means assignment step in one line of NumPy.
+
+### Previous Content (30% - Days 1-3):
+
+**Q8** (Day 3): Explain bias correction in Adam optimizer. [1 day ago]
+
+**Q9** (Day 3): When should you use Precision-Recall instead of AUC-ROC? [1 day ago]
+
+**Q10** (Day 2): What's the gradient formula for logistic regression? [2 days ago]
+
+**Total**: 10 questions, ~10-15 min
+
+---
+
+## Tracking Progress
+
+### Knowledge Check Log:
+
+| Day | Date | Overall Score | Strong Areas | Weak Areas | Action |
+|-----|------|---------------|--------------|------------|--------|
+| 1 | 2025-10-27 | N/A | - | Assessment day | - |
+| 2 | 2025-10-29 | N/A | - | - | - |
+| 3 | 2025-10-30 | 88% (B+) | Implementation, NumPy, bias correction | Explaining "why" (Adam, Precision-Recall) | Polish reasoning |
+| 4 | 2025-10-31 | 95% (A) | Regularization, metrics, K-Means algorithm, retention | Inertia code formula (70%), K-Means "keep best" detail | Review inertia calculation |
+| 5 | 2025-11-01 | **98.5% (A+)** | Boosting (perfect), parametric/non-parametric, **inertia resolved (95%)** | None identified | Continue momentum |
+| 6 | 2025-11-03 | 66.5% | Gap analysis complete (189 questions) | LLM systems (30%), statistics (65%), RAG (30%) | Week 2 focus areas identified |
+| 7 | 2025-11-04 | N/A | Topic coverage check (82% dunno) | - | Week 2 Day 1 begins |
+| 8 | 2025-11-04 | **80.8% (B+)** | Megatron-LM basics (77%), Review retention (100%) | ZeRO Stage 3 (0%), ZeRO memory reductions (40%), Tensor parallel comm (70%) | Read ZeRO Section 5, reinforce Stage 3 |
+| 9 | 2025-11-05 | **98% (A+)** | Backward pass (97.9%), ZeRO Stage 3 resolved (95%), f/g operators (100%), Review (95%) | Minor terminology precision | Continue Day 3-4 topics |
+
+**Progress Trend**: Week 2 momentum accelerating 🚀
+- Day 3→5: +10.5% improvement over Week 1
+- Day 5→8: Maintained momentum through gap analysis + topic check
+- Day 8→9: +17.2% improvement (80.8% → 98%) - Outstanding!
+- Day 8: 80.8% on new LLM systems material (excellent first pass)
+- Day 9: 98% on Day 2 material (mastery level) + weak item resolved
+- Review retention: 100% (Week 1 spaced repetition working perfectly across 4-6 days)
+
+---
+
+## Weak Items Tracking
+
+**Purpose**: Items scored <80% get re-tested in future knowledge checks until mastered
+
+**Active Weak Items** (will resurface in future checks):
+
+| Item | First Tested | Score | Last Tested | Status |
+|------|--------------|-------|-------------|--------|
+| Adam optimizer "adaptive LR" detail | Day 3 | 80% | Day 3 | 🟡 Monitor - optional resurface Day 10 |
+| Precision-Recall reasoning clarity | Day 3 | 75% | Day 3 | 🟡 Monitor - optional resurface Day 10 |
+| Tensor parallel all-reduce locations | Day 8 | 70% | Day 9 (100%) | ✅ Resolved - covered in backward pass |
+
+**Resolved Items** (scored 90%+ on retest):
+- ✅ **Inertia computation** (Day 4: 70% → Day 5: 95%) - Resolved in 1 day!
+- ✅ **ZeRO Stage 3 all-gather pattern** (Day 8: 0% → Day 9: 100%) - Resolved in 1 day!
+- ✅ **ZeRO memory reductions** (Day 8: 40% → Day 9: 95%) - Resolved in 1 day! (Corrected scoring: "up to 4×/8×" was correct)
+
+**Resurfacing Schedule**:
+- 🔴 Score <80%: Resurface in 3 days, then 7 days, then 14 days until 90%+
+- 🟡 Score 80-89%: Resurface in 7 days if needed
+
+---
+
+## Day 4 Detailed Results (2025-10-31)
+
+**Content Tested**:
+- 70% Day 4: Regularization (L1/L2/Elastic Net), Regression metrics (MAE/RMSE/R²), K-Means
+- 30% Review: Day 3 (Adam, Q-K-V), Day 2 (LogReg gradient)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | L1 vs L2 regularization | 4 | 100% ✅ | Perfect - use cases clear |
+| Q2 | Elastic Net correlated vars | 4 | 95% ✅ | Excellent - minor wording |
+| Q3 | R² limitation & Adjusted R² | 4 | 100% ✅ | Perfect - formula + reasoning |
+| Q4 | MAE vs RMSE | 4 | 100% ✅ | Perfect - outliers + smoothness |
+| Q5 | K-Means algorithm | 4 | 100% ✅ | Perfect - clear steps |
+| Q6 | K-Means instability | 4 | 95% ✅ | Good - minor: "keep best" not "average" |
+| Q7 | Inertia computation | 4 | 70% 🟡 | Concept OK, code wrong (all distances vs assigned) |
+| Q8 | Bias correction (review) | 3 | 100% ✅ | Perfect retention from Day 3 |
+| Q9 | Q-K-V attention (review) | 3 | 90% ✅ | Good - K definition slightly vague |
+| Q10 | LogReg gradient (review) | 2 | 100% ✅ | Perfect retention from Day 2 |
+
+**Overall Score**: 95% (A)
+
+**Retention Analysis**:
+- Day 4 content (Q1-Q7): 94%
+- Day 3 review (Q8-Q9): 95%
+- Day 2 review (Q10): 100%
+- **Spaced repetition working excellently!**
+
+**Key Insights**:
+- Regularization/metrics understanding: Excellent (95-100%)
+- K-Means algorithm: Perfect understanding
+- K-Means implementation details: One gap (inertia code)
+- Previous content retention: Outstanding (95%+)
+
+**Action Items**:
+1. 🔴 Review inertia calculation: `np.sum((X - centroids[labels]) ** 2)` vs all pairwise distances
+2. Will resurface inertia in Day 7 knowledge check
+
+**Recommendation**: ✅ Excellent performance, proceed to Day 5
+
+---
+
+## Day 5 Detailed Results (2025-11-01)
+
+**Context**: Weekend day, limited time (<1 hour), theory-only session
+
+**Content Tested**:
+- 70% Day 5: Boosting (AdaBoost, Gradient Boost), Parametric vs Non-parametric
+- 30% Review: Day 4 (L1/L2, inertia), Day 3 (Q-K-V)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | Boosting vs bagging | 5 | 95% ✅ | Great insight despite not directly in video |
+| Q2 | Amount of say formula | 5 | 100% ✅ | Perfect formula + explanation |
+| Q3 | Weight adjustment | 5 | 100% ✅ | Perfect formulas, both directions |
+| Q4 | AdaBoost vs Gradient Boost | 5 | 100% ✅ | Clear distinction |
+| Q5 | What trees predict (Gradient Boost) | 5 | 100% ✅ | Perfect: residuals |
+| Q6 | Parametric vs non-parametric | 5 | 100% ✅ | Perfect definition + examples |
+| Q7 | Is NN parametric? | 5 | 100% ✅ | Perfect reasoning |
+| Q8 | L1 vs L2 (review) | 4 | 100% ✅ | Perfect retention |
+| Q9 | Inertia (weak item) | 4 | 95% ✅ | **HUGE improvement 70%→95%!** |
+| Q10 | Q-K-V (review) | 3 | 95% ✅ | Better K explanation than Day 4 |
+
+**Overall Score**: 98.5% (A+)
+
+**Retention Analysis**:
+- Day 5 content (Q1-Q7): 99.3% - Outstanding absorption
+- Day 4 review (Q8-Q9): 97.5% - Excellent retention
+- Day 3 review (Q10): 95% - Solid retention
+
+**Key Insights**:
+- Boosting understanding: Near perfect (99.3%) despite limited time
+- Parametric/non-parametric: Complete mastery (100%)
+- **Weak item resolution**: Inertia 70%→95% in just 1 day (spectacular!)
+- Q-K-V improvement: Better articulation than Day 4
+- Learning efficiency: 98.5% score with <1 hour study time
+
+**Improvements from Day 4**:
+1. Inertia code: From conceptually wrong to nearly perfect ✅
+2. K in Q-K-V: More precise language ("keywords/match against")
+3. Overall retention: +3.5% despite busy weekend
+
+**Action Items**:
+- None! All items resolved or stable
+- Continue current approach
+
+**Recommendation**: ✅ Outstanding performance, ready for Day 6
+
+---
+
+## Day 8 Detailed Results (2025-11-04)
+
+**Context**: Week 2, Day 1 - First day of LLM Systems study (Megatron-LM + ZeRO papers)
+
+**Content Tested**:
+- 70% Day 8 (Q1-Q10): Megatron-LM (Sections 1-3), ZeRO (Sections 1-4 superficial)
+- 30% Review (Q11-Q13): Week 1 learned content (Days 3-5)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | Model vs data parallelism | 8 | 100% ✅ | Perfect - all key points |
+| Q2 | Self-attention splitting | 8 | 80% 🟡 | Core correct, confusion on GEMM multiplier matrix |
+| Q3 | MLP column/row-parallel pattern | 8 | 100% ✅ | Excellent - nailed non-linearity issue |
+| Q4 | Cross-node degradation | 8 | 80% 🟡 | Correct but brief, needed NVLink vs InfiniBand details |
+| Q5 | Tensor-parallel degree = 8 | 8 | 100% ✅ | Correct, good intuition on head divisibility |
+| Q6 | All-reduce after attention | 8 | 80% 🟡 | Instinct right, reasoning uncertain |
+| Q7 | Largest model trained | 8 | 100% ✅ | Perfect recall (8.3B, TP=8, 512 GPUs) |
+| Q8 | ZeRO three stages | 8 | 40% 🟡 | Looked up answer, correct but needs reinforcement |
+| Q9 | DP memory inefficiency | 8 | 100% ✅ | Perfect - model states replicated, computation parallel |
+| Q10 | Pos+g+p parameter communication | 8 | 0% ❌ | Haven't read Section 5 yet (expected gap) |
+| Q11 | Gradient Boosting mechanics (review) | 5 | 100% ✅ | Perfect retention from Day 5 |
+| Q12 | L1 vs L2 use cases (review) | 4 | 100% ✅ | Perfect retention from Day 4 |
+| Q13 | Adam bias correction (review) | 3 | 100% ✅ | Perfect retention from Day 3 |
+
+**Overall Score**: 80.8% (10.5/13)
+
+**Retention Analysis**:
+- Day 8 content (Q1-Q10): 6.8/10 = **68%** - Solid first pass on new material
+  - Megatron-LM (Q1-Q7): 5.4/7 = **77%** - Interview-ready for basics
+  - ZeRO (Q8-Q10): 1.4/3 = **47%** - Expected gap, Section 5 not read yet
+- Review content (Q11-Q13): 3/3 = **100%** - Outstanding Week 1 retention
+- **Spaced repetition working perfectly** - 100% retention across 3-5 days
+
+**Key Insights**:
+- **Strong Week 1 retention**: Perfect scores on all review questions (Day 3→8: 5 days, Day 4→8: 4 days, Day 5→8: 3 days)
+- **Megatron-LM fundamentals solid**: 77% on first read, can explain tensor parallelism, model/data parallelism, MLP patterns
+- **ZeRO Stage 1-2 understood**: 100% on DP memory efficiency reasoning (Q9)
+- **Expected gaps**: ZeRO Stage 3 (Q10: 0%), ZeRO formulas from memory (Q8: 40%)
+- **Communication details need depth**: Q2, Q4, Q6 scored 80% - understand concepts but lack precision on NVLink speeds, all-reduce locations, W_O matrix dimensions
+
+**Improvements Needed**:
+1. **ZeRO Stage 3 mechanics** (Q10: 0%) - Read Section 5 tomorrow, focus on all-gather pattern
+2. **ZeRO memory reductions** (Q8: 40%) - Redraw Figure 1 from memory without notes
+3. **Tensor parallel communication** (Q2, Q6: 80%) - Diagram all-reduce locations in attention + MLP
+4. **Cross-node details** (Q4: 80%) - Memorize: NVLink 600 GB/s, InfiniBand 12.5 GB/s (48× slower)
+
+**Clarification Resolved During Session**:
+- **W_O projection matrix**: Originally confused about "column-parallel" - corrected to **row-wise split**
+  - W_O1: `[512, 1024]` (top 512 rows), W_O2: `[512, 1024]` (bottom 512 rows)
+  - Y1 and Y2 are both `[batch, seq, 1024]` full-sized partial results
+  - All-reduce sums Y1 + Y2 element-wise before dropout/residual
+
+**Action Items**:
+1. 🔴 **Day 9 priority**: Read ZeRO Section 5 (pages 10-11) for Q10 gap
+2. 🟡 **Day 10 resurface**: ZeRO memory reductions without notes (Q8: 40%)
+3. 🟡 **Day 11 resurface**: Tensor parallel all-reduce locations (Q2, Q6: 80%)
+4. ✅ **Week 1 spaced repetition**: Continue current schedule (working perfectly)
+
+**Recommendation**: ✅ Excellent performance for Day 1 of new material. 80.8% overall with 100% review retention shows strong learning momentum. Proceed to Day 9 with ZeRO Section 5 focus.
+
+---
+
+## Day 9 Detailed Results (2025-11-05)
+
+**Context**: Week 2, Day 2 - Backward pass deep dive, ZeRO Stage 3, practice exercises
+
+**Content Tested**:
+- 70% Day 9: Backward pass (f/g operators), ZeRO Stage 3, 3D parallelism benefits, TP communication volume
+- 30% Review: Day 8 weak items (ZeRO stages), Week 1 spaced repetition (Days 3-5)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | f and g operators | 9 | 100% ✅ | Perfect - concise and accurate |
+| Q2 | Why all-reduce after W1 not W2 | 9 | 95% ✅ | Excellent reasoning, minor terminology |
+| Q3 | ZeRO Stage 3 all-gather | 9 | 100% ✅ | Perfect understanding |
+| Q4 | ZeRO Stage 3 overhead | 9 | 90% ✅ | 1.5× correct, minor: reduce-scatter vs scatter-reduce |
+| Q5 | PP reduces network congestion | 9 | 100% ✅ | Perfect - staggers DP communication |
+| Q6 | TP communication volume | 9 | 100% ✅ | Perfect - activation size not parameters |
+| Q7 | 3D parallelism speedup factors | 9 | 100% ✅ | All three factors correct |
+| Q8 | ZeRO three stages (weak item) | 8 | 95%→100% ✅ | **Scoring corrected**: "up to 4×/8×" was more precise! |
+| Q9 | MP cross-node degradation (review) | 8 | 100% ✅ | Perfect retention from Day 8 |
+| Q10 | AdaBoost vs Gradient Boost (review) | 5 | 90% ✅ | Good distinction, minor clarification on stumps |
+
+**Overall Score**: 98% (9.8/10) - A+
+
+**Retention Analysis**:
+- Day 9 content (Q1-Q7): 97.9% - Outstanding absorption, mastery level
+- Day 8 review (Q8-Q9): 97.5% - Excellent retention, weak item resolved
+- Day 5 review (Q10): 90% - Solid retention across 4 days
+- **Spaced repetition working perfectly**: 95%+ retention across 1-4 day intervals
+
+**Key Insights**:
+- **Backward pass mastery**: 100% on f/g operators, can explain all-reduce locations and reasoning
+- **ZeRO Stage 3 resolved**: 0% → 100% in 1 day (Day 8 Q10 gap closed)
+- **ZeRO memory formulas corrected**: User's "up to 4×/8×" was MORE accurate than initial grading (depends on Nd)
+- **Weak item resolution rate**: 3/3 Day 8 weak items resolved in 1 day (100% success rate)
+- **Week 1 retention exceptional**: 90-100% on content from 4-6 days ago
+
+**Improvements from Day 8**:
+1. **ZeRO Stage 3**: From 0% to 100% - Complete understanding of all-gather pattern
+2. **ZeRO memory reductions**: From 40% to 95% - Corrected understanding of "up to Nd×"
+3. **Tensor parallel communication**: From 70% to 100% - All-reduce locations in backward pass clear
+4. **Overall**: +17.2% improvement (80.8% → 98%)
+
+**Practice Exercises Completed** (Not formally scored, but logged):
+- ✅ Derived backprop gradients for column-parallel layer (95% - missed GeLU derivative)
+- ✅ Derived backprop gradients for row-parallel layer (100%)
+- ✅ Traced complete MLP block gradient flow (98% - all 4 all-reduces identified)
+- ✅ Strong scaling calculation (95% - equations correct, no numerical calc due to time)
+
+**Action Items**:
+- None! All Day 8 weak items resolved
+- Continue Day 3-4 topics (Parallelism strategies, Inference optimization)
+
+**Recommendation**: ✅ Outstanding performance! 98% demonstrates mastery of Day 1-2 material (Megatron-LM + ZeRO fundamentals). Ready for Day 3-4 topics (FSDP, Hardware, Inference optimization).
+
+---
+
+## Notes
+
+- **Flexibility**: Adjust question count based on day's content volume
+- **Interview focus**: Frame questions as interviewer would ask
+- **Honest assessment**: Self-grade honestly or have Claude grade
+- **Iterate**: Refine protocol based on what works
+- **Weak items**: Track <80% scores and resurface systematically
+
+---
+
+**Created**: 2025-10-31
+**Status**: Active protocol, Day 4 check completed
+**Last Updated**: 2025-10-31

@@ -1,0 +1,34 @@
+# Personal progress tracking
+00-CONVERSATION-SUMMARY.md
+
+# Personal career documents
+Resume-2025.md
+Behavioral-Questions.md
+CLAUDE.md
+
+# Personal assessments and job search
+gap_analysis/MLJobSearch2025-README.md
+gap_analysis/Day6-Gap-Analysis.md
+gap_analysis/Day6-Gap-Analysis-Detailed.md
+
+# Personal Google Drive links and saved webpages
+references/Matrix calculus rules.gdoc
+references/ML courses_learnmachinelearning.html
+
+# Research papers (large files)
+references/*.pdf
+
+# Temporary setup file
+PUBLIC-REPO-SETUP.md
+
+# IDE/Editor configuration
+.claude/
+
+# System files
+.DS_Store
+Icon
+**/Icon
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
