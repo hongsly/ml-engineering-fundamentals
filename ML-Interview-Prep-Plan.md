@@ -466,7 +466,7 @@ This is where you need the most practice:
 
 ---
 
-**Day 4: Inference Optimization (2 hours)**
+**Day 4: Inference Optimization (2 hours)** ✅ **COMPLETED (2025-11-07)**
 
 **Topics** (6 topics):
 15. **KV-cache** - how it works, O(n²)→O(n) (Gap Q187)
@@ -477,23 +477,52 @@ This is where you need the most practice:
 20. Serving frameworks - vLLM overview
 
 **Study**:
-- [ ] Read: vLLM paper (abstract + key sections) - 40 min
+- [X] Read: vLLM paper (abstract + key sections) - 40 min
   - URL: https://arxiv.org/abs/2309.06180
-  - Key concepts: PagedAttention, continuous batching
-- [ ] Read: "KV-cache explained" blog - 20 min
-  - URL: https://medium.com/@joaolages/kv-caching-explained-276520203249 (or similar)
-  - Key concepts: Why O(n²) → O(n), memory requirements
-- [ ] Read: Speculative decoding blog/paper intro - 20 min
-  - Key concepts: Draft model + verification, 2-3× speedup
+  - Key concepts: PagedAttention, continuous batching (iteration-level scheduling)
+- [X] Read: "KV-cache explained" blog - 15 min
+  - URL: https://huggingface.co/blog (derived memory formula: 2×H×L×B)
+- [X] Read: Speculative decoding - 15 min
+  - URL: https://huggingface.co/blog/whisper-speculative-decoding
+  - Key insight: Draft model + parallel verification, synchronous vs continuous batching
+- [X] Read: MQA & GQA - 15 min
+  - URL: https://medium.com/@maxshapp/grouped-query-attention-gqa-explained-with-code-e56ee2a1df5a
+  - Key concepts: Shared K/V heads (MHA: 32, MQA: 1, GQA: 4 groups)
+- [X] Read: Quantization Overview - 15 min
+  - URL: https://medium.com/@kimdoil1211/speeding-up-large-language-models-a-deep-dive-into-gptq-and-awq-quantization-0bb001eaabd4
+  - Key concepts: GPTQ (Hessian-based), AWQ (activation-aware)
 
 **Practice**:
-- [ ] Explore: vLLM GitHub repo + documentation - 30 min
-  - URL: https://github.com/vllm-project/vllm
-  - Understand: How to use vLLM API, batching strategies
-- [ ] Create: Inference optimization cheat sheet - 10 min
-  - List: 4 methods from Q187 with brief explanations
+- [X] Create: Inference optimization cheat sheet - 20 min
+  - 6 topics: KV-cache, Quantization, Continuous batching, Speculative decoding, MQA/GQA, PagedAttention
+  - Format: What it is + What problem it solves + Key trade-off
 
-**Target**: Can explain all 4 Q187 methods confidently, understand vLLM architecture
+**Knowledge Check** (10 min):
+- [X] 70% Day 4 content + 30% Review
+- [X] Score: **97.5% (9.75/10)** - A+
+  - Q1-Q7 (Day 4): 97.9% - Strong understanding of all 6 techniques
+  - Q8-Q10 (Review): 96.7% - Excellent retention of ZeRO, TP, Roofline model
+  - **Clarification needed**: Speculative decoding batch size reasoning (75%) - synchronous vs continuous batching implementations
+
+**Quick Reference Created**:
+- [X] Day11-Quick-Reference.md - Comprehensive inference optimization cheat sheet
+  - KV-cache memory formula: 2×H×L×2 bytes (FP16)
+  - All 6 techniques with trade-offs
+  - Interview-ready format
+
+**Day 4 Final Status**: ✅ **COMPLETED**
+- ⏱️ Total time: ~2h 10min (10 min over target, but covered all 6 topics)
+- 📊 Final readiness: **90%+** for inference optimization interview questions
+- 🎯 Topics mastered: 6/6 at interview-ready level
+- 💡 Key insights:
+  - KV-cache: O(n²)→O(n), but memory cost = 2×H×L×2×S bytes
+  - Continuous batching = iteration-level scheduling (from Orca)
+  - Speculative decoding: Better for small batches (GPU utilization), synchronous vs continuous implementations
+  - PagedAttention: Block-level memory management, eliminates fragmentation
+  - MQA/GQA: Memory savings via shared K/V heads
+  - Quantization: GPTQ (Hessian) vs AWQ (activation-aware)
+
+**Target**: Can explain all 4 Q187 methods confidently, understand vLLM architecture ✅ **ACHIEVED**
 
 ---
 

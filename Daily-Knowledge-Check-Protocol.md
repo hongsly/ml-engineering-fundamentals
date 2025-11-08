@@ -173,14 +173,17 @@ At the end:
 | 8 | 2025-11-04 | **80.8% (B+)** | Megatron-LM basics (77%), Review retention (100%) | ZeRO Stage 3 (0%), ZeRO memory reductions (40%), Tensor parallel comm (70%) | Read ZeRO Section 5, reinforce Stage 3 |
 | 9 | 2025-11-05 | **98% (A+)** | Backward pass (97.9%), ZeRO Stage 3 resolved (95%), f/g operators (100%), Review (95%) | Minor terminology precision | Continue Day 3-4 topics |
 | 10 | 2025-11-06 | **99.0% (A+)** | Hardware bottlenecks (99.3%), Communication scaling (perfect), Review (98.3%), **User caught 3 errors!** | None - all concepts strong | Day 4: Inference optimization |
+| 11 | 2025-11-07 | **97.5% (A+)** | All 6 inference techniques (97.9%), Memory formulas (100%), Trade-off analysis (perfect), Review (96.7%) | Speculative decoding batch reasoning (75%, clarified) | Continue Week 2 momentum |
 
 **Progress Trend**: Week 2 sustained excellence 🚀
 - Day 3→5: +10.5% improvement over Week 1
 - Day 5→8: Maintained momentum through gap analysis + topic check
 - Day 8→9: +17.2% improvement (80.8% → 98%) - Outstanding!
 - Day 9→10: +1.0% improvement (98% → 99%) - Sustained mastery level
+- Day 10→11: -1.5% (99.0% → 97.5%) - Still A+ range, excellent retention
 - **Day 10 highlight**: User caught 3 approximations/errors (bubble time formula, ranking, TP scaling)
-- Review retention: 98.3% (Week 1 + Week 2 Day 1-2 content, excellent spaced repetition)
+- **Day 11 highlight**: User caught major error (communication volume), deep understanding of speculative decoding nuances
+- Review retention: 96.7% (excellent spaced repetition across Week 1 + Week 2)
 
 ---
 
@@ -495,6 +498,102 @@ At the end:
 
 ---
 
+## Day 11 Detailed Results (2025-11-07)
+
+**Context**: Week 2, Day 4 - Inference optimization (KV-cache, quantization, continuous batching, speculative decoding, MQA/GQA, PagedAttention)
+
+**Content Tested**:
+- 70% Day 11: All 6 inference optimization techniques (KV-cache memory, quantization methods, continuous batching, speculative decoding, MQA/GQA, PagedAttention)
+- 30% Review: Day 8-10 (ZeRO Stage 3, TP scaling, Roofline model)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1a | KV-cache memory (OPT-13B, 1 token) | 11 | 100% ✅ | Perfect: 820 KB |
+| Q1b | KV-cache memory (512 tokens) | 11 | 100% ✅ | Perfect: 420 MB |
+| Q2 | O(n²) → O(n) explanation | 11 | 100% ✅ | Perfect - recomputation vs caching |
+| Q3 | Continuous batching advantage | 11 | 100% ✅ | Perfect - no waiting for longest sequence |
+| Q4 | Speculative decoding batch size | 11 | 75% 🟡 | **Clarification needed** - GPU utilization vs synchronous impl |
+| Q5 | MHA/MQA/GQA head counts | 11 | 100% ✅ | Perfect - 32/1/4, GQA best compromise |
+| Q6 | GPTQ vs AWQ distinction | 11 | 100% ✅ | Perfect - Hessian vs activation-aware |
+| Q7 | PagedAttention memory waste | 11 | 100% ✅ | Perfect - 4092 vs 28 tokens (146× improvement) |
+| Q8 | ZeRO Stage 3 parameters (review) | 8-9 | 100% ✅ | Perfect retention (3-4 days ago) |
+| Q9 | TP scaling limitation (review) | 9-10 | 100% ✅ | Hardware + theoretical, perfect |
+| Q10 | Memory bandwidth bottleneck (review) | 10 | 90% ✅ | Good - Roofline concept, could be more precise |
+
+**Overall Score**: 97.5% (9.75/10) - A+
+- Day 11 content (Q1-Q7): 97.9% (6.85/7)
+- Review content (Q8-Q10): 96.7% (2.9/3)
+
+**Important Clarification (Q4 - Speculative Decoding)**:
+
+User's initial answer focused on **synchronous batching limitation** (batch-wide rejection):
+- ✅ **This is TRUE for naive implementations** (Hugging Face Transformers, simple batching)
+
+**However, production systems (vLLM, Orca) use continuous batching**:
+- Each sequence verified independently (no batch-wide rejection)
+- Handle ragged batches (sequences at different positions)
+
+**The REAL reason small batch benefits more**:
+1. **Small batch (1-4)**: Low GPU utilization → draft model fills idle time
+2. **Large batch (64)**: High GPU utilization already → draft model overhead not worth it
+3. **Memory transfer**: Draft model (1B = 2 GB) is 175× faster than large model (175B = 350 GB)
+
+**Extended Session Topics** (Not in formal knowledge check):
+
+1. **Communication Volume Error Caught by User**:
+   - Day 10 Quick Reference Section 11 had major error: "2P = total across all GPUs"
+   - User: "How can 2(N-1)×P be 2P? It should be 2N!"
+   - ✅ **User was RIGHT!** Standard metric is **per-device**, not total
+   - Updated Section 11: Per-device = 2P(N-1)/N ≈ 2P when N large
+   - Why per-device matters: Training time = per-device volume / bandwidth
+
+2. **Ring All-Reduce Mechanics**:
+   - User asked: "Explain P/N to neighbors N-1 times in detail"
+   - Walked through: Reduce-scatter (N-1 rounds) + All-gather (N-1 rounds)
+   - Each round: Send one chunk (P/N) to right neighbor
+   - **Tree all-reduce comparison**: Root bottleneck (4P vs 2P), doesn't scale
+
+3. **Speculative Decoding Deep Dive**:
+   - Where to get assistant model: Distillation, same family, early exit, quantized
+   - Parallel verification: Transformer causal attention enables verification of 4 tokens in ONE forward pass
+   - Synchronous vs continuous batching implementations
+
+4. **Memory-Bound Misconception**:
+   - User: "Why does speculative decoding help when memory-bound?"
+   - Clarified: It's NOT about memory-boundedness, it's about **GPU utilization**
+   - Small batch = matrix-vector (underutilized) → draft model helps
+   - Large batch = matrix-matrix (already busy) → marginal benefit
+
+**Strengths**:
+- ✅ Perfect KV-cache memory formula application (2×H×L×2 bytes)
+- ✅ Excellent understanding of all 6 inference techniques
+- ✅ Strong trade-off analysis (memory vs speed, accuracy vs efficiency)
+- ✅ **Caught major error**: Communication volume per-device vs total
+- ✅ Nuanced understanding: Synchronous vs continuous batching implementations
+- ✅ Perfect review retention: 96.7% across 3-4 day interval
+
+**Areas of Excellence**:
+- Formula application (KV-cache memory: 800 KB/token for OPT-13B)
+- Quantization distinction (GPTQ Hessian-based vs AWQ activation-aware)
+- PagedAttention waste calculation (146× improvement)
+- Deep conceptual questions (ring all-reduce mechanics, speculative decoding verification)
+
+**Practice Exercise Completed** (20 min):
+- ✅ Created inference optimization cheat sheet (6 topics)
+- Format: What it is + Problem solved + Trade-off
+- Interview-ready for Gap Q187 (all 4 methods covered + 2 extra)
+
+**Action Items**:
+- None! All concepts strong
+- Minor: Could review synchronous vs continuous batching for speculative decoding in production systems
+- Continue Week 2 momentum (Day 5: Transformer calculations, FLOPs, memory formulas)
+
+**Recommendation**: ✅ Excellent performance! 97.5% demonstrates strong grasp of all 6 inference optimization techniques. User shows exceptional ability to catch errors (communication volume), ask deep questions (ring all-reduce mechanics, speculative decoding verification), and understand nuances (synchronous vs continuous implementations). **Ready for inference optimization interview questions at research labs (OpenAI/Anthropic/DeepMind).**
+
+---
+
 ## Notes
 
 - **Flexibility**: Adjust question count based on day's content volume
@@ -506,5 +605,5 @@ At the end:
 ---
 
 **Created**: 2025-10-31
-**Status**: Active protocol, Day 4 check completed
-**Last Updated**: 2025-10-31
+**Status**: Active protocol, Day 11 check completed
+**Last Updated**: 2025-11-07
