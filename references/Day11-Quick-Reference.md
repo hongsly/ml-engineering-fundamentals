@@ -110,13 +110,30 @@ Uses a faster **draft model** (small, 1-2B params) to generate multiple candidat
 ### **Trade-off:**
 **Speedup vs. complexity and batch size:**
 - ✅ **Best for small batches (1-4)**: Low GPU utilization → draft model fills idle time
-- ❌ **Less effective for large batches (64)**: GPU already busy → draft overhead not worth it
+- ❌ **Less effective for large batches (64)**: Higher variance in acceptance rates + ragged tensor overhead
 - ❌ Need to load extra draft model (memory overhead)
 - ❌ Can slow down if draft disagrees often (wasted work)
 
-**Implementation note:**
-- **Naive (synchronous)**: Entire batch stops at earliest rejection (simple batching limitation)
-- **Production (vLLM, Orca)**: Each sequence verified independently (continuous batching, handles ragged batches)
+### **The Ragged Tensor Problem (Batch Processing Challenge):**
+When sequences accept different numbers of draft tokens, they end up at different positions:
+```
+After verification (draft generated 5 tokens for each):
+Seq A: Accepts all 5 → now at position 5
+Seq B: Rejects at token 2, accepts 1 → now at position 1
+Seq C: Accepts 4 tokens → now at position 4
+```
+
+**Problem**: GPUs require rectangular tensors, but sequences are now misaligned (position IDs, attention masks, KV-cache)
+
+**Three solutions from research:**
+1. **Masking** (BSP approach): Handle ragged tensors directly → ❌ Corrupted outputs (non-contiguous position IDs)
+2. **Rollback**: Truncate all sequences to minimum accepted (all → position 1) → ❌ Wasteful, throughput collapses
+3. **Dynamic Padding**: Realign via left padding to maintain right alignment → ✓ Viable, but 40% overhead for synchronization
+
+**Why small batches benefit MORE:**
+1. Low GPU utilization (draft model fills idle time)
+2. Lower variance in acceptance rates (less raggedness to manage)
+3. Less overhead synchronizing ragged tensors across many sequences
 
 ---
 
@@ -202,7 +219,7 @@ vLLM (block size=16):
 **A**: "GPTQ uses Hessian-based per-layer quantization, adjusting weights sequentially to compensate for previous quantization errors and preserve overall accuracy. AWQ takes an activation-aware approach - it identifies the 1-2% of weights that contribute most to large activations and keeps those at full precision, then aggressively quantizes the rest. AWQ is often faster to apply and preserves quality well for LLMs."
 
 ### **Q: Why is speculative decoding more effective for small batches?**
-**A**: "Small batches result in low GPU utilization - we're doing matrix-vector operations that don't saturate the GPU's parallel compute units. The draft model (1-2B params) runs much faster due to 100× less memory transfer, and its sequential generation fills GPU idle time. The large model then verifies multiple tokens in one parallel pass. For large batches, the GPU is already busy with matrix-matrix operations across many sequences, so adding draft model complexity provides minimal benefit and may actually slow things down due to overhead."
+**A**: "Small batches have low GPU utilization - matrix-vector operations don't saturate the GPU, so the fast draft model (1-2B params with 100× less memory transfer) fills idle time. The large model then verifies multiple tokens in parallel. For large batches, three issues arise: (1) GPU already busy with matrix-matrix operations, (2) higher variance in acceptance rates creates ragged tensors where sequences end up at different positions, and (3) synchronizing these ragged tensors (position IDs, attention masks, KV-cache) can consume 40% of computation. Research shows three approaches - masking (corrupts outputs), rollback (wastes verified tokens), or dynamic padding (40% overhead) - making large batch speculative decoding significantly less efficient."
 
 ### **Q: How does PagedAttention achieve near-zero memory waste?**
 **A**: "PagedAttention divides KV-cache into fixed-size blocks (typically 16 tokens) and allocates them on-demand, like OS virtual memory paging. Unlike traditional systems that pre-allocate max sequence length (e.g., 2048 slots), vLLM only allocates blocks as tokens are generated. This eliminates internal fragmentation (no unused pre-allocated space) and external fragmentation (all blocks are same size). Memory waste is limited to the last unfilled block per sequence - for a 16-token block size, that's at most 15 tokens, compared to 1000+ tokens wasted in traditional systems."

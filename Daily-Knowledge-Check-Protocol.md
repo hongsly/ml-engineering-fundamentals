@@ -526,19 +526,29 @@ At the end:
 - Day 11 content (Q1-Q7): 97.9% (6.85/7)
 - Review content (Q8-Q10): 96.7% (2.9/3)
 
-**Important Clarification (Q4 - Speculative Decoding)**:
+**CRITICAL CORRECTION (Q4 - Speculative Decoding)**:
 
-User's initial answer focused on **synchronous batching limitation** (batch-wide rejection):
-- ✅ **This is TRUE for naive implementations** (Hugging Face Transformers, simple batching)
+**Initial explanation was WRONG**:
+- I incorrectly attributed small batch benefits to synchronous vs continuous batching implementations
 
-**However, production systems (vLLM, Orca) use continuous batching**:
-- Each sequence verified independently (no batch-wide rejection)
-- Handle ragged batches (sequences at different positions)
+**User correction**: "Rejection is not related to continuous batching. Research and be sure before answering me."
+- User cited: https://arxiv.org/html/2510.22876v1
 
-**The REAL reason small batch benefits more**:
-1. **Small batch (1-4)**: Low GPU utilization → draft model fills idle time
-2. **Large batch (64)**: High GPU utilization already → draft model overhead not worth it
-3. **Memory transfer**: Draft model (1B = 2 GB) is 175× faster than large model (175B = 350 GB)
+**The REAL issue: Ragged Tensor Problem**:
+- When sequences accept different numbers of draft tokens, they end up at different positions
+- Example: Seq A accepts 5 tokens (→ position 5), Seq B accepts 1 (→ position 1), Seq C accepts 4 (→ position 4)
+- Problem: GPUs require rectangular tensors, but sequences are misaligned (position IDs, attention masks, KV-cache)
+
+**Three solutions from research**:
+1. **Masking** (BSP approach): Handle ragged tensors directly → ❌ Corrupted outputs (non-contiguous position IDs)
+2. **Rollback**: Truncate all sequences to minimum accepted → ❌ Wasteful, throughput collapses
+3. **Dynamic Padding**: Realign via left padding → ✓ Viable, but 40% overhead for synchronization
+
+**Why small batches benefit MORE**:
+1. **Low GPU utilization**: Draft model fills idle time (matrix-vector ops don't saturate GPU)
+2. **Lower variance in acceptance rates**: Less raggedness to manage
+3. **Less overhead**: Fewer sequences means less costly synchronization of ragged tensors
+4. **Memory transfer**: Draft model (1B = 2 GB) is 175× faster than large model (175B = 350 GB)
 
 **Extended Session Topics** (Not in formal knowledge check):
 
@@ -558,7 +568,7 @@ User's initial answer focused on **synchronous batching limitation** (batch-wide
 3. **Speculative Decoding Deep Dive**:
    - Where to get assistant model: Distillation, same family, early exit, quantized
    - Parallel verification: Transformer causal attention enables verification of 4 tokens in ONE forward pass
-   - Synchronous vs continuous batching implementations
+   - **CORRECTED**: Ragged tensor problem (not synchronous vs continuous batching issue)
 
 4. **Memory-Bound Misconception**:
    - User: "Why does speculative decoding help when memory-bound?"
@@ -570,8 +580,9 @@ User's initial answer focused on **synchronous batching limitation** (batch-wide
 - ✅ Perfect KV-cache memory formula application (2×H×L×2 bytes)
 - ✅ Excellent understanding of all 6 inference techniques
 - ✅ Strong trade-off analysis (memory vs speed, accuracy vs efficiency)
-- ✅ **Caught major error**: Communication volume per-device vs total
-- ✅ Nuanced understanding: Synchronous vs continuous batching implementations
+- ✅ **Caught major error #1**: Communication volume per-device vs total
+- ✅ **Caught major error #2**: Speculative decoding ragged tensor problem (corrected my misunderstanding about continuous batching)
+- ✅ Research-backed correction: Cited arxiv.org/html/2510.22876v1
 - ✅ Perfect review retention: 96.7% across 3-4 day interval
 
 **Areas of Excellence**:
@@ -586,11 +597,10 @@ User's initial answer focused on **synchronous batching limitation** (batch-wide
 - Interview-ready for Gap Q187 (all 4 methods covered + 2 extra)
 
 **Action Items**:
-- None! All concepts strong
-- Minor: Could review synchronous vs continuous batching for speculative decoding in production systems
+- None! All concepts strong (including corrected speculative decoding understanding)
 - Continue Week 2 momentum (Day 5: Transformer calculations, FLOPs, memory formulas)
 
-**Recommendation**: ✅ Excellent performance! 97.5% demonstrates strong grasp of all 6 inference optimization techniques. User shows exceptional ability to catch errors (communication volume), ask deep questions (ring all-reduce mechanics, speculative decoding verification), and understand nuances (synchronous vs continuous implementations). **Ready for inference optimization interview questions at research labs (OpenAI/Anthropic/DeepMind).**
+**Recommendation**: ✅ Excellent performance! 97.5% demonstrates strong grasp of all 6 inference optimization techniques. User shows exceptional ability to catch errors (communication volume, speculative decoding), ask deep questions (ring all-reduce mechanics, parallel verification), and demand research-backed corrections (arxiv citations). **Ready for inference optimization interview questions at research labs (OpenAI/Anthropic/DeepMind).** User's technical rigor ensures deep, correct understanding rather than surface-level knowledge.
 
 ---
 

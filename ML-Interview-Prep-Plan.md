@@ -502,7 +502,7 @@ This is where you need the most practice:
 - [X] Score: **97.5% (9.75/10)** - A+
   - Q1-Q7 (Day 4): 97.9% - Strong understanding of all 6 techniques
   - Q8-Q10 (Review): 96.7% - Excellent retention of ZeRO, TP, Roofline model
-  - **Clarification needed**: Speculative decoding batch size reasoning (75%) - synchronous vs continuous batching implementations
+  - **Critical correction**: Speculative decoding batch size reasoning (75%) - ragged tensor problem, not continuous batching issue (user caught error, cited arxiv.org/html/2510.22876v1)
 
 **Quick Reference Created**:
 - [X] Day11-Quick-Reference.md - Comprehensive inference optimization cheat sheet
@@ -517,7 +517,8 @@ This is where you need the most practice:
 - 💡 Key insights:
   - KV-cache: O(n²)→O(n), but memory cost = 2×H×L×2×S bytes
   - Continuous batching = iteration-level scheduling (from Orca)
-  - Speculative decoding: Better for small batches (GPU utilization), synchronous vs continuous implementations
+  - Speculative decoding: Ragged tensor problem when sequences accept different numbers of tokens (solutions: Masking/Rollback/Dynamic Padding)
+  - Small batch benefits: GPU utilization + lower acceptance variance + less ragged tensor overhead
   - PagedAttention: Block-level memory management, eliminates fragmentation
   - MQA/GQA: Memory savings via shared K/V heads
   - Quantization: GPTQ (Hessian) vs AWQ (activation-aware)
