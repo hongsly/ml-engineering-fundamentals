@@ -527,7 +527,7 @@ This is where you need the most practice:
 
 ---
 
-**Day 5: Calculations & Transformer Parameters (2 hours)**
+**Day 5: Calculations & Transformer Parameters (2 hours)** ✅ **COMPLETED (2025-11-08)**
 
 **Topics** (4 topics):
 21. FLOPs calculation - forward/backward pass
@@ -536,21 +536,52 @@ This is where you need the most practice:
 24. Transformer parameter counting
 
 **Study**:
-- [ ] Read: "Transformer Math 101" (EleutherAI or similar) - 40 min
+- [X] Read: "Transformer Math 101" (EleutherAI) - 40 min
   - URL: https://blog.eleuther.ai/transformer-math/
-  - Key concepts: Parameter counting formulas, FLOPs per token
+  - Key concepts: Parameter counting formulas, Chinchilla scaling law, activation memory
 
 **Practice**:
-- [ ] Calculate: Parameters for GPT-2 (124M), GPT-3 (175B) - 40 min
-  - Verify: d_model, n_layers, n_heads for both
-  - Formula: Attention params, FFN params, embeddings
-  - Check against known values
-- [ ] Calculate: Memory for training 7B model on A100 (80GB) - 40 min
-  - Include: Model weights (FP16), optimizer states (Adam), gradients, activations
-  - Determine: Max batch size, whether need model parallelism
-  - Practice: Explain reasoning out loud
+- [X] Calculate: Parameters for GPT-2 (124M), GPT-3 (175B)
+  - Formula: V×H + (4H² + 2H×4H)×L
+  - GPT-2: 123.5M params ✓
+  - GPT-3: 175B params ✓
+- [X] Calculate: Memory for training 7B model on A100 (80GB)
+  - Model states (no parallelism): 112 GB (need parallelism!)
+  - With ZeRO-3 (N=4): 28 GB per GPU
+  - Activation memory (full checkpointing): 2×s×b×h×L
+  - Max batch size: 59 samples/GPU, 236 global ✓
 
-**Target**: Can calculate transformer params and memory requirements in interview setting
+**Knowledge Check** (10 min):
+- [X] Score: **99.6% (9.96/10)** - A+
+  - Q1-Q7 (Day 5): 100% - Perfect calculations (parameters, memory, batch size)
+  - Q8-Q10 (Review): 97.7% - Excellent retention (memory bandwidth, KV-cache, ZeRO)
+
+**Progress Validation** (15 min):
+- [X] Quick 24-topic check: **83% Know** (25/30 high-priority topics)
+  - Area 1 (Distributed Training): 75% ✅
+  - Area 2 (Memory Optimization): 83% ✅
+  - Area 3 (Hardware): 67% 🟡
+  - Area 4 (Parallelism): 100% ✅✅
+  - Area 5 (Inference): 100% ✅✅
+
+**Day 5 Final Status**: ✅ **COMPLETED**
+- ⏱️ Total time: ~2h 15min (study + practice + validation)
+- 📊 Final readiness: **99%+ for calculations & transformer parameters**
+- 🎯 Topics mastered: 4/4 at interview-ready level
+- 💡 Key insights:
+  - Attention params: 4H² (not 4H²×n_heads - heads split H!)
+  - Chinchilla law (D=20P): Optimizes training cost, not total cost
+  - Activation memory: 2sbhL with full checkpointing
+  - Memory states require parallelism for 7B+ models (112 GB > 80 GB)
+  - ZeRO-3 enables training by sharding model/optimizer/gradients
+
+**Week 2 Day 1-5 Status**: ✅ **LLM SYSTEMS GAP CLOSURE SUCCESSFUL**
+- **Target**: 60-70% interview ready → **Achieved**: 83% ✅
+- All Gap Q182-189 topics covered with strong understanding
+- Knowledge check average: 92% across 5 days (85%, 98%, 99%, 97.5%, 99.6%)
+- Ready to move to Day 6-7: Statistical Testing
+
+**Target**: Can calculate transformer params and memory requirements in interview setting ✅ **ACHIEVED**
 
 ---
 
