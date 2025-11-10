@@ -585,50 +585,130 @@ This is where you need the most practice:
 
 ---
 
-**Day 6-7: Statistical Testing (2-3 hours)**
+**Day 6-7: Statistics & Probability (Days 13-14) (4-5 hours)** ⚠️ **EXTENDED, CONTINUES TO WEEK 3 DAY 1**
 
-**Pre-study**: Topic Coverage Check (15 min) - if needed for statistics
-- [ ] List statistical tests: t-test, z-test, chi-square, ANOVA, regression diagnostics, etc.
-- [ ] Self-assess: know/unsure/dunno for each
+**Rationale**: Comprehensive 43-topic assessment revealed 18.6% baseline (vs estimated 65%) with 8 Dunno + 25 Unsure topics. Extended to 3 days (Week 2 Day 6-7 + Week 3 Day 1) for realistic coverage.
 
-**Study**:
-- [ ] StatQuest: T-test vs Z-test (20 min)
-  - When to use: n < 30 vs n ≥ 30, known vs unknown variance
-  - URL: https://www.youtube.com/watch?v=0Pd3dc1GcHc (or similar)
-- [ ] StatQuest or read: Linear Regression Assumptions (30 min)
-  - 5 assumptions: Linearity, Independence, Homoscedasticity, Normality, No Multicollinearity
-  - Tests: Residual plots, Durbin-Watson, Breusch-Pagan, Shapiro-Wilk/Q-Q plot, VIF
+**Assessment Completed** (Day 13 start):
+- [X] Comprehensive topic coverage check (see `gap_analysis/Week2-Statistics-Topic-Check.md`)
+- [X] Results: 8 Know, 25 Unsure, 8 Dunno → 18.6% baseline readiness
+- [X] Decision: Extend from Day 6-7 (2-3 hours) to Day 6-8 (6-7.5 hours total)
 
-**Practice**:
-- [ ] Run all 5 regression assumption tests on sample data (45 min)
-  - Use `statsmodels` library
-  - Interpret p-values, understand when assumptions violated
-- [ ] Create cheat sheet: Test names, when to use, interpretation (30 min)
+---
 
-**Target**: Bring statistical testing from 65% → 90%, can explain t-test vs z-test, run all 5 regression tests
+**Day 6 (Day 13): Regression Diagnostics + Covariance (2-2.5 hours)** ✅ **COMPLETED (2025-11-09)**
+
+**Study** (80-100 min):
+- [X] **Section 4: Regression Diagnostics** (60 min) - 4 Dunno topics
+  - Durbin-Watson test (autocorrelation in residuals)
+  - Breusch-Pagan test (heteroscedasticity detection)
+  - Shapiro-Wilk test (normality of residuals)
+  - VIF (Variance Inflation Factor for multicollinearity)
+  - Used Gemini deep research for comprehensive summary (no hands-on practice)
+- [X] **Covariance vs Correlation** (20 min) - Gap Q3 (0%)
+  - Watched both StatQuest videos at 2× speed (~20 min total)
+  - Units, bounds [-1,1], interpretation, when to use each
+
+**Knowledge Check** (15 min):
+- [X] Score: **99.5% (995/1000)** - A+
+  - Q1-Q7 (Day 6): 99.3% - Excellent diagnostics & covariance understanding
+  - Q8-Q10 (Review): 100% - Perfect retention
+  - Caught error in Q6 (impossible correlation value)
+
+**Quick Reference** (20-30 min):
+- [X] Created `references/Day13-Quick-Reference.md`: Regression Diagnostics & Covariance (comprehensive, 13 sections)
+
+**Update Documents** (10 min):
+- [X] Update `ML-Interview-Prep-Plan.md` (mark Day 6 complete)
+- [X] Update `00-CONVERSATION-SUMMARY.md` (Day 13 section)
+- [X] Update `Daily-Knowledge-Check-Protocol.md` (Day 13 entry)
+- [X] Update `gap_analysis/Week2-Statistics-Topic-Check.md` (progress)
+
+**Target**: Move 5 topics from Dunno/Unsure → Know (Section 4 + covariance) ✅ **ACHIEVED**
+
+---
+
+**Day 7 (Day 14): MLE + Hypothesis Testing (2-2.5 hours)**
+
+**Study** (80-100 min):
+- [ ] **MLE Derivations** (40 min) - Gap Q29 (0%)
+  - Exponential distribution: λ̂ = 1/mean
+  - Gaussian distribution: μ̂, σ̂²
+  - Practice deriving from scratch
+- [ ] **Chi-square test** (20 min) - Section 3.8
+  - Goodness of fit, independence testing
+- [ ] **Hypothesis Testing Core** (30 min) - Critical Unsure
+  - T-test vs Z-test (n<30 vs n≥30, assumptions)
+  - Normal distribution calculations (P(X>2), Z-scores) - Gap Q27
+
+**Knowledge Check** (15 min):
+- [ ] 10 questions: 7 Day 7 content, 3 review (Day 6)
+
+**Quick Reference** (20-30 min):
+- [ ] Create `references/Day14-Quick-Reference.md`: MLE & Hypothesis Testing
+
+**Update Documents** (10 min):
+- [ ] Update all 4 files (same as Day 6)
+
+**Target**: Move 4 topics from Dunno/Unsure → Know (MLE, chi-square, t-test, normal dist)
 
 ---
 
 **Week 2 Expected Outcomes**:
-- ✅ **LLM Systems**: 60-70% interview ready (24/76 topics covered, highest-impact)
+- ✅ **LLM Systems**: 83% interview ready (25/30 high-priority topics covered) - **EXCEEDED TARGET**
   - Can explain: Data/model/tensor parallelism, ZeRO, FSDP, KV-cache, quantization, batching
   - Can calculate: Transformer parameters, FLOPs, memory requirements
   - Can discuss: 3 key papers (Megatron-LM, ZeRO, vLLM)
-- ✅ **Statistical Testing**: 90% ready (from 65%)
+  - Knowledge check average: 92% across 5 days
+- ⏳ **Statistics & Probability**: In progress (18.6% → target 65-70%)
+  - Day 6-7 complete (regression diagnostics, covariance, MLE, hypothesis testing)
+  - Continues to Week 3 Day 1 for completion
 - ⏸️ **Advanced RAG**: Deferred to Week 3 or later
 - ⏸️ **ML Evaluation**: Deferred to Week 3 or later
 
 ---
 
-### Week 3: System Design + Advanced RAG ⚠️ **SUBJECT TO ADJUSTMENT**
+### Week 3: Statistics Completion + System Design ⚠️ **ADJUSTED FROM WEEK 2 OVERFLOW**
 
-**Goal**: Strengthen system design from 70% → 85%, add Advanced RAG (deferred from Week 2)
+**Goal**: Complete statistics gap closure (Day 1), then strengthen system design from 70% → 85%
 
-**Context**: Week 3 plan is flexible based on Week 2 progress. If LLM Systems takes longer or additional gaps emerge, this schedule will adjust.
+**Context**: Week 2 statistics work extended into Week 3 Day 1. PyTorch and other topics shifted accordingly.
 
 ---
 
-**Day 1: PyTorch Basics (2-3 hours)** ⭐ **NEW - For OpenAI/Anthropic/DeepMind interviews**
+**Day 1 (Day 15): Statistics Completion - A/B Testing + Fundamentals (2-2.5 hours)**
+
+**Rationale**: Completing 3-day statistics deep dive from Week 2 (Day 6-8 plan)
+
+**Study** (80-100 min):
+- [ ] **Regularization as Bayesian Prior** (20 min) - Section 6.7
+  - L2 ≈ Gaussian prior, L1 ≈ Laplace prior
+  - Conceptual connection between regularization and probabilistic priors
+- [ ] **A/B Testing Design & Pitfalls** (30 min) - Section 3.9 (MUST-KNOW)
+  - Metric choice, segmentation, novelty effect, full experimental loop
+  - Common pitfalls: multiple comparisons, selection bias, Simpson's paradox
+- [ ] **Fundamentals Refresh** (30 min) - Section 1 (all Unsure)
+  - PDF/CDF/PMF definitions and relationships
+  - Common distributions: Normal, Exponential, Binomial, Poisson
+  - CLT vs LLN: when to apply each
+
+**Knowledge Check** (15 min):
+- [ ] 10 questions: 7 Day 1 content, 3 review (Week 2 Day 6-7)
+
+**Quick Reference** (20-30 min):
+- [ ] Create `references/Day15-Quick-Reference.md`: A/B Testing & Statistics Fundamentals
+
+**Update Documents** (10 min):
+- [ ] Update `ML-Interview-Prep-Plan.md` (mark Week 3 Day 1 complete)
+- [ ] Update `00-CONVERSATION-SUMMARY.md` (Day 15 section)
+- [ ] Update `Daily-Knowledge-Check-Protocol.md` (Day 15 entry)
+- [ ] Update `gap_analysis/Week2-Statistics-Topic-Check.md` (final post-study assessment)
+
+**Target**: Complete statistics gap closure - achieve 65-70% overall readiness (from 18.6%)
+
+---
+
+**Day 2: PyTorch Basics (2-3 hours)** ⭐ **SHIFTED FROM WEEK 3 DAY 1**
 
 **Rationale**: Basic PyTorch literacy needed for research-heavy ML roles. Goal is reading comprehension, not production coding.
 
@@ -654,7 +734,7 @@ This is where you need the most practice:
 
 ---
 
-**Day 2-3: ML Technology Deep Dives (4-5 hours)**
+**Day 3-4: ML Technology Deep Dives (4-5 hours)** ⚠️ **SHIFTED FROM DAY 2-3**
 
 **Pre-study**: Topic Coverage Check (20 min)
 - [ ] List ML infra technologies: Kafka, Flink, Airflow, Feature stores, Model serving, etc.

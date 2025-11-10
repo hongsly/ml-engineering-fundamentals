@@ -175,6 +175,7 @@ At the end:
 | 10 | 2025-11-06 | **99.0% (A+)** | Hardware bottlenecks (99.3%), Communication scaling (perfect), Review (98.3%), **User caught 3 errors!** | None - all concepts strong | Day 4: Inference optimization |
 | 11 | 2025-11-07 | **97.5% (A+)** | All 6 inference techniques (97.9%), Memory formulas (100%), Trade-off analysis (perfect), Review (96.7%) | Speculative decoding batch reasoning (75%, clarified) | Continue Week 2 momentum |
 | 12 | 2025-11-08 | **99.6% (A+)** | **Perfect calculations (100%)** - Parameters (GPT-2/3), Memory (7B/10B models), Batch size optimization, Chinchilla law, Review (97.7%) | None - minor rounding in KV-cache (820 vs 800 KB) | **Week 2 LLM Systems COMPLETE: 83% readiness** |
+| 13 | 2025-11-09 | **99.5% (A+)** | **Regression diagnostics (99.3%)** - DW, BP, SW, VIF tests perfect, Covariance vs correlation (100%), Review (100%) | None - all topics >95%, caught error in Q6 (impossible correlation value) | Statistics Day 1: Diagnostics mastered |
 
 **Progress Trend**: Week 2 sustained excellence 🚀
 - Day 3→5: +10.5% improvement over Week 1
@@ -183,11 +184,14 @@ At the end:
 - Day 9→10: +1.0% improvement (98% → 99%) - Sustained mastery level
 - Day 10→11: -1.5% (99.0% → 97.5%) - Still A+ range, excellent retention
 - Day 11→12: +2.1% improvement (97.5% → 99.6%) - **Perfect calculations**
-- **Week 2 average**: 92% across Days 8-12 (5 days)
+- Day 12→13: -0.1% (99.6% → 99.5%) - **Sustained mastery level (99%+ range)**
+- **Week 2 Days 1-5 average**: 92% across Days 8-12 (LLM Systems)
+- **Week 2 Day 6+ (Statistics)**: 99.5% (Day 13)
 - **Day 10 highlight**: User caught 3 approximations/errors (bubble time formula, ranking, TP scaling)
 - **Day 11 highlight**: User caught 2 major errors (communication volume per-device, speculative decoding ragged tensor problem)
 - **Day 12 highlight**: Perfect calculations, caught blog post imprecision on PP activation memory, clarified gradient memory storage
-- Review retention: 97.7% (excellent spaced repetition across Week 1 + Week 2)
+- **Day 13 highlight**: Perfect diagnostics understanding, caught impossible correlation in test question (r=2)
+- Review retention: 99% average (excellent spaced repetition across Week 1 + Week 2)
 
 ---
 
@@ -707,4 +711,71 @@ At the end:
 
 **Created**: 2025-10-31
 **Status**: Active protocol, Day 12 check completed
-**Last Updated**: 2025-11-08
+## Day 13 Detailed Results (2025-11-09)
+
+**Content Tested**:
+- 70% Day 13: Regression Diagnostics + Covariance/Correlation (DW, BP, SW, VIF tests, scale independence)
+- 30% Review: Week 1 (L1/L2 reg), Week 2 LLM (activation memory, ZeRO stages)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | Durbin-Watson diagnosis | 13 | 100% ✅ | DW=0.9 → positive autocorrelation, time series data |
+| Q2 | Breusch-Pagan interpretation | 13 | 100% ✅ | p=0.03 → heteroscedasticity violation |
+| Q3 | Shapiro-Wilk interpretation | 13 | 100% ✅ | p=0.25 → normality holds (fail to reject null) |
+| Q4 | VIF diagnosis | 13 | 95% ✅ | VIF=15.7 problematic, solutions correct, minor: "dependent" vs "predictor" terminology |
+| Q5 | Covariance scale dependence | 13 | 100% ✅ | Dataset B larger covariance, same correlation |
+| Q6 | Correlation calculation | 13 | 100% ✅ | **Caught error**: 80/(10×4)=2 impossible (must be [-1,1])! |
+| Q7 | Statistical vs practical significance | 13 | 100% ✅ | r=0.3, p<0.001 → confident about weak relationship (9% variance) |
+| Q8 | L1 vs L2 regularization (review) | 1 | 100% ✅ | L2 shrinks, L1 drives to zero (sparse) |
+| Q9 | Activation memory formula (review) | 12 | 100% ✅ | 2×batch×seq×hidden×layers (FP16) |
+| Q10 | ZeRO Stage 2 vs 3 (review) | 9 | 100% ✅ | Stage 2: optimizer+gradients, Stage 3: +parameters |
+
+**Overall Score**: 99.5% (995/1000) - A+
+- Day 13 content (Q1-Q7): 99.3% (6.95/7) - Excellent diagnostics & covariance mastery
+- Review content (Q8-Q10): 100% (3/3) - Perfect retention!
+
+**Study Method**:
+1. **Regression Diagnostics (60 min)**:
+   - Used Gemini deep research for comprehensive summary (efficient for broad coverage)
+   - No hands-on statsmodels practice (user assessment: not essential for most ML interviews)
+   - Focus on conceptual understanding + formula interpretation
+
+2. **Covariance vs Correlation (20 min)**:
+   - Watched both StatQuest videos at 2× speed (~20 min total)
+   - Strong understanding of scale independence and practical vs statistical significance
+
+**Strengths**:
+- ✅ **Perfect diagnostic understanding** - All 4 tests (DW, BP, SW, VIF) interpreted correctly
+- ✅ **Critical evaluation** - Caught impossible correlation value in test question
+- ✅ **Scale invariance mastery** - Covariance vs correlation differences crystal clear
+- ✅ **Statistical reasoning** - Explained low p-value + weak correlation paradox perfectly
+- ✅ **Excellent review retention** - 100% on Week 1 and Week 2 LLM content
+
+**Areas of Excellence**:
+- Violation consequences: Independence/homoscedasticity → Type I error, Multicollinearity → Type II error
+- Test thresholds: DW 1.5-2.5, VIF <10, p-value <0.05 for violations
+- Practical insight: "Statistical significance ≠ practical significance" (r=0.3, p<0.001 example)
+- Caught terminology issue: Should say "remove predictor" not "dependent variable"
+
+**No Weak Items**: All topics scored >95%
+
+**Action Items**:
+- None! All regression diagnostics concepts mastered at interview-ready level
+- Continue to Day 14: MLE derivations + Hypothesis testing core
+
+**Recommendation**: ✅ **OUTSTANDING** performance! 99.5% with perfect review retention demonstrates mastery of regression diagnostics and statistical reasoning. User's ability to:
+1. Interpret all 4 diagnostic tests correctly (DW, BP, SW, VIF)
+2. Catch logical errors in test questions (impossible correlation)
+3. Explain statistical vs practical significance paradox
+4. Maintain 100% review retention across Week 1 and Week 2 content
+
+**Statistics Gap Closure Progress**:
+- Day 13 start: 18.6% readiness (8 Know / 43 topics)
+- Day 13 end: ~30% estimated (13 Know / 43 topics) - 5 topics mastered
+- Target by Day 15: 65-70% readiness
+
+---
+
+**Last Updated**: 2025-11-09
