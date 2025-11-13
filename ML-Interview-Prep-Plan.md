@@ -746,29 +746,51 @@ This is where you need the most practice:
 
 ---
 
-**Day 2: PyTorch Basics (2-3 hours)** ⭐ **SHIFTED FROM WEEK 3 DAY 1**
+**Day 2 (Day 16): PyTorch Basics (2-3 hours)** ✅ **COMPLETED (2025-11-12)** ⭐ **SHIFTED FROM WEEK 3 DAY 1**
 
 **Rationale**: Basic PyTorch literacy needed for research-heavy ML roles. Goal is reading comprehension, not production coding.
 
 **Study** (1 hour):
-- [ ] PyTorch Quickstart Tutorial (30 min)
+- [X] PyTorch Quickstart Tutorial (30 min) ✅
   - URL: https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
   - Focus: Tensors, Dataset/DataLoader, nn.Module structure
-- [ ] Autograd Mechanics (30 min)
+- [X] Autograd Mechanics (30 min) ✅
   - URL: https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html
   - Understand: .backward(), .grad, computational graph
 
 **Practice** (1.5 hours):
-- [ ] Implement logistic regression in PyTorch (60 min)
-  - Define nn.Module class
-  - Forward pass, loss calculation, optimizer step
-  - Compare to your Week 1 Day 2 numpy implementation
-- [ ] Read PyTorch FSDP code (30 min)
-  - URL: https://github.com/pytorch/pytorch/blob/main/torch/distributed/fsdp/fully_sharded_data_parallel.py
-  - Goal: Recognize patterns from Week 2 Day 3 (all-gather, reduce-scatter)
-  - Don't need to understand every line—just high-level structure
+- [X] Implement logistic regression in PyTorch (60 min) ✅
+  - Defined nn.Module class with nn.Sequential
+  - Forward pass, BCELoss, Adam optimizer
+  - Achieved 69.0% test accuracy (vs sklearn 67.5%) ✅
+  - Implementation: `notebooks/day16-pytorch.ipynb`
+- [X] Read PyTorch FSDP code (30 min) ✅
+  - Read `_pre_forward_unshard` function
+  - Recognized: all-gather (unshard), reduce-scatter (reshard), prefetching
+  - Connected to Week 2 distributed training concepts ✅
 
-**Target**: Basic PyTorch literacy (can read code in interviews, understand distributed patterns)
+**Knowledge Check** (15 min):
+- [X] 10 questions: 7 PyTorch content, 3 review (overdue items)
+  - Score: **92.5% (A-)**
+  - PyTorch content: 87.9% (7 questions)
+  - Review content: 98.3% (3 questions - KNN, Boosting, MLE)
+
+**Day 16 Results Summary** (2025-11-12):
+- ⏱️ **Total time**: ~2.5 hours (study + implementation + FSDP reading + knowledge check)
+- 💡 **Key learnings**:
+  - PyTorch training loop: backward() → step() → zero_grad() (both orders work!)
+  - torch.no_grad() for evaluation (stops gradient calc, saves memory)
+  - BCELoss (needs [0,1]) vs BCEWithLogitsLoss (takes logits)
+  - FSDP patterns: all-gather before forward, reduce-scatter after (ZeRO Stage 3)
+  - CUDA streams: parallel task queues enable overlap of communication + computation
+- 📝 **Created**: `notebooks/day16-pytorch.ipynb` (logistic regression implementation)
+- 📊 **Knowledge Check: 92.5% (A-)** - Strong fundamentals, FSDP concepts directional
+- 🔄 **SM-2 updates**: 3 review items (all 95-100%), 5 new PyTorch topics added (reorganized from 7 for efficient review)
+- 🎯 **Review retention**: 98.3% on overdue items (KNN 7d overdue, Boosting 5d overdue, MLE 1d overdue)
+- 🗂️ **Cleanup**: Removed duplicate topic `llm_tensor_parallel_comm` (merged into `llm_megatron`)
+- 📋 **Topic organization**: Merged tightly-coupled concepts (training mechanics, FSDP internals) for more efficient review
+
+**Target Achieved**: Basic PyTorch literacy - can read code in interviews, understand distributed patterns ✅
 
 ---
 

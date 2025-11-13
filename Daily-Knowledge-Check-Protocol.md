@@ -364,6 +364,7 @@ These items will be available for review in the next knowledge check (tomorrow).
 | 13 | 2025-11-09 | **99.5% (A+)** | **Regression diagnostics (99.3%)** - DW, BP, SW, VIF tests perfect, Covariance vs correlation (100%), Review (100%) | None - all topics >95%, caught error in Q6 (impossible correlation value) | Statistics Day 1: Diagnostics mastered |
 | 14 | 2025-11-10 | **86.5% (B+/A-)** | MLE derivations (100%, 100%, 85%), Chi-square test (100%), Normal dist calculations (90%), Covariance review (100%) | T-test assumptions (70%), DW interpretation (75%), AUC for imbalanced data (70%) | Statistics Day 2: Strong fundamentals, minor gaps in test assumptions |
 | 15 | 2025-11-11 | **92.0% (A-)** | Regularization/priors (90%), A/B testing (100%, 95%), Distributions (75%, 90%, 100%), CLT/LLN (70%), Review perfect (100%, 100%, 100%) | Binomial variance formula (75%), CLT concrete examples (70%) | Statistics Day 3: Strong fundamentals, perfect review retention |
+| 16 | 2025-11-12 | **92.5% (A-)** | PyTorch basics (BCELoss 100%, training loop 95%, no_grad 95%, parameters 95%, backward 90%), Review excellent (KNN 95%, Boosting 100%, MLE 100%) | Training loop order (85% - both work), FSDP sync (70%), FSDP prefetch (60%) | PyTorch Day 1: Strong fundamentals, FSDP concepts need exposure |
 
 **Progress Trend**: Week 2-3 sustained excellence 🚀
 - Day 3→5: +10.5% improvement over Week 1
@@ -375,16 +376,18 @@ These items will be available for review in the next knowledge check (tomorrow).
 - Day 12→13: -0.1% (99.6% → 99.5%) - **Sustained mastery level (99%+ range)**
 - Day 13→14: -13.0% (99.5% → 86.5%) - Expected dip for new complex material (MLE, hypothesis testing)
 - Day 14→15: +5.5% improvement (86.5% → 92.0%) - Recovery to A- range
+- Day 15→16: +0.5% improvement (92.0% → 92.5%) - Steady A- range
 - **Week 2 Days 1-5 average**: 92% across Days 8-12 (LLM Systems)
 - **Week 2 Days 6-7 (Statistics)**: Average 93% (Day 13: 99.5%, Day 14: 86.5%)
-- **Week 3 Day 1 (Statistics)**: 92.0% (strong fundamentals, perfect review retention)
+- **Week 3 Days 1-2**: Average 92.25% (Day 15: 92.0%, Day 16: 92.5%)
 - **Day 10 highlight**: User caught 3 approximations/errors (bubble time formula, ranking, TP scaling)
 - **Day 11 highlight**: User caught 2 major errors (communication volume per-device, speculative decoding ragged tensor problem)
 - **Day 12 highlight**: Perfect calculations, caught blog post imprecision on PP activation memory, clarified gradient memory storage
 - **Day 13 highlight**: Perfect diagnostics understanding, caught impossible correlation in test question (r=2)
 - **Day 14 highlight**: Perfect MLE derivations (100%), identified σ̂² vs σ̂ distinction, user scored conservatively on ROC/AUC (70%)
 - **Day 15 highlight**: Perfect review retention (100% on all 3 overdue items), Megatron 77%→100%, Precision-Recall 88-92%→100%
-- Review retention: 93% average (Day 15 review: 100%, excellent recovery from Day 14's 81.7%)
+- **Day 16 highlight**: Removed duplicate topic (llm_tensor_parallel_comm), excellent PyTorch fundamentals (87.9%), perfect review retention (98.3%)
+- Review retention: 95% average (Day 16 review: 98.3%, sustained excellence)
 
 ---
 
@@ -927,16 +930,6 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 - Day 13 content (Q1-Q7): 99.3% (6.95/7) - Excellent diagnostics & covariance mastery
 - Review content (Q8-Q10): 100% (3/3) - Perfect retention!
 
-**Study Method**:
-1. **Regression Diagnostics (60 min)**:
-   - Used Gemini deep research for comprehensive summary (efficient for broad coverage)
-   - No hands-on statsmodels practice (user assessment: not essential for most ML interviews)
-   - Focus on conceptual understanding + formula interpretation
-
-2. **Covariance vs Correlation (20 min)**:
-   - Watched both StatQuest videos at 2× speed (~20 min total)
-   - Strong understanding of scale independence and practical vs statistical significance
-
 **Strengths**:
 - ✅ **Perfect diagnostic understanding** - All 4 tests (DW, BP, SW, VIF) interpreted correctly
 - ✅ **Critical evaluation** - Caught impossible correlation value in test question
@@ -949,12 +942,6 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 - Test thresholds: DW 1.5-2.5, VIF <10, p-value <0.05 for violations
 - Practical insight: "Statistical significance ≠ practical significance" (r=0.3, p<0.001 example)
 - Caught terminology issue: Should say "remove predictor" not "dependent variable"
-
-**No Weak Items**: All topics scored >95%
-
-**Action Items**:
-- None! All regression diagnostics concepts mastered at interview-ready level
-- Continue to Day 14: MLE derivations + Hypothesis testing core
 
 **Recommendation**: ✅ **OUTSTANDING** performance! 99.5% with perfect review retention demonstrates mastery of regression diagnostics and statistical reasoning. User's ability to:
 1. Interpret all 4 diagnostic tests correctly (DW, BP, SW, VIF)
@@ -993,21 +980,6 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 **Overall Score**: 86.5% (865/1000) - B+/A-
 - Day 14 content (Q1-Q4, Q6-Q7): 90.8% (5.45/6) - Strong MLE, solid hypothesis testing
 - Review content (Q5, Q8-Q10): 80.0% (2.4/3) - Good but with uncertainty on DW/ROC
-
-**Study Method**:
-1. **MLE Derivations (40 min)**:
-   - Watched StatQuest videos on exponential and Gaussian distributions
-   - Practiced derivations: likelihood → log-likelihood → differentiate → solve
-   - Key insight: MLE for Gaussian uses n (not n-1) in denominator
-
-2. **Hypothesis Testing Core (30 min)**:
-   - T-test vs Z-test: when to use each (unknown σ vs known σ, n<30 vs n≥30)
-   - T-distribution has wider tails to account for uncertainty in estimating σ
-   - Normal distribution calculations using z-scores and CDF
-
-3. **Chi-square Test (20 min)**:
-   - Test statistic: χ² = Σ(Oᵢ - Eᵢ)²/Eᵢ
-   - Applications: goodness of fit, independence testing
 
 **Strengths**:
 - ✅ **Excellent MLE derivations** - Exponential derivation perfect, λ̂ = 1/x̄
@@ -1065,30 +1037,6 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 - Day 15 content (Q1-Q7): 88.6% (6.2/7) - Strong fundamentals, minor gaps on variance and CLT examples
 - Review content (Q8-Q10): 100% (3/3) - **Perfect retention! All 3 overdue items recovered to 100%**
 
-**Study Method**:
-1. **Regularization as Bayesian Prior (20 min)**:
-   - Read: https://bjlkeng.io/posts/probabilistic-interpretation-of-regularization/
-   - MAP = maximize P(θ|D) = maximize [P(D|θ) × P(θ)]
-   - L2 regularization ≈ Gaussian prior N(0,τ²), λ = 1/(2τ²)
-   - L1 regularization ≈ Laplace prior, λ = 1/b
-   - **Resource note**: StatQuest video didn't cover priors; bjlkeng.io post worked well
-
-2. **A/B Testing Design & Pitfalls (30 min)**:
-   - Used Gemini-generated report (original resources too long: Microsoft video >30min, survey paper too long)
-   - North star metrics (core value) vs tactical metrics (easy to measure)
-   - Segmentation: pre/post randomization for interpretation
-   - Pitfalls: Novelty effect, multiple comparisons, selection bias, Simpson's paradox
-   - Key takeaway: Single primary metric prevents multiple comparisons problem
-
-3. **Statistics Fundamentals (30 min)**:
-   - Watched video series for each distribution (Khan Academy links incomplete)
-   - **Binomial**: C(n,k)p^k(1-p)^(n-k), mean=np, variance=np(1-p)
-   - **Geometric**: (1-p)^(k-1)·p, mean=1/p, discretized exponential
-   - **Poisson**: e^(-λ)λ^k/k!, mean=λ, events in fixed interval
-   - **CLT vs LLN**:
-     - LLN: sample mean → population mean (point estimation)
-     - CLT: sample mean ~ Normal (enables inference: CI, hypothesis tests)
-
 **Strengths**:
 - ✅ **Perfect review retention** - All 3 overdue items scored 100%!
   - llm_megatron: 77% → 100% (+23%, 6 days overdue)
@@ -1131,12 +1079,6 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 - Overall review retention average: 93%
 - **SM-2 system validation**: Weak items resurfaced at right time and mastered
 
-**Resource Feedback**:
-- ❌ **Regularization**: StatQuest L2 video doesn't cover Bayesian priors
-- ❌ **A/B testing**: Microsoft video way longer than 30min, survey PDF too long for 30min, Evan Miller post not comprehensive
-- ❌ **Distributions**: Khan Academy has no direct links
-- ✅ **Solutions that worked**: bjlkeng.io post, Gemini report, video series per distribution
-
 **Statistics Gap Closure Progress**:
 - Day 13 start: 18.6% readiness (8 Know / 43 topics)
 - Day 14 end: ~37% estimated (16 Know / 43 topics)
@@ -1146,4 +1088,52 @@ Items with low scores (<60%) automatically reset to n=1, I=1 (review tomorrow). 
 
 ---
 
-**Last Updated**: 2025-11-11
+## Day 16 Detailed Results (2025-11-12)
+
+**Content Tested**:
+- 70% Day 16: PyTorch Basics (training loop, no_grad, backward, BCELoss, parameters, FSDP internals)
+- 30% Review: Overdue items (ml_knn 7d overdue, ml_boosting 5d overdue, stats_6.1 1d overdue)
+
+**Question Breakdown**:
+
+| Q# | Topic | Day | Score | Notes |
+|----|-------|-----|-------|-------|
+| Q1 | KNN algorithm and complexity | 3 | 95% ✅ | Algorithm perfect, O(N) analysis excellent, kd-tree O(k log N) optimization noted, minor: didn't mention "lazy learner" |
+| Q2 | AdaBoost vs Gradient Boost | 5 | 100% ✅ | Perfect distinction: reweight samples vs fit residuals |
+| Q3 | MLE exponential derivation | 14 | 100% ✅ | Flawless derivation: λ̂ = 1/x̄ |
+| Q4 | PyTorch training loop order | 16 | 95% ✅ | **Clarified**: Both orders work! User's (backward→step→zero_grad) equivalent to standard (zero_grad→backward→step) |
+| Q5 | torch.no_grad() purpose | 16 | 95% ✅ | Stops gradient calc ✓, evaluation/freezing ✓, could add "saves memory" |
+| Q6 | .backward() and .grad | 16 | 90% ✅ | Computes gradients ✓, stored in param.grad ✓, could mention "accumulates" |
+| Q7 | BCELoss vs BCEWithLogitsLoss | 16 | 100% ✅ | Perfect: BCE needs [0,1]+sigmoid, BCEWithLogits takes logits |
+| Q8 | model.parameters() usage | 16 | 95% ✅ | Iterator of params ✓, pass to optimizer ✓, minor: "trainable with requires_grad=True" |
+| Q9 | FSDP stream synchronization | 16 | 70% 🟡 | Core idea correct (wait for all-gather), missing: CUDA streams run parallel, sync prevents race condition |
+| Q10 | FSDP prefetching | 16 | 60% 🟡 | Vague ("start next operation early"), missing: overlap communication (layer N+1) with computation (layer N) |
+
+**Overall Score**: 92.5% (9.25/10) - A-
+- Day 16 content (Q4-Q10): 87.9% (6.15/7) - Strong PyTorch fundamentals
+- Review content (Q1-Q3): 98.3% (2.95/3) - Excellent retention!
+
+**Strengths**:
+- ✅ **Perfect review retention** - 98.3% on 1-7 day old material
+- ✅ **PyTorch fundamentals solid** - Training loop, loss functions, autograd mechanics clear
+- ✅ **Implementation success** - Logistic regression outperformed sklearn (69.0% vs 67.5%)
+- ✅ **Pattern recognition** - Correctly identified FSDP all-gather/reduce-scatter from Week 2 concepts
+- ✅ **MLE derivation** - Perfect exponential MLE (100%)
+- ✅ **KNN complexity analysis** - O(N) naive, O(k log N) with kd-tree
+
+**Weak Areas**:
+- 🟡 **FSDP stream synchronization** (70%): Needs deeper understanding of CUDA streams (advanced GPU programming, acceptable for Day 1)
+- 🟡 **FSDP prefetching** (60%): Understands concept directionally, needs precision on "overlap comm/compute"
+
+**Post-Check Clarifications**:
+- **Training loop order**: User was RIGHT - both conventions work, just different styles
+- **CUDA streams**: Explained as "parallel task queues on GPU" - overlap communication with computation
+- **Prefetching**: Start gathering layer N+1 params while computing layer N (pipelining)
+
+**Action Items**:
+- None! PyTorch fundamentals mastered at interview-ready level
+- FSDP advanced concepts (streams, prefetching) will strengthen with more exposure
+
+---
+
+**Last Updated**: 2025-11-12
