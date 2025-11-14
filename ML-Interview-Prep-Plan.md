@@ -794,34 +794,56 @@ This is where you need the most practice:
 
 ---
 
-**Day 3-4: ML Technology Deep Dives (4-5 hours)** ⚠️ **SHIFTED FROM DAY 2-3**
+**Day 3-5 (Day 17-19): ML Technology Deep Dives (6 hours over 3 days, 2h/day)** 🔄 **IN PROGRESS**
 
-**Pre-study**: Topic Coverage Check (20 min)
-- [ ] List ML infra technologies: Kafka, Flink, Airflow, Feature stores, Model serving, etc.
-- [ ] Self-assess: know/unsure/dunno for each
+**Pre-study**: Topic Coverage Check ✅ **COMPLETED (2025-11-13)**
+- ✅ Created comprehensive 64-item checklist (9 categories)
+- ✅ Self-assessed: 0% Know, 37.5% Unsure, 62.5% Dunno
+- ✅ Identified top 5 priorities: Kafka, Feature Stores, Airflow, Docker, K8s
 
-**Learning**:
-- [ ] Kafka basics (1 hour)
-  - Use cases: Event streaming, real-time data pipelines
-  - Core concepts: Topics, partitions, producers, consumers
-- [ ] Flink basics (1 hour)
-  - Use cases: Stream processing, stateful computations
-  - When to use vs Spark Streaming
-- [ ] Airflow basics (1 hour)
-  - Use cases: Workflow orchestration, ML pipelines
-  - DAGs, operators, scheduling
-- [ ] Feature stores (1-1.5 hours)
-  - Architectures: Feast, Tecton
-  - Online vs offline stores, feature serving
+**Day 3 (Day 17, Thursday 2025-11-13) - 2 hours:** ✅ **COMPLETED**
+- [x] Kafka fundamentals (1 hour)
+  - Topics, partitions, consumer groups, offset management
+  - Replication & durability (ISR, acks configuration)
+  - Use cases: Event streaming, real-time pipelines
+- [x] Feature Stores basics (30 min)
+  - Online vs offline architecture
+  - Point-in-time correctness
+  - When to use vs database
+- [x] Knowledge check (30 min): 95.1% (A) - 7 new, 3 review
 
-**Practice**:
-- [ ] Design: Feature store for recommendation system (30 min)
-  - Real-time features (last hour clicks) + batch features (user demographics)
-  - Serving architecture
+**Completion Summary**:
+- Study time: 1.5 hours (Kafka + Feature Stores concepts)
+- Knowledge check score: 95.1% (A)
+  - Kafka: 96.25% - Consumer groups, ISR, acks configuration
+  - Feature Stores: 93.3% - Online/offline, point-in-time correctness (100%)
+  - Review retention: 95% - Parametric/non-parametric, KV-cache, quantization
+- Topics added to SM-2: 5 (kafka_architecture, kafka_producers_consumers, kafka_metadata_management, feature_store_architecture, feature_store_benefits)
+- Quick reference created: references/Day17-Quick-Reference.md
+
+**Day 4 (Day 18, Friday 2025-11-14) - 2 hours:**
+- [ ] Airflow fundamentals (1 hour)
+  - DAGs, operators, tasks, scheduling
+  - Idempotency & backfills (critical for interviews)
+  - Executors: Local, Celery, Kubernetes
+- [ ] Feature Stores deep dive (30 min)
+  - Feature transformation patterns (streaming vs batch)
+  - Feast architecture & materialization
+
+**Day 5 (Day 19, Saturday 2025-11-15) - 2 hours:**
+- [ ] Docker basics (30 min)
+  - Dockerfile, images, containers, registries
+  - Best practices: Multi-stage builds, GPU support
+- [ ] Kubernetes basics (1 hour)
+  - Pods, deployments, services, ingress
+  - Resource management (CPU/GPU limits)
+  - Autoscaling (HPA, VPA)
+
+**Target**: Bring ML infra from 0-37.5% → 60-70% interview readiness
 
 ---
 
-**Day 4-5: System Design Practice (3-4 hours)**
+**Day 6-7: System Design Practice (3-4 hours)** ⚠️ **MOVED FROM DAY 4-5**
 
 **Practice Problems** (3-4 problems × 45-60 min each):
 - [ ] Problem 1: Design YouTube recommendation system
@@ -844,7 +866,19 @@ This is where you need the most practice:
 
 ---
 
-**Day 6-7: Advanced RAG Architectures (2-3 hours)** ⭐ **MOVED FROM WEEK 2**
+**Week 3 Note**: Schedule adjusted to accommodate ML Tech deep dive (3 days instead of 2). Advanced RAG moved to Week 4 Day 1-2 to enable comprehensive gap reassessment after all study complete.
+
+---
+
+### Week 4: Progress Check & Adaptive Planning ⚠️ **SUBJECT TO ADJUSTMENT**
+
+**Goal**: Close Advanced RAG gap, then assess overall progress and decide next steps
+
+**Context**: Week 4 serves as final gap closure + checkpoint. Advanced RAG must be studied BEFORE gap reassessment to enable meaningful evaluation of Q177-179.
+
+---
+
+**Day 1-2: Advanced RAG Architectures (2-3 hours)** ⭐ **MOVED FROM WEEK 3 DAY 6-7**
 
 **Pre-study**: Topic Coverage Check (20 min) - if needed
 - [ ] List RAG subtopics: Retrieval methods (sparse, dense, hybrid), Reranking, FiD, ColBERT, DPR, etc.
@@ -867,36 +901,25 @@ This is where you need the most practice:
 
 ---
 
-**Week 3 Note**: Schedule is flexible. If Week 2 LLM Systems extends into Week 3 Days 1-2, push System Design and Advanced RAG accordingly. Priority is quality over strict timeline.
-
----
-
-### Week 4: Progress Check & Adaptive Planning ⚠️ **SUBJECT TO ADJUSTMENT**
-
-**Goal**: Assess gap closure progress and decide next steps
-
-**Context**: Week 4 serves as checkpoint and buffer. Actual activities depend heavily on Week 2-3 progress and any emerging gaps.
-
----
-
-**Day 1-2: Gap Re-assessment (2-3 hours)**
+**Day 3-4: Gap Re-assessment (2-3 hours)** ⚠️ **MOVED FROM DAY 1-2**
 
 **Activity**:
-- [ ] Re-test on weak areas from Day 6-7 (select 30-40 questions)
-  - LLM systems (Q182-189) - expect 60-70% → target 80%+
+- [ ] Re-test on ALL weak areas (select 30-40 questions)
+  - LLM systems (Q182-189) - expect 83% → target 85%+
   - Statistical testing (Q181-182) - expect 90%+
-  - Advanced RAG (Q177-179) - expect 75%+
+  - **Advanced RAG (Q177-179)** - expect 75%+ ← Can now assess after Day 1-2 study!
   - System design (Q145-160) - expect 85%+
-- [ ] Calculate improvement: Before vs after Week 2-3 study
+  - ML infra (Q145-160 subset) - expect 60-70% → target 75%+
+- [ ] Calculate improvement: Before vs after Week 2-3-4 study
 - [ ] Identify remaining gaps
 
 **Decision Point**: Based on re-assessment results
-- **If critical gaps closed (80%+ across all areas)**: ✅ Proceed to Option A (projects or ML evaluation)
-- **If gaps remain (< 80% in any critical area)**: 🔄 Proceed to Option B (continue gap closure)
+- **If critical gaps closed (80%+ across all areas)**: ✅ Proceed to Day 5-7 Option A (projects)
+- **If gaps remain (< 80% in any critical area)**: 🔄 Proceed to Day 5-7 Option B (continue gap closure)
 
 ---
 
-**Day 3-7: Option A - Projects or Additional Topics (if gaps closed)**
+**Day 5-7: Option A - Projects or Additional Topics (if gaps closed)**
 
 **Choice 1: Start Projects**
 - [ ] Image Classification with transfer learning (ResNet/EfficientNet)

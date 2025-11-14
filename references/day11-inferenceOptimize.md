@@ -43,7 +43,10 @@ Uses lower precision numbers (INT8, INT4) for model weights and/or activations i
 
 **Two main approaches:**
 - **GPTQ**: Per-layer quantization using Hessian matrix to find optimal adjustments that preserve overall accuracy
+    - More compute-intensive, better for offline quantization, broader model support
 - **AWQ**: Keeps 1-2% salient weights (those contributing most to large activations) at full precision, aggressively quantizes all other weights
+    - Faster quantization, better preserves accuracy for LLMs with activation outliers (e.g., LLaMA, Mistral)
+- In practice: AWQ often preferred for LLMs (faster + better quality), GPTQ for general quantization
 
 ### **Problem Solved:**
 - Reduces memory usage (2-4× smaller models)

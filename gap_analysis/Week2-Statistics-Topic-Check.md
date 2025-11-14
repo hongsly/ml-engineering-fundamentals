@@ -132,30 +132,12 @@ For each topic, mark your current understanding:
 
 ---
 
-## 🎯 Adaptive Time Allocation
-
-**Based on Dunno count (out of 43 topics)**:
-
-- **0-9 Dunno topics** (79%+ Know): ✅ **Stay with Day 6-7 plan (2-3 hours)**
-  - Light gaps, original timeline sufficient
-  - Focus: Quick review + practice exercises
-
-- **10-15 Dunno topics** (65-77% Know): ⚠️ **Extend to Day 6-8 (4-5 hours)**
-  - Moderate gaps, need additional study day
-  - Focus: Targeted study on Dunno topics + practice
-
-- **16+ Dunno topics** (<63% Know): 🔴 **Extend to Day 6-9 (6-8 hours)**
-  - Major gaps, need comprehensive coverage
-  - Focus: Deep study + multiple practice sessions
-
----
-
 ## 📝 Priority Gaps (From Day 6 Gap Analysis)
 
 **Critical (0-30%)** - MUST address:
-- [ ] Covariance vs correlation (Q3: 0%) → Section 2.2
-- [ ] Normal distribution calculations (Q27: 0%) → Section 3.7
-- [ ] MLE for exponential distribution (Q29: 0%) → Section 6.1
+- [X] Covariance vs correlation (Q3: 0%) → Section 2.2
+- [X] Normal distribution calculations (Q27: 0%) → Section 3.7
+- [X] MLE for exponential distribution (Q29: 0%) → Section 6.1
 - [ ] Sigmoid for regression (Q19, Q43: 0%) → Section 6.2
 - [ ] Logistic regression on separable data (Q43: 0%) → Section 6.3
 - [ ] Gambler's ruin probability (Q31: 20%) → Section 5.3
@@ -166,24 +148,11 @@ For each topic, mark your current understanding:
 - [ ] Dependence vs correlation (Q63: 50%) → Section 6.4
 
 **High-Impact Additions** (5 new topics for senior/applied scientist roles):
-- [ ] **A/B Testing Design & Pitfalls** (3.9) - MUST-KNOW for any MLE role
-- [ ] **Bayesian vs Frequentist Statistics** (5.7) - MUST-KNOW for applied scientist
-- [ ] **Multiple Comparisons Problem** (3.10) - Nice-to-have for senior/research roles
+- [X] **A/B Testing Design & Pitfalls** (3.9) - MUST-KNOW for any MLE role
+- [X] **Bayesian vs Frequentist Statistics** (5.7) - MUST-KNOW for applied scientist
+- [X] **Multiple Comparisons Problem** (3.10) - Nice-to-have for senior/research roles
 - [ ] **Markov Chains** (5.8) - Relevant for rec systems, MCMC
-- [ ] **Regularization as Bayesian Prior** (6.7) - Nice conceptual connection
-
----
-
-## 📚 Study Resources (To be filled after assessment)
-
-**For Section ___** (weakest section):
-- Resource 1:
-- Resource 2:
-
-**For Critical Gaps**:
-- Covariance vs correlation:
-- MLE derivations:
-- Logistic regression edge cases:
+- [X] **Regularization as Bayesian Prior** (6.7) - Nice conceptual connection
 
 ---
 
