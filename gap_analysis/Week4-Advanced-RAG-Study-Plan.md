@@ -700,8 +700,8 @@ Update in this order:
 ## Success Criteria Checklist
 
 **Core Knowledge** (Must achieve):
-- [ ] Can write RRF formula from memory: Score = 1/(k + rank)
-- [ ] Can explain when dense fails (acronyms, part numbers) and when sparse fails (synonyms, semantic)
+- [x] Can write RRF formula from memory: Score = 1/(k + rank)
+- [x] Can explain when dense fails (acronyms, part numbers) and when sparse fails (synonyms, semantic)
 - [ ] Can discuss FiD vs Long Context trade-offs (cost, latency, complexity, accuracy)
 - [ ] Can name 3+ 2025 RAG trends: GraphRAG, Agentic RAG, RAFT, Long RAG
 - [ ] Can calculate Recall@K, Precision@K, NDCG by hand
@@ -713,7 +713,7 @@ Update in this order:
 - [ ] Knowledge check: ≥90% score
 
 **Interview Simulation** (Self-test):
-- [ ] "Explain hybrid retrieval and RRF" - 2 min answer
+- [x] "Explain hybrid retrieval and RRF" - 2 min answer
 - [ ] "What's new in RAG in 2025?" - List 3 trends with brief explanation
 - [ ] "How do you evaluate a RAG system?" - Mention retrieval + generation metrics
 - [ ] "FiD vs Long Context - which would you choose and why?" - Consider cost, latency, accuracy

@@ -23,14 +23,14 @@ For each subtopic, mark your current knowledge level:
 
 | Subtopic | Know | Unsure | Dunno | Notes |
 |----------|------|--------|-------|-------|
-| Dense retrieval basics | ☐ | x | ☐ | Vector embeddings, semantic search, cosine similarity |
-| Sparse retrieval (BM25, TF-IDF) | ☐ | x | ☐ | Keyword-based methods, term frequency scoring |
-| SPLADE (Learned Sparse) ⭐ | ☐ | ☐ | x | **2025 trend** - Solves vocabulary mismatch, keeps exact-match benefits |
+| Dense retrieval basics | x |  | ☐ | Vector embeddings, semantic search, cosine similarity |
+| Sparse retrieval (BM25, TF-IDF) | x |  | ☐ | Keyword-based methods, term frequency scoring |
+| SPLADE (Learned Sparse) ⭐ | x | ☐ |  | **2025 trend** - Solves vocabulary mismatch, keeps exact-match benefits |
 | **Hybrid retrieval (sparse + dense)** ⭐ | ☐ | x | ☐ | **Gap Q179** - Combining keyword + semantic, fusion strategies |
-| Reciprocal Rank Fusion (RRF) ⭐ | ☐ | ☐ | x | Score fusion algorithm: 1/(k + rank) - Must know formula! |
-| Late interaction models (ColBERT) | ☐ | ☐ | x | Token-level similarity, MaxSim operation |
-| DPR (Dense Passage Retrieval) ⭐ | ☐ | ☐ | x | Dual-encoder architecture, contrastive learning |
-| Contrastive learning for retrieval | ☐ | x | ☐ | In-batch negatives, hard negative mining |
+| Reciprocal Rank Fusion (RRF) ⭐ | x | ☐ |  | Score fusion algorithm: 1/(k + rank) - Must know formula! |
+| Late interaction models (ColBERT) | x | ☐ |  | Token-level similarity, MaxSim operation |
+| DPR (Dense Passage Retrieval) ⭐ | x | ☐ |  | Dual-encoder architecture, contrastive learning |
+| Contrastive learning for retrieval | x |  | ☐ | In-batch negatives, hard negative mining |
 | Multi-vector retrieval | ☐ | ☐ | x | Multiple embeddings per document |
 | Query expansion techniques | ☐ | ☐ | x | Query rewriting, pseudo-relevance feedback |
 | Approximate Nearest Neighbor (ANN) | ☐ | ☐ | x | HNSW, IVF, Product Quantization for scale |
@@ -62,14 +62,14 @@ For each subtopic, mark your current knowledge level:
 
 | Subtopic | Know | Unsure | Dunno | Notes |
 |----------|------|--------|-------|-------|
-| Sentence-BERT / Sentence Transformers ⭐ | ☐ | ☐ | x | Siamese networks for sentence embeddings |
+| Sentence-BERT / Sentence Transformers ⭐ | ☐ | x |  | Siamese networks for sentence embeddings |
 | OpenAI embeddings (ada-002, text-embedding-3) | ☐ | ☐ | x | Commercial embedding APIs |
-| Domain-specific embedding fine-tuning | ☐ | ☐ | x | Contrastive fine-tuning on domain data |
+| Domain-specific embedding fine-tuning | x | ☐ |  | Contrastive fine-tuning on domain data |
 | Embedding dimension trade-offs | ☐ | x | ☐ | 384 vs 768 vs 1536 dimensions |
 | Matryoshka embeddings | ☐ | ☐ | x | Variable-dimension embeddings |
 | Multilingual embeddings | ☐ | x | ☐ | Cross-lingual retrieval (mBERT, XLM-R) |
-| Embedding compression | ☐ | ☐ | x | Quantization for storage/speed |
-| Late interaction vs bi-encoders | ☐ | ☐ | x | ColBERT vs SBERT trade-offs |
+| Embedding compression | ☐ | x |  | Quantization for storage/speed |
+| Late interaction vs bi-encoders | x | ☐ |  | ColBERT vs SBERT trade-offs |
 | Contextualized embeddings | ☐ | ☐ | x | Query-aware vs static embeddings |
 
 **Category 3 Score**: Know: _/9 | Unsure: _/9 | Dunno: _/9
@@ -113,12 +113,12 @@ For each subtopic, mark your current knowledge level:
 
 | Subtopic | Know | Unsure | Dunno | Notes |
 |----------|------|--------|-------|-------|
-| Cross-encoder reranking ⭐ | ☐ | ☐ | x | BERT-based query-document scoring |
-| Two-stage retrieval (retrieve → rerank) | ☐ | x | ☐ | Fast bi-encoder → slow cross-encoder |
+| Cross-encoder reranking ⭐ | x | ☐ |  | BERT-based query-document scoring |
+| Two-stage retrieval (retrieve → rerank) | x |  | ☐ | Fast bi-encoder → slow cross-encoder |
 | Reranking with LLMs | ☐ | x | ☐ | Use LLM to score relevance |
-| Maximal Marginal Relevance (MMR) ⭐ | ☐ | ☐ | x | Diversity-aware reranking |
+| Maximal Marginal Relevance (MMR) ⭐ | x | ☐ |  | Diversity-aware reranking |
 | Cohere Rerank API | ☐ | ☐ | x | Commercial reranking service |
-| Lost-in-the-middle problem ⭐ | ☐ | ☐ | x | Position bias in long contexts |
+| Lost-in-the-middle problem ⭐ | x | ☐ |  | Position bias in long contexts |
 | Relevance score calibration | ☐ | ☐ | x | Converting scores to probabilities |
 
 **Category 6 Score**: Know: _/7 | Unsure: _/7 | Dunno: _/7
@@ -133,7 +133,7 @@ For each subtopic, mark your current knowledge level:
 | Context compression | ☐ | x | ☐ | Removing redundant information |
 | Context ranking & selection | ☐ | ☐ | x | Top-K selection strategies |
 | Long-context models (Claude, GPT-4) | ☐ | x | ☐ | 100K+ token windows |
-| Context stuffing vs summarization | ☐ | ☐ | x | Trade-offs for long docs |
+| Context stuffing vs summarization | ☐ | x |  | Trade-offs for long docs |
 | Prompt template design | ☐ | x | ☐ | System + context + query structure |
 
 **Category 7 Score**: Know: _/6 | Unsure: _/6 | Dunno: _/6
@@ -151,7 +151,7 @@ For each subtopic, mark your current knowledge level:
 | Human evaluation protocols | ☐ | x | ☐ | Annotation guidelines, inter-rater reliability |
 | Failure mode analysis | ☐ | x | ☐ | No relevant docs, wrong docs, hallucination |
 | Latency vs quality trade-offs | ☐ | x | ☐ | P50/P95/P99 latency budgets |
-| A/B testing RAG systems | ☐ | ☐ | x | Online evaluation strategies |
+| A/B testing RAG systems | ☐ | x |  | Online evaluation strategies |
 | Groundedness / Attribution | ☐ | x | ☐ | Verifying citations, source attribution |
 
 **Category 8 Score**: Know: _/9 | Unsure: _/9 | Dunno: _/9
