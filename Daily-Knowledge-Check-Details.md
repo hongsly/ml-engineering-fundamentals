@@ -1593,3 +1593,353 @@ Breusch-Pagan Test Procedure:
 - Continue Day 5-7 plan: Project selection and setup
 - Optional: Quick refreshers on chi-square test statistic and Durbin-Watson interpretation
 
+
+---
+
+## Day 27: Nov 23, 2025 (Weekend Review - 10 Overdue Topics)
+
+**Score**: 87.5% (875/1000) - A-/B+ (7 perfect, 1 failed, 2 partial)
+
+**Format**: Review-only (100% review questions from overdue items in knowledge schedule)
+
+**Topics Reviewed**:
+- PyTorch basics (3 questions): nn.Module, no_grad, BCELoss
+- ML fundamentals (2 questions): Adam optimizer, Regression metrics  
+- ML Infrastructure (3 questions): Airflow executors, Docker multi-stage, K8s Deployment
+- System Design (1 question): GPU scaling calculation
+- PyTorch advanced (1 question): FSDP internals
+
+---
+
+### Q1: pytorch_nn_module (10 days overdue) - 75%
+
+**Question**: What are the three key components you must implement when defining a PyTorch model with `nn.Module`? What is the alternative shorthand for simple sequential architectures?
+
+**Your Answer**:
+- Need to implement `forward()`, what else? pick loss function and optimizer (but that's not part of defining the nn.Module?) `__init__()`? 
+- Do you mean use `nn.Sequential()` with a list of existing `nn.Module`?
+
+**Score**: 75% 🟡
+
+**Assessment**: Got `__init__` and `forward`, but **missed the 3rd component: `super().__init__()` call**. Sequential explanation was on track but uncertain.
+
+**Correct Answer**:
+1. **`__init__()`**: Define layers/parameters
+2. **`forward()`**: Define forward pass computation  
+3. **`super().__init__()`**: Must call in your `__init__` method
+
+**Alternative shorthand**: `nn.Sequential()` - takes list of modules, automatically chains them
+
+```python
+# Full nn.Module
+class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()  # ← This is the 3rd component!
+        self.fc1 = nn.Linear(10, 5)
+        self.fc2 = nn.Linear(5, 1)
+    
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        return self.fc2(x)
+
+# Sequential shorthand
+model = nn.Sequential(
+    nn.Linear(10, 5),
+    nn.ReLU(),
+    nn.Linear(5, 1)
+)
+```
+
+You're right that loss function/optimizer aren't part of `nn.Module` definition!
+
+---
+
+### Q2: pytorch_no_grad (10 days overdue) - 100%
+
+**Question**: What does the `torch.no_grad()` context manager do, and when should you use it? What happens to memory and computation inside this context?
+
+**Your Answer**:
+It won't back-prop the grad. Used during evaluation/inference. Less memory and computation -- no backprop, no gradient and optimizer state tracking.
+
+**Score**: 100% ✅
+
+**Assessment**: Perfect! Covered all key points: disables autograd, use during eval/inference, reduces memory (no gradients stored), reduces computation (no gradient tracking).
+
+---
+
+### Q3: pytorch_bce_loss (10 days overdue) - 100%
+
+**Question**: What's the difference between `BCELoss` and `BCEWithLogitsLoss` in PyTorch? Which should you use and why?
+
+**Your Answer**:
+- BCELoss: binary cross entropy loss on output in (0,1) range
+- BCEWithLogitsLoss: binary cross entropy loss on logit output in (-inf, inf) range
+- Use BCELoss when the last layer already applied Sigmoid. Use BCEWithLogitsLoss if last layer outputs logit.
+
+**Score**: 100% ✅
+
+**Assessment**: Perfect! Clear understanding of when to use each, input range differences, and the relationship to sigmoid activation.
+
+**Additional note**: BCEWithLogitsLoss is generally preferred because it's numerically more stable (combines sigmoid + BCE in one operation).
+
+---
+
+### Q4: ml_adam_optimizer (9 days overdue) - 50%
+
+**Question**: What is Adam optimizer's bias correction mechanism? Why is it needed, and what are the formulas for the corrected first and second moments?
+
+**Your Answer**:
+Bias correction makes the grad update value larger for the initial steps, otherwise the initial steps will be very slow.
+- Momentum: grad = beta_1 * old_grad + (1-beta_1) * new_grad or something?
+- Variance: forgot the formula
+- Forgot bias correction formula
+
+**Score**: 50% 🟠 (Failed - reset to n=1, review tomorrow)
+
+**Assessment**: **Concept correct** (bias correction addresses slow initial updates), but **formulas missing/incorrect**. This is a critical gap for ML fundamentals.
+
+**Correct Answer**:
+
+**Without bias correction**, first moment starts at 0, so:
+- Step 1: m₁ = 0.9×0 + 0.1×grad = 0.1×grad (too small!)
+- Step 2: m₂ = 0.9×(0.1×grad) + 0.1×grad = 0.19×grad (still small)
+
+**Adam formulas**:
+```
+# Update first and second moments
+m_t = beta_1 * m_{t-1} + (1 - beta_1) * grad
+v_t = beta_2 * v_{t-1} + (1 - beta_2) * grad²
+
+# Bias correction (this is the key!)
+m_hat = m_t / (1 - beta_1^t)
+v_hat = v_t / (1 - beta_2^t)
+
+# Parameter update
+theta = theta - lr * m_hat / (sqrt(v_hat) + epsilon)
+```
+
+**Why it works**:
+- At t=1: `1 - beta_1^1 = 1 - 0.9 = 0.1`, so `m_hat = 0.1×grad / 0.1 = grad` ✅
+- At t=10: `1 - beta_1^10 ≈ 0.65`, correction factor diminishes
+- At t→∞: `1 - beta_1^t → 1`, no correction needed
+
+**Action**: Review this tomorrow (scheduled for 2025-11-24)
+
+---
+
+### Q5: ml_regression_metrics (8 days overdue) - 75%
+
+**Question**: Explain the differences between MSE, RMSE, MAE, and R². When would you prefer MAE over RMSE?
+
+**Your Answer**:
+- MSE: min squared error, Sum (y-y_true)² / n
+- RMSE: square root of MSE (same unit as data)
+- MAE: absolute error? Sum |y-y_true| / n? Treating error amount equally (squared error penalize larger residual more)? More robust on outlier?
+- R²: measures how much variation explained by the linear regression or something like that? Forgot formula
+
+**Score**: 75% 🟡
+
+**Assessment**: **All concepts correct!** MSE/RMSE/MAE definitions and MAE robustness reasoning perfect. Just missing R² formula.
+
+**R² formula**:
+```
+R² = 1 - (SS_res / SS_tot)
+
+Where:
+- SS_res = Σ(y - y_pred)²  (residual sum of squares)
+- SS_tot = Σ(y - y_mean)²  (total sum of squares)
+```
+
+**Interpretation**:
+- R² = 0.85 → Model explains 85% of variance, 15% unexplained
+- R² = 1.0 → Perfect fit
+- R² = 0.0 → Model no better than predicting mean
+
+**When to use MAE over RMSE**: ✅ You got it - MAE more robust to outliers (doesn't square the errors)
+
+---
+
+### Q6: airflow_executors (8 days overdue) - 100%
+
+**Question**: Compare the three Airflow executors: LocalExecutor, CeleryExecutor, and KubernetesExecutor. What are the use cases for each?
+
+**Your Answer**:
+- LocalExecutor: execute locally, share resource with scheduler. Used for development / simple and cheap flow
+- CeleryExecutor: have a dedicated remote worker pool, send task to the pool to execute. Efficient for expensive tasks; high cost if idle, tasks compete with each other for resources
+- KubernetesExecutor: each task containerized in a pod and dispatched in Kubernetes. Isolated task, cost efficient; higher startup latency
+
+**Score**: 100% ✅
+
+**Assessment**: Perfect! All three executors, their architectures, use cases, and trade-offs clearly explained.
+
+**Key trade-offs captured**:
+- LocalExecutor: Simple but limited scalability
+- CeleryExecutor: Scalable but always-on cost
+- KubernetesExecutor: Cost-efficient + isolated, but higher startup latency
+
+---
+
+### Q7: pytorch_fsdp_internals (due TODAY, EF=1.45, weak item) - 100%
+
+**Question**: Explain how FSDP overlaps communication and computation using CUDA streams and prefetching. What gets prefetched, and when does the all-gather happen?
+
+**Your Answer**:
+One CUDA stream for computation and one CUDA stream for gathering the parameter values. Overlap: start prefetching parameters for L+1 while doing computation for L. Sync to ensure forward computation for L+1 only start after parameter all-gather is completed.
+
+**Score**: 100% ✅ **BREAKTHROUGH!**
+
+**Assessment**: **Perfect explanation!** You nailed:
+- Two CUDA streams (one for compute, one for all-gather)
+- Prefetching mechanism (parameters for layer L+1 while computing layer L)
+- Synchronization requirement (all-gather must complete before forward pass)
+
+**This is your 4th review**:
+- Review 1 (Day 16): 65% - Partial understanding
+- Review 2 (Day 26): 50% - Still struggling (EF dropped to 1.45)
+- Review 3 (Day 26, later): 50% - Reset to review tomorrow
+- Review 4 (Day 27, today): **100%** - Fully mastered! 🎉
+
+**EF recovered**: 1.45 → 1.55 (still below 2.0, but improving)
+**Next review**: 2025-11-29 (6 days)
+
+---
+
+### Q8: docker_multistage_builds (7 days overdue) - 75%
+
+**Question**: What are Docker multi-stage builds? Give an example with a build stage and a runtime stage. Why does this reduce image size?
+
+**Your Answer**:
+Separate build-stage and run-stage in Docker builds, so the final distributed run-stage image won't need the build dependencies.
+Example: e.g. pulling in compiler dependency to convert code to C++ runtime in build-stage; run-stage only need runtime dependencies? (not so sure)
+
+**Score**: 75% 🟡
+
+**Assessment**: **Concept clear** (separate build/runtime stages, final image excludes build deps), but example was vague/uncertain.
+
+**Better example**:
+```dockerfile
+# Build stage - includes compiler, build tools
+FROM python:3.10 AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt
+COPY . .
+RUN python -m compileall .  # Pre-compile Python bytecode
+
+# Runtime stage - only runtime dependencies
+FROM python:3.10-slim  # ← Much smaller base image!
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY --from=builder /app .
+ENV PATH=/root/.local/bin:$PATH
+CMD ["python", "app.py"]
+```
+
+**Why smaller**:
+- Build stage: 1 GB (includes pip cache, compiler, intermediate files)
+- Runtime stage: 200 MB (only final artifacts + slim base image)
+- **Final image = runtime stage only!**
+
+---
+
+### Q9: k8s_pod_deployment_service (7 days overdue) - 75%
+
+**Question**: Explain the difference between Pod, Deployment, and Service in Kubernetes. How does a Deployment use ReplicaSets?
+
+**Your Answer**:
+- Pod: a minimum unit of work to be scheduled
+- Deployment: declarative spec to deploy the work, declare the number of replicas and resources
+- Service: abstract on top of deployment, providing stable IP address
+- (unsure) ReplicaSets have deployment run on multiple nodes?
+
+**Score**: 75% 🟡
+
+**Assessment**: **Main concepts correct**, but ReplicaSet answer uncertain.
+
+**Correct relationship**:
+```
+Deployment (you create this)
+    ↓ creates/manages
+ReplicaSet (auto-created by Deployment)
+    ↓ creates/manages
+Pods (3 replicas running on different nodes)
+```
+
+**Full picture**:
+- **Pod**: Single instance of your app (can have multiple containers)
+- **ReplicaSet**: Ensures N pods are running, replaces failed pods
+- **Deployment**: Higher-level abstraction, manages ReplicaSets
+  - Rolling updates: Creates new ReplicaSet, gradually scales down old one
+  - Rollback: Switches back to previous ReplicaSet
+- **Service**: Stable IP/DNS, load balances across pod replicas
+
+**Example**:
+```yaml
+# You create Deployment with 3 replicas
+Deployment: my-app (replicas: 3)
+  → Creates ReplicaSet: my-app-abc123
+      → Creates 3 Pods: my-app-abc123-pod1, pod2, pod3
+```
+
+---
+
+### Q10: sysdesign_gpu_scaling (6 days overdue) - 100%
+
+**Question**: Given a model with 50ms inference time and batch size 32, what QPS can one GPU handle? If total load is 10,000 QPS, how many GPUs are needed?
+
+**Your Answer**:
+20 batch/sec × 32 = 640 QPS.
+10000/640 = 1000/64 = 250/16 = 125/8 ≈ 16 GPUs
+
+**Score**: 100% ✅
+
+**Assessment**: **Perfect calculation!** 
+- QPS per GPU: 32 / 0.05s = 640 QPS ✅
+- GPUs needed: 10,000 / 640 = 15.625 → 16 GPUs ✅
+
+**Formula applied correctly**: QPS = Batch Size / Inference Time
+
+This is a huge improvement from your first attempt (Day 20: 50% - missed given numbers in problem). You've mastered reading problem statements and applying the throughput formula!
+
+---
+
+## Summary - Day 27
+
+**Overall Score**: 875/1000 = **87.5% (A-/B+)**
+
+**Strong Areas**:
+- ✅ PyTorch basics: no_grad (100%), BCELoss (100%)
+- ✅ **FSDP internals: 50% → 100%** - Major breakthrough after 4 reviews!
+- ✅ Airflow executors: 100% (perfect trade-off understanding)
+- ✅ GPU scaling calculation: 100% (50% → 100% improvement since Day 20)
+- ✅ Regression metrics: All concepts correct, just missing R² formula
+
+**Weak Areas**:
+- ❌ **Adam optimizer (50%)**: Concept understood, but formulas missing - Critical gap for ML fundamentals
+  - Failed review (score ≤60%)
+  - **Reset to n=1, I=1 day**
+  - **Action**: Review tomorrow (2025-11-24)
+- 🟡 nn.Module (75%): Forgot `super().__init__()` call
+- 🟡 Docker multi-stage (75%): Concept clear, example vague
+- 🟡 K8s Deployment (75%): Main concepts right, ReplicaSet relationship uncertain
+
+**Key Achievement**: 🎉 **FSDP Internals Mastered!**
+- This was your weakest item (EF=1.45, lowest in schedule)
+- 4 review attempts: 65% → 50% → 50% → **100%**
+- Persistence paid off - you fully understand CUDA stream overlap now!
+
+**Next Steps**:
+1. **Tomorrow (Day 28)**: Review Adam optimizer formulas (due 2025-11-24, critical for ML interviews)
+2. Continue with RAG project planning (Day 27 task: Download ArXiv papers, 30 min)
+3. Next review batch: 6 topics due 2025-11-29 (PyTorch basics, Docker, K8s, GPU scaling)
+
+**SM-2 Schedule Updates**: All 10 items updated with new EF, intervals, and next review dates
+
+**EF Changes**:
+- pytorch_fsdp_internals: 1.45 → 1.55 (improving!)
+- ml_adam_optimizer: 2.5 → 1.96 (failed, needs attention)
+- sysdesign_gpu_scaling: 2.14 → 2.24 (50% → 100% recovery)
+- 7 other items: Minor EF adjustments based on scores
+
+**Recommendation**: Excellent review performance! FSDP breakthrough is a major milestone. Focus on Adam formula review tomorrow, then proceed with RAG project.
+

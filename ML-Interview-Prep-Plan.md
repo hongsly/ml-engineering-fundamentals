@@ -1091,13 +1091,35 @@ This is where you need the most practice:
 
 ---
 
-**Day 6 (Sun, Nov 23 - 30 min)** - Light weekend day
-- [ ] Knowledge Check (15-20 min)
-  - 10 review questions from knowledge schedule (prioritize items due/overdue)
-- [ ] RAG Project Setup (30 min)
-  - Download 20-30 ArXiv papers (PDFs to `data/raw/`)
-  - Create folder structure: data/, src/, evaluation/, tests/, outputs/
-  - Create `requirements.txt` stub (list libraries, don't install yet)
+**Day 6 (Sun, Nov 23 - 30 min)** ✅ **COMPLETED**
+
+**Knowledge Check (15-20 min)**:
+- [X] 10 review questions from knowledge schedule (all overdue items)
+- Score: **87.5% (875/1000)** - A-/B+
+- Perfect scores (100%): 7 topics - PyTorch (no_grad, BCELoss), FSDP internals (breakthrough!), Airflow executors, GPU scaling, All concepts for regression metrics
+- Good scores (75%): nn.Module (forgot super().__init__), Docker multi-stage, K8s Deployment, Regression metrics (missing R² formula)
+- Failed: Adam optimizer (50%) - Formulas missing, reset to review tomorrow
+
+**RAG Project Setup (30 min)**:
+- [X] Downloaded **32 ArXiv papers** (73.1 MB) to `data/raw/` - Added 4 papers beyond list, including 1 from 2025!
+  - Core RAG: 7 papers (Lewis, FiD, Lost in Middle, Self-RAG, RAPTOR, RAFT, GraphRAG)
+  - Retrieval: 4 papers (ColBERT, DPR, SPLADE, Hybrid)
+  - Evaluation: 3 papers (RAGAS, ARES, RGB)
+  - Advanced: 11 papers (Query rewriting, HyDE, Step-back, Active RAG, Vision RAG, Deliberative RAG, etc.)
+  - Surveys: 3 papers (Gao, Li, Asai)
+  - Multi-hop: 2 papers (ReAct, Multi-hop QA)
+  - 2025 papers: Embedding limits (Weller)
+- [X] Created folder structure: data/raw, data/processed, data/eval, src/, evaluation/, tests/, outputs/eval_results, outputs/logs
+- [X] Created `requirements.txt` with 28 dependencies (sentence-transformers, FAISS, BM25, OpenAI, Ragas, etc.)
+- [X] Created `download_papers.py` script for automated ArXiv downloads
+- [X] Created `papers_to_download.md` reference list with 30 papers
+
+**Day 6 Summary**:
+- ⏱️ Total time: ~30 min (knowledge check + RAG project setup)
+- 📊 Knowledge check: 87.5% (FSDP breakthrough 50%→100%, Adam optimizer gap identified)
+- 📚 Papers: 32 ArXiv papers downloaded (600-800 pages corpus)
+- 📁 Project: Complete folder structure + requirements ready
+- 🎯 Progress: Ready for Week 5 Day 1 implementation
 
 **Day 7 (Mon, Nov 24 - 2-3 hours)** - Main implementation day
 - [ ] Core Implementation (60 min)

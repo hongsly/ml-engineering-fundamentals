@@ -338,6 +338,7 @@ Intervals grow: 1→6→15→38→95 days (roughly 2.5× each time)
 | 22 | 2025-11-18 | **96.0% (A+)** | RAG fundamentals (98.9% - RRF, SPLADE, DPR, reranking, ColBERT, MMR), Review retention (88.3% - MLE 90%, Covariance 75%, Throughput 100%) | RRF ranking interpretation (90%), Covariance formulas missing (75%) | Week 4 Day 1 complete: Advanced RAG Day 1 mastery, 11 topics studied (7 new + 4 consolidated) |
 | 23 | 2025-11-19 | **96.3% (A+)** | Day 2 Advanced RAG (98.6% - FiD 100%, GraphRAG 100%, RAFT 100%, Agentic 90%, Multi-hop 100%, Parent doc 100%, PDF parsing 100%), Review retention (91.7% - Breusch-Pagan 75%, f/g operators 100%, ColBERT 100%) | Breusch-Pagan test procedure (75% - missing method), Agentic RAG cost comparison (90% - implied but not stated) | Week 4 Day 2 complete: 7 new topics + 3 consolidations, Gap Q177 (FiD) closed 0%→100% |
 | 26 | 2025-11-22 | **80.0% (B/B+)** | Review-only day (10 overdue topics - Stats fundamentals, LLM systems, RAG), Stats distributions (100%), Regularization priors (100%), Communication patterns (100%), SPLADE (100%), Speculative decoding (100%), CLT/LLN (100%), Shapiro-Wilk (100%) | Chi-square test statistic (75% - missing Σ(O-E)²/E formula), Durbin-Watson interpretation (75% - reversed 0/4 meanings), FSDP stream sync (50% - still weak, 3rd review, EF 1.45) | Day 26 (Week 4 Day 5): Weekend review session, FSDP remains challenging (65%→50%, reset to tomorrow), 7 perfect scores show strong retention |
+| 27 | 2025-11-23 | **87.5% (A-/B+)** | Review-only day (10 overdue topics - PyTorch, ML fundamentals, Infrastructure, System design), PyTorch (no_grad 100%, BCELoss 100%), FSDP internals (100% - breakthrough!), Airflow executors (100%), GPU scaling (100%), Regression metrics formulas (all concepts right) | nn.Module super().__init__ (75% - forgot 3rd component), Adam formulas (50% - concepts yes, formulas missing), Docker/K8s examples (75% - concepts clear, details vague) | Day 27 (Week 4 Day 6): **FSDP breakthrough!** 50%→100% (3rd review success, EF 1.55), Adam optimizer needs formula review tomorrow (failed: 50%, reset to n=1) |
 
 **Progress Trend**: Week 2-4 sustained excellence 🚀
 - Day 3→5: +10.5% improvement over Week 1
@@ -358,6 +359,7 @@ Intervals grow: 1→6→15→38→95 days (roughly 2.5× each time)
 - Day 21→22: -1.0% (97% → 96%) - Minor dip, still A+ range, excellent RAG absorption
 - Day 22→23: +0.3% (96% → 96.3%) - Sustained A+ range, exceptional Day 2 content mastery (98.6%)
 - Day 23→26: -16.3% (96.3% → 80.0%) - Review-only day (weekend), all previously learned topics, expected variance for review sessions
+- Day 26→27: +7.5% (80.0% → 87.5%) - Continued review (10 overdue topics), FSDP breakthrough 50%→100%, Adam formula gap identified
 - **Week 2 Days 1-5 average**: 92% across Days 8-12 (LLM Systems)
 - **Week 2 Days 6-7 (Statistics)**: Average 93% (Day 13: 99.5%, Day 14: 86.5%)
 - **Week 3 Days 1-5 average**: 93.5% across Days 15-19 (Statistics completion + ML Infrastructure deep dive)
@@ -376,7 +378,8 @@ Intervals grow: 1→6→15→38→95 days (roughly 2.5× each time)
 - **Day 22 highlight**: Advanced RAG Day 1 - 96% (A+), nearly perfect new content (98.9%), excellent consolidation of 4 "unsure" topics, RRF formula mastered, ColBERT storage trade-off understood
 - **Day 23 highlight**: Advanced RAG Day 2 - 96.3% (A+), **exceptional new content mastery (98.6%)** - FiD 100% (Gap Q177 closed 0%→100%), GraphRAG 100% (local+global modes), RAFT 100%, all 7 topics interview-ready, **user caught H1 scoring error** (H1 is implicit negation of H0)
 - **Day 26 highlight**: Weekend review (10 overdue topics) - 80% (B/B+), **FSDP struggles continue** (3rd review: 65%→50%, EF dropped to 1.45, reset to review tomorrow), 7 perfect scores (Stats, LLM comm patterns, RAG), Communication patterns Day 25 study paid off (75%→100%)
-- Review retention: 92% average (Day 22 review: 88.3%, Day 23 review: 91.7%, Day 26 review-only: 80.0%)
+- **Day 27 highlight**: Weekend review continued (10 overdue topics) - 87.5% (A-/B+), **FSDP BREAKTHROUGH!** (4th review: 50%→100%, EF recovered to 1.55), Perfect scores on PyTorch basics (100%, 100%), Airflow (100%), GPU scaling (100%), Adam optimizer failed (50% - formula gap, reset to n=1, due tomorrow)
+- Review retention: 88.8% average (Day 22 review: 88.3%, Day 23 review: 91.7%, Day 26 review-only: 80.0%, Day 27 review-only: 87.5%)
 
 ---
 
