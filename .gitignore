@@ -32,6 +32,7 @@ Icon
 **/Icon
 **/venv/
 **/__pycache__/
+.env
 
 # Jupyter checkpoints
 .ipynb_checkpoints/

@@ -70,6 +70,118 @@ This folder contains exploratory analysis and hypothesis-testing scripts for the
 
 ---
 
+## Day 30 (Nov 26, 2025): Generation Pipeline & Smoke Test
+
+### Implementation Complete
+- ✅ `src/generator.py`: OpenAI Responses API wrapper (gpt-4o-mini)
+- ✅ `src/rag_pipeline.py`: End-to-end RAG pipeline (RagAssistant class)
+- ✅ `data/eval/test_questions.json`: 10 manual test questions (factual, reasoning, multi-hop, negative)
+- ✅ `experiments/smoke_test.py`: Smoke test script
+
+### Test Results (5 questions × 4 modes)
+
+| Mode | Citations | Answer Quality | Token Usage |
+|------|-----------|----------------|-------------|
+| **Hybrid** | ✅ Excellent | ✅ High | ~2700 input |
+| **Dense** | ✅ Excellent | ✅ High | ~2700 input |
+| **Sparse** | ✅ Good | ✅ Good | ~2700 input |
+| **None** | ❌ None | ⚠️ Generic | ~50 input |
+
+**Key findings**:
+1. **Token usage validates retrieval**: 2700 tokens (with context) vs 50 tokens (without) ✅
+2. **Citation format works**: `(source: [Li et al., 2023](2202.01110_rag_survey_lichunk_0))` ✅
+3. **Answer quality high**: Detailed explanations with proper source attribution
+4. **Sparse performed better than expected**: Day 29 findings confirmed - query-corpus alignment matters
+
+### ⚠️ Issue Discovered: Negative Question Handling
+
+**Problem**: Model answers out-of-corpus questions despite strict prompt
+
+**Test case**: "What is the capital of France?" (not in RAG corpus)
+
+**Results**:
+- Hybrid/Dense/None: "The capital of France is Paris." ❌
+- Sparse: "The provided documents do not contain... the capital of France is Paris." ⚠️
+
+**Initial hypothesis**: Prompt engineering failure (model ignoring instructions)
+
+**Updated prompt** (line 4-10 in `src/generator.py`):
+```python
+SYSTEM_PROMPT_WITH_CONTEXT = (
+    "You are a Q&A assistant for RAG research. "
+    "Answer ONLY using information from the provided support material. "
+    "If the support material does not contain enough information, respond with: "
+    "'I don't have enough information in the provided materials to answer this question.' "
+    "DO NOT use your general knowledge - only cite the support material."
+)
+```
+
+**Status**: ✅ **ROOT CAUSE FOUND** (via OpenAI log investigation)
+
+### Root Cause Investigation ⭐
+
+**What we found**: User checked OpenAI dashboard logs and discovered retrieved chunk `2404.16130_graphrag_edgechunk_22050` contained:
+```
+"capital of France?', a direct answer would be 'Paris'..."
+```
+
+**Diagnosis**: **Retrieval contamination**, not prompt engineering failure!
+- GraphRAG paper used "capital of France" as an example in the text
+- BM25/Dense retrieved this chunk (keyword match: "capital" + "France")
+- Model correctly cited the retrieved document (working as designed!)
+- The prompt is working correctly - the issue is retrieval quality
+
+**Retrieval rankings**:
+- Dense/Hybrid: Ranked contaminated chunk **#1** (highest relevance)
+- Sparse: Ranked contaminated chunk **#2** (still in top-5)
+
+**Why Sparse refused but Dense/Hybrid didn't**:
+- Even though Sparse also retrieved the contaminated chunk (#2), it added a disclaimer
+- Dense/Hybrid (#1 ranking) cited it directly without hesitation
+- This suggests ranking position influences how confidently the model cites retrieved information
+- All three methods retrieved the contaminated chunk - different presentation led to different behavior
+
+**Key insight**: This is a data quality issue (retrieval contamination), not a model issue
+
+### Solutions (Updated)
+
+**1. Use truly out-of-domain queries** (immediate fix):
+- ❌ Bad: "What is the capital of France?" (appears in papers as example)
+- ✅ Good: "How to bake bread?" (impossible to be in RAG/LLM papers)
+
+**2. Few-shot examples** (prompt engineering):
+```python
+"Example:\n"
+"Question: What is the capital of France?\n"
+"Support: [papers about RAG]\n"
+"Answer: I don't have information about geography in these RAG research papers.\n"
+```
+
+**3. Structured outputs** (force format):
+```python
+response_format = {
+    "type": "json_schema",
+    "json_schema": {
+        "properties": {
+            "has_answer": {"type": "boolean"},
+            "answer": {"type": "string"},
+            "sources": {"type": "array"}
+        }
+    }
+}
+```
+
+**4. Temperature=0** (more deterministic):
+- Default: 0.3 (some randomness)
+- Set to 0: Maximally deterministic
+
+**5. Check retrieval quality** (data quality):
+- Ensure negative queries retrieve low-relevance chunks
+- Consider similarity threshold (e.g., reject if score < 0.3)
+- Filter out example text from papers during preprocessing
+
+---
+
 ## Scripts in This Folder
 
 ### Evaluation Scripts
@@ -182,5 +294,5 @@ def choose_retrieval_method(query):
 
 ---
 
-**Last Updated**: 2025-11-25
-**Status**: Experiments complete, ready for Week 5 Day 2
+**Last Updated**: 2025-11-26
+**Status**: Day 2 (Generation pipeline) complete, ready for Day 3 (Ragas evaluation)

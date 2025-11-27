@@ -1203,7 +1203,7 @@ This is where you need the most practice:
 
 ### Week 5 (Nov 25-29)
 
-**Day 1 (Mon, Nov 25) - Hybrid Retrieval (2.5 hours)** ✅ **COMPLETE**:
+**Day 1 (Tue, Nov 25) - Hybrid Retrieval (2.5 hours)** ✅ **COMPLETE**:
 - [X] Implement BM25 sparse retrieval (rank-bm25) with NLTK tokenization
 - [X] Implement RRF fusion: score = Σ 1/(k + rank_i), k=60, 1-based ranking
 - [X] Compare retrieval quality: Dense-only vs Sparse-only vs Hybrid (2 query sets)
@@ -1213,24 +1213,27 @@ This is where you need the most practice:
 - [X] Decision: Use Hybrid for production (80% > 67% for RAG queries)
 - [X] **Daily knowledge check**: 96% (A+) - Exceptional hybrid retrieval mastery
 
-**Day 2 (Tue, Nov 26) - Generation Pipeline (2 hours)**:
-- [ ] Design prompt template for RAG Q&A with citations
-- [ ] Test zero-shot vs few-shot approaches (prompt engineering integrated here)
-- [ ] Implement generation pipeline with GPT-3.5-turbo
-- [ ] Test on 3-5 sample questions
+**Day 2 (Wed, Nov 26) - Generation Pipeline (2 hours)**: ✅ **COMPLETE**
+- [X] Design prompt template for RAG Q&A with citations (with/without context prompts)
+- [X] Implement generation pipeline with gpt-4o-mini (cheaper + better than gpt-3.5)
+- [X] Create 10 test questions in `data/eval/test_questions.json`
+- [X] Smoke test: 5 questions × 4 modes (hybrid/dense/sparse/none)
+- [X] Token usage validated: 2700 vs 50 tokens proves retrieval working
+- [X] Issue discovered: Negative question handling (retrieval contamination)
+- [X] **Daily knowledge check**: 97% (A+) - Outstanding log investigation, root cause analysis
 
-**Day 3 (Wed, Nov 27) - Ragas Evaluation (3 hours)**:
+**Day 3 (Thu, Nov 27) - Ragas Evaluation (3 hours)**:
 - [ ] Create test question set (10 questions: factual, reasoning, multi-hop, negative)
 - [ ] Run Ragas metrics: context precision, context recall, faithfulness, answer relevance
 - [ ] Optimize prompts if scores <0.80 (prompt optimization integrated here)
 - [ ] Compare Dense vs Hybrid retrieval on evaluation metrics
 
-**Day 4 (Thu, Nov 28) - Docker + Streamlit (2 hours)**:
+**Day 4 (Fri, Nov 28) - Docker + Streamlit (2 hours)**:
 - [ ] Create Streamlit UI for Q&A interface
 - [ ] Add Docker containerization
 - [ ] Test locally with docker-compose
 
-**Day 5 (Fri, Nov 29) - Deploy + Polish (2 hours)**:
+**Day 5 (Sat, Nov 29) - Deploy + Polish (2 hours)**:
 - [ ] Deploy to Streamlit Cloud
 - [ ] Write comprehensive README with architecture, results, evaluation metrics
 - [ ] Add interview talking points document

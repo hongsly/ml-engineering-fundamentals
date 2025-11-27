@@ -141,7 +141,7 @@ ArXiv Papers (PDF) → Chunking (500 tokens, 50 overlap)
 
 ### Week 5 (Main Implementation - 12 hours)
 
-**Day 1 (Mon, Nov 25, Week 4 Day 7) - 2 hours**
+**Day 1 (Mon, Nov 24, Week 4 Day 7) - 2 hours**
 - [x] `src/data_loader.py`: Parse PDFs, chunk by 500 tokens with 50 overlap
 - [x] `src/vector_store.py`: Generate embeddings, build FAISS index, save to disk
 - [x] Test: Search for 1 query, verify top-5 results
@@ -162,18 +162,22 @@ ArXiv Papers (PDF) → Chunking (500 tokens, 50 overlap)
 **Rationale**: User queries will be RAG-related (e.g., "How does ColBERT work?"), not general NLP
 **See**: `references/day29-hybrid-retrieval-findings.md` for details
 
-**Day 3 (Wed, Nov 27, Week 5 Day 2) - 2 hours**
-- [ ] `src/generator.py`: OpenAI API wrapper
-- [ ] `src/rag_pipeline.py`: End-to-end pipeline
-- [ ] Create test question set (10 questions in `data/eval/test_questions.json`)
-  - 3 simple factual
-  - 3 complex reasoning
-  - 2 multi-hop
-  - 2 negative (not in corpus)
-- [ ] Run end-to-end test on all 10 questions
-- [ ] Commit: "Add generation and end-to-end pipeline"
+**Day 3 (Wed, Nov 26, Week 5 Day 2) - 2 hours** ✅ **COMPLETE**
+- [x] `src/generator.py`: OpenAI Responses API wrapper (gpt-4o-mini, prompt engineering)
+- [x] `src/rag_pipeline.py`: End-to-end pipeline (RagAssistant with 4 modes)
+- [x] Create test question set (10 questions in `data/eval/test_questions.json`)
+  - 3 simple factual ✅
+  - 3 complex reasoning ✅
+  - 2 multi-hop ✅
+  - 2 negative (not in corpus) ✅
+- [x] Smoke test: 5 questions × 4 modes = 20 tests
+  - Results: Citations excellent, token usage validated (2700 vs 50)
+  - Issue discovered: Negative question handling (retrieval contamination)
+- [x] Commit: "Add generation and end-to-end pipeline"
 
-**Day 4 (Thu, Nov 28, Week 5 Day 3) - 3 hours**
+**Key Decision**: Used gpt-4o-mini ($0.15 input / $0.60 output) instead of gpt-3.5-turbo - 3× cheaper + better quality
+
+**Day 4 (Thu, Nov 27, Week 5 Day 3) - 3 hours**
 - [ ] `evaluation/evaluate_retrieval.py`: Calculate Recall@K, MRR, NDCG
 - [ ] `evaluation/evaluate_rag.py`: Ragas integration
   - Context precision, context recall, faithfulness, answer relevance
@@ -182,7 +186,7 @@ ArXiv Papers (PDF) → Chunking (500 tokens, 50 overlap)
 - [ ] Run full evaluation, generate reports
 - [ ] Commit: "Add Ragas evaluation and error analysis"
 
-**Day 5 (Fri, Nov 29, Week 5 Day 4) - 3 hours**
+**Day 5 (Fri, Nov 28, Week 5 Day 4) - 3 hours**
 - [ ] `Dockerfile`: Containerize application
 - [ ] `docker-compose.yml`: Multi-service setup (optional)
 - [ ] `app.py`: Streamlit UI with citations
