@@ -166,38 +166,6 @@ response_format = {
 
 ## Production Architecture
 
-### RagAssistant Class (4 Modes)
-
-```python
-class RagAssistant:
-    def __init__(
-        self,
-        model: str = "gpt-4o-mini",
-        retrieval_mode: Literal["hybrid", "dense", "sparse", "none"] = "hybrid",
-        top_k: int = 5
-    ):
-        self.generator = Generator(api_key)
-        self.retriever = HybridRetriever() if retrieval_mode != "none" else None
-        self.model = model
-        self.retrieval_mode = retrieval_mode
-        self.top_k = top_k
-
-    def query(self, query: str) -> str:
-        # Retrieve context based on mode
-        context = None
-        match self.retrieval_mode:
-            case "hybrid":
-                context = self.retriever.search_hybrid(query, self.top_k)
-            case "dense":
-                context = self.retriever.search_dense(query, self.top_k)
-            case "sparse":
-                context = self.retriever.search_sparse(query, self.top_k)
-
-        # Generate answer
-        answer = self.generator.generate(query, context, model=self.model)
-        return answer
-```
-
 ### Execution Flow (Q4 from Knowledge Check)
 
 ```
@@ -277,7 +245,7 @@ User receives: "RAG is... (source: [Li et al., 2023](doc_id))"
 ### 4. Why did Sparse refuse but Hybrid/Dense didn't?
 
 **Answer**:
-> "Sparse uses BM25 keyword matching, so it ranked the contaminated chunk lower (probably outside top-5), leading it to correctly say 'documents don't contain...' before falling back to general knowledge. Dense and Hybrid ranked it higher due to semantic similarity, so they cited it. This shows that different retrieval methods have different failure modes—Dense fails more gracefully with contaminated queries."
+> "Sparse uses BM25 keyword matching, so it ranked the contaminated chunk lower, leading it to say 'documents don't contain...' before falling back to general knowledge. Dense and Hybrid ranked it higher due to semantic similarity, so they cited it. This shows that different retrieval methods have different failure modes—Dense fails more gracefully with contaminated queries."
 
 ---
 

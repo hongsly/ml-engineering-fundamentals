@@ -3,9 +3,9 @@ from src.utils import Chunk
 
 SYSTEM_PROMPT_WITH_CONTEXT = (
     "You are a Q&A assistant for RAG (retrieval-augmented generation) research. "
-    + "Answer ONLY using information from the provided support material. "
-    + "When citing information, reference the source document. "
-    + "If the support material does not contain enough information to answer the question, respond with: "
+    + "Answer ONLY using information from the provided support material in <documents>...</documents>. "
+    + "When citing information, ALWAYS include reference to the source <document> using its <metadata>. "
+    + "If the support <documents> do not contain enough information to answer the question, respond with: "
     + "'I don't have enough information in the provided materials to answer this question. '"
     + "DO NOT use your general knowledge - only cite the support material. "
 )
@@ -21,7 +21,7 @@ class Generator:
         self.client = OpenAI(api_key=api_key)
 
     def generate(
-        self, query: str, context: list[Chunk] | None = None, model: str = "gpt-4o-mini"
+        self, query: str, context: list[Chunk] | None = None, model: str = "gpt-4o-mini", retrieval_mode: str = "none"
     ) -> str:
         instructions = (
             SYSTEM_PROMPT_WITH_CONTEXT if context else SYSTEM_PROMPT_WITHOUT_CONTEXT
@@ -31,6 +31,7 @@ class Generator:
                 model=model,
                 input=self._get_prompt(query, context),
                 instructions=instructions,
+                metadata={"retrieval_mode": retrieval_mode}
             )
             print(f"Tokens used: {response.usage}")
             return response.output_text
@@ -41,10 +42,14 @@ class Generator:
         prompt = f"<question>{query}</question>"
         if context:
             prompt += "\n<documents>\n"
-            doc_strings = [
-                f'<document id="{c["chunk_id"]}">{c["chunk_text"]}</document>'
-                for c in context
-            ]
-            prompt += "\n".join(doc_strings)
-            prompt += "\n</documents>"
+            for c in context:
+                prompt += f' <document id="{c["chunk_id"]}">\n'
+                prompt += "  <metadata>\n"
+                prompt += f'   <title>{c["metadata"]["title"]}</title>\n'
+                prompt += f'   <authors>{",".join(c["metadata"]["authors"])}</authors>\n'
+                prompt += f'   <year>{c["metadata"]["year"]}</year>\n'
+                prompt += "  </metadata>\n"
+                prompt += f'  <content>{c["chunk_text"]}</content>\n'
+                prompt += " </document>\n"
+            prompt += "</documents>"
         return prompt

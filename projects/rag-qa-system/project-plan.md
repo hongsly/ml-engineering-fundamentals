@@ -177,16 +177,35 @@ ArXiv Papers (PDF) → Chunking (500 tokens, 50 overlap)
 
 **Key Decision**: Used gpt-4o-mini ($0.15 input / $0.60 output) instead of gpt-3.5-turbo - 3× cheaper + better quality
 
-**Day 4 (Thu, Nov 27, Week 5 Day 3) - 3 hours**
-- [ ] `evaluation/evaluate_retrieval.py`: Calculate Recall@K, MRR, NDCG
-- [ ] `evaluation/evaluate_rag.py`: Ragas integration
-  - Context precision, context recall, faithfulness, answer relevance
-- [ ] `evaluation/error_analysis.py`: Categorize failures
-- [ ] `evaluation/cost_analysis.py`: Track API costs
-- [ ] Run full evaluation, generate reports
-- [ ] Commit: "Add Ragas evaluation and error analysis"
+**Day 4 (Thu, Nov 27, Week 5 Day 3) - 1 hour** ✅ **PLANNING & COST ANALYSIS**
+- [x] Add ArXiv metadata to chunks (title, authors, year, URL) - 30 min
+- [x] Regenerate chunks with metadata (`scripts/build_index.py`)
+- [x] Researched Ragas 0.3.9 API (`generate_with_langchain_docs`, gpt-4o-mini setup)
+- [x] Investigated Ollama support (not reliable - missing `agenerate_prompt`)
+- [x] **Critical discovery**: Ragas cost explosion ($10-15 for 1500 chunks)
+  - Test run: 200 chunks → 200K tokens → $0.70 (SummaryExtractor phase only)
+  - Extrapolated: 1500 chunks × 2-3 phases = $10-15 total
+- [x] **Solution**: Sampling strategy (250 chunks, 7-8 per paper → $1.25 total)
+- [x] Analyzed manual vs Ragas test format differences
+- [x] Discussed ground truth requirements for metrics
+- [x] **Daily knowledge check**: 94% (A) - Excellent overdue item retention
+- [ ] Implementation deferred to Day 5 (evaluation code, run metrics)
 
-**Day 5 (Fri, Nov 28, Week 5 Day 4) - 3 hours**
+**Key Decision**: Sample 250 representative chunks instead of all 1500 → 8× cost savings ($1.25 vs $10-15)
+
+**Day 5 (Fri, Nov 28, Week 5 Day 4) - 3 hours** - **EVALUATION IMPLEMENTATION** (moved from Day 4)
+- [ ] Implement sampling: `sample_chunks_by_paper()` (250 chunks, 7-8 per paper) - 15 min
+- [ ] Generate 20 Ragas questions from sampled chunks - 30 min (~$0.85)
+- [ ] Create `evaluation/evaluate_rag.py`: Ragas metrics (context precision, recall, faithfulness, answer relevance) - 45 min
+- [ ] Create `evaluation/evaluate_retrieval.py`: Recall@K, MRR, NDCG - 30 min
+- [ ] Run full evaluation on 30 questions (10 manual + 20 Ragas) - 30 min (~$0.40)
+- [ ] Create `evaluation/error_analysis.py`: Categorize failures - 15 min
+- [ ] Generate evaluation reports and summary
+- [ ] Commit: "Add comprehensive Ragas evaluation with sampling"
+
+**Total cost**: ~$1.25 (generation + evaluation)
+
+**Day 6 (Sat, Nov 29, Week 5 Day 5) - 3 hours** - **DEPLOYMENT & DOCUMENTATION** (moved from Day 5)
 - [ ] `Dockerfile`: Containerize application
 - [ ] `docker-compose.yml`: Multi-service setup (optional)
 - [ ] `app.py`: Streamlit UI with citations

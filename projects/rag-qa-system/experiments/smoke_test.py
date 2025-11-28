@@ -34,8 +34,7 @@ def main():
         q
         for q in all_questions
         if q["id"]
-        # in ["factual_1", "reasoning_1", "reasoning_2", "multihop_1", "negative_1"]
-        in ["negative_1"]
+        in ["factual_1", "reasoning_1", "reasoning_2", "multihop_1", "negative_1"]
     ]
 
     # Test all 4 modes: hybrid, dense, sparse, none

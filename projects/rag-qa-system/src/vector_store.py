@@ -1,10 +1,9 @@
-import json
 from pathlib import Path
 
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from src.utils import Chunk
+from src.utils import Chunk, load_chunks_from_jsonl
 
 
 class VectorStore:
@@ -27,14 +26,15 @@ class VectorStore:
         self.chunks.extend(chunks)
 
     def load(self, index_path: Path, chunks_path: Path):
+        """Load the index and chunks from the given paths."""
         print(f"Loading index from {index_path}...", end=" ")
         self.index = faiss.read_index(str(index_path))
         print("done")
-        with open(chunks_path, "r") as f:
-            self.chunks = [Chunk(**json.loads(line)) for line in f]
-            print(f"Loaded {len(self.chunks)} chunks from {chunks_path}")
+        self.chunks = load_chunks_from_jsonl(chunks_path)
+        print(f"Loaded {len(self.chunks)} chunks from {chunks_path}")
 
     def save(self, path: Path):
+        """Save the index to the given path."""
         if self.index is None:
             raise ValueError("Index not created")
         faiss.write_index(self.index, str(path))

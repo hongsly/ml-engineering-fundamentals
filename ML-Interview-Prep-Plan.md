@@ -1222,18 +1222,30 @@ This is where you need the most practice:
 - [X] Issue discovered: Negative question handling (retrieval contamination)
 - [X] **Daily knowledge check**: 97% (A+) - Outstanding log investigation, root cause analysis
 
-**Day 3 (Thu, Nov 27) - Ragas Evaluation (3 hours)**:
-- [ ] Create test question set (10 questions: factual, reasoning, multi-hop, negative)
-- [ ] Run Ragas metrics: context precision, context recall, faithfulness, answer relevance
-- [ ] Optimize prompts if scores <0.80 (prompt optimization integrated here)
-- [ ] Compare Dense vs Hybrid retrieval on evaluation metrics
+**Day 3 (Thu, Nov 27) - Planning & Cost Analysis (1 hour)**: ✅ **COMPLETE**
+- [X] Add ArXiv metadata to chunks (title, authors, year, URL)
+- [X] Research Ragas 0.3.9 API (generate_with_langchain_docs, Ollama investigation)
+- [X] **Critical discovery**: Ragas cost explosion ($10-15 for 1500 chunks vs expected $0.13)
+- [X] Design sampling strategy (250 chunks, 7-8 per paper → $1.25 total cost)
+- [X] Analyze manual vs Ragas test format differences
+- [X] Clarify ground truth requirements for metrics (Context Recall needs it, Context Precision better with it)
+- [X] **Daily knowledge check**: 94% (A) - Excellent overdue item retention, caught error on Context Precision
 
-**Day 4 (Fri, Nov 28) - Docker + Streamlit (2 hours)**:
+**Day 4 (Fri, Nov 28) - Ragas Evaluation (3 hours)**: (moved from Day 3)
+- [ ] Implement sampling strategy (250 chunks from 32 papers)
+- [ ] Generate 20 Ragas questions from sampled chunks (~$0.85)
+- [ ] Run Ragas metrics on 30 questions (10 manual + 20 Ragas): context precision, recall, faithfulness, answer relevance (~$0.40)
+- [ ] Calculate retrieval metrics: Recall@K, MRR, NDCG
+- [ ] Optimize prompts if scores <0.80 (prompt optimization integrated here)
+- [ ] Compare Dense vs Hybrid vs No-RAG
+- [ ] Error analysis and reporting
+
+**Day 5 (Sat, Nov 29) - Docker + Streamlit (2 hours)**: (moved from Day 4)
 - [ ] Create Streamlit UI for Q&A interface
 - [ ] Add Docker containerization
 - [ ] Test locally with docker-compose
 
-**Day 5 (Sat, Nov 29) - Deploy + Polish (2 hours)**:
+**Day 6 (Sun, Nov 30) - Deploy + Polish (2 hours)**: (moved from Day 5)
 - [ ] Deploy to Streamlit Cloud
 - [ ] Write comprehensive README with architecture, results, evaluation metrics
 - [ ] Add interview talking points document

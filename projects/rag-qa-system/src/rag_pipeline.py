@@ -2,12 +2,14 @@ import os
 from pathlib import Path
 from typing import Literal
 
-from dotenv import load_dotenv
 from src.generator import Generator
 from src.hybrid_search import HybridRetriever
+from src.utils import get_openai_api_key
 
 PROJECT_ROOT = Path(__file__).parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 class RagAssistant:
@@ -17,13 +19,7 @@ class RagAssistant:
         retrieval_mode: Literal["hybrid", "dense", "sparse", "none"] = "hybrid",
         top_k: int = 5,
     ):
-        load_dotenv()
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise ValueError(
-                "OPENAI_API_KEY not found!",
-                "Create a .env file with: OPENAI_API_KEY=<your_api_key>",
-            )
+        api_key = get_openai_api_key()
         self.generator = Generator(api_key)
         self.model = model
 
@@ -45,5 +41,7 @@ class RagAssistant:
                 context = self.retriever.search_dense(query, self.top_k)
             case "sparse":
                 context = self.retriever.search_sparse(query, self.top_k)
-        answer = self.generator.generate(query, context, model=self.model)
+        answer = self.generator.generate(
+            query, context, model=self.model, retrieval_mode=self.retrieval_mode
+        )
         return answer
