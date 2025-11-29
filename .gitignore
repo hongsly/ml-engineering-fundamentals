@@ -17,7 +17,7 @@ references/Matrix calculus rules.gdoc
 references/ML courses_learnmachinelearning.html
 
 # Research papers (large files)
-references/*.pdf
+*.pdf
 
 # Temporary setup file
 PUBLIC-REPO-SETUP.md
@@ -28,7 +28,7 @@ TOKEN
 
 # System files
 .DS_Store
-Icon
+Icon*
 **/Icon
 **/venv/
 **/__pycache__/
@@ -38,5 +38,5 @@ Icon
 .ipynb_checkpoints/
 **/.ipynb_checkpoints/
 
-data/
+/data/
 Daily-Knowledge-Check-Details.md

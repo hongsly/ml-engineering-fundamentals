@@ -1,0 +1,60 @@
+[
+    {
+      "id": "factual_1",
+      "question": "What is Retrieval-Augmented Generation?",
+      "type": "factual",
+      "expected_sources": ["Lewis et al., 2020"],
+      "notes": "Should cite the original RAG paper"
+    },
+    {
+      "id": "factual_2",
+      "question": "Who proposed the FiD (Fusion-in-Decoder) architecture?",
+      "type": "factual",
+      "expected_sources": ["Izacard et al."]
+    },
+    {
+      "id": "factual_3",
+      "question": "What does RAFT stand for?",
+      "type": "factual",
+      "expected_sources": ["Zhang et al., 2024"]
+    },
+    {
+      "id": "reasoning_1",
+      "question": "Why does hybrid retrieval (dense + sparse) outperform either approach alone?",
+      "type": "reasoning",
+      "notes": "Should explain complementary strengths"
+    },
+    {
+      "id": "reasoning_2",
+      "question": "How does ColBERT differ from traditional dense retrieval?",
+      "type": "reasoning"
+    },
+    {
+      "id": "reasoning_3",
+      "question": "What are the trade-offs between long-context LLMs and RAG systems?",
+      "type": "reasoning"
+    },
+    {
+      "id": "multihop_1",
+      "question": "How do GraphRAG and FiD differ in their approach to multi-document reasoning?",
+      "type": "multi_hop",
+      "notes": "Requires understanding both papers"
+    },
+    {
+      "id": "multihop_2",
+      "question": "What evaluation metrics are recommended for both retrieval and generation in RAG?",
+      "type": "multi_hop"
+    },
+    {
+      "id": "negative_1",
+      "question": "How to bake bread?",
+      "type": "negative",
+      "notes": "Not in corpus - should refuse or say unknown"
+    },
+    {
+      "id": "negative_2",
+      "question": "How do you train a neural network from scratch?",
+      "type": "negative",
+      "notes": "General ML, not RAG-specific"
+    }
+  ]
