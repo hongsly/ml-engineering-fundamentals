@@ -1,3 +1,4 @@
+import ollama
 from openai import OpenAI, OpenAIError
 from src.utils import Chunk
 
@@ -17,26 +18,52 @@ SYSTEM_PROMPT_WITHOUT_CONTEXT = (
 
 
 class Generator:
-    def __init__(self, api_key: str):
-        self.client = OpenAI(api_key=api_key)
+    def __init__(self, api_key: str | None = None):
+        self.client = OpenAI(api_key=api_key) if api_key else None
 
     def generate(
-        self, query: str, context: list[Chunk] | None = None, model: str = "gpt-4o-mini", retrieval_mode: str = "none"
+        self,
+        query: str,
+        context: list[Chunk] | None = None,
+        model: str = "gpt-4o-mini",
+        retrieval_mode: str = "none",
     ) -> str:
         instructions = (
             SYSTEM_PROMPT_WITH_CONTEXT if context else SYSTEM_PROMPT_WITHOUT_CONTEXT
         )
+        prompt = self._get_prompt(query, context)
+        if model.startswith("gpt-") and self.client is not None:
+            return self._get_openai_response(
+                instructions, prompt, model, retrieval_mode
+            )
+        else:
+            return self._get_ollama_response(instructions, prompt, model)
+
+    def _get_openai_response(
+        self, system_prompt: str, prompt: str, model: str, retrieval_mode: str
+    ):
         try:
             response = self.client.responses.create(
                 model=model,
-                input=self._get_prompt(query, context),
-                instructions=instructions,
-                metadata={"retrieval_mode": retrieval_mode}
+                input=prompt,
+                instructions=system_prompt,
+                metadata={"retrieval_mode": retrieval_mode},
             )
-            # print(f"Tokens used: {response.usage}")
             return response.output_text
         except OpenAIError as e:
             raise RuntimeError(f"OpenAI API error: {e}")
+
+    def _get_ollama_response(self, system_prompt: str, prompt: str, model: str):
+        try:
+            response = ollama.generate(
+                model=model,
+                prompt=prompt,
+                system=system_prompt,
+                options={"num_ctx": 8192},
+            )
+            return response.response
+        except Exception as e:
+            raise RuntimeError(f"Ollama API error: {e}")
 
     def _get_prompt(self, query: str, context: list[Chunk] | None = None):
         prompt = f"<question>{query}</question>"
@@ -46,7 +73,9 @@ class Generator:
                 prompt += f' <document id="{c["chunk_id"]}">\n'
                 prompt += "  <metadata>\n"
                 prompt += f'   <title>{c["metadata"]["title"]}</title>\n'
-                prompt += f'   <authors>{",".join(c["metadata"]["authors"])}</authors>\n'
+                prompt += (
+                    f'   <authors>{",".join(c["metadata"]["authors"])}</authors>\n'
+                )
                 prompt += f'   <year>{c["metadata"]["year"]}</year>\n'
                 prompt += "  </metadata>\n"
                 prompt += f'  <content>{c["chunk_text"]}</content>\n'

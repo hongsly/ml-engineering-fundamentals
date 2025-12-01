@@ -1,21 +1,48 @@
-import random
-from collections import defaultdict
+import re
 
+from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 from langchain_ollama import ChatOllama, OllamaEmbeddings
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.llms import LangchainLLMWrapper
 from ragas.testset import TestsetGenerator
-from src.utils import EVAL_DATA_DIR, Chunk, get_openai_api_key, load_chunks_from_jsonl
+from src.utils import EVAL_DATA_DIR, RAW_DATA_DIR, get_openai_api_key
 
 
-def _convert_chunk_to_doc(chunk: Chunk) -> Document:
-    return Document(
-        page_content=chunk["chunk_text"],
-        id=chunk["chunk_id"],
-        metadata={**chunk["metadata"]},
+def load_and_clean_pdf(pdf_path):
+    loader = PyMuPDFLoader(pdf_path, mode="single")
+    full_text = loader.load()[0].page_content
+
+    # Remove references section
+    # NOTE: simple heuristic. Currently discards the appendix section after references
+    # Pattern: ^References$ or ^Bibliography$ (case insensitive, multiline)
+    ref_header_pattern = r"^\s*(?:\d+\.?\s*)?(References|Bibliography)\s*$"
+    ref_match = re.search(
+        ref_header_pattern, full_text, flags=re.IGNORECASE | re.MULTILINE
     )
+
+    if ref_match:
+        start_idx = ref_match.start()
+
+        # Chop everything after it
+        cleaned_text = full_text[:start_idx]
+
+        reference_start = (
+            full_text[start_idx : start_idx + 50].replace("\n", " ").strip()
+        )
+        print(f"✂️  Chopped references from {pdf_path.name}")
+        print("reference start: ", reference_start)
+    else:
+        cleaned_text = full_text
+        print(f"⚠️  No references found in {pdf_path.name}")
+
+    return Document(page_content=cleaned_text, metadata={"source": pdf_path})
+
+
+def load_pdfs() -> list[Document]:
+    pdf_paths = list(RAW_DATA_DIR.glob("*.pdf"))
+    return [load_and_clean_pdf(pdf_path) for pdf_path in pdf_paths]
 
 
 def _get_openai_generator(model: str = "gpt-4o-mini") -> TestsetGenerator:
@@ -28,7 +55,11 @@ def _get_openai_generator(model: str = "gpt-4o-mini") -> TestsetGenerator:
 def _get_ollama_generator(model: str = "qwen2.5-coder:7b") -> TestsetGenerator:
     ollama_llm = LangchainLLMWrapper(
         ChatOllama(
-            model=model, reasoning=False, temperature=0.0, num_ctx=8192, keep_alive="5m"
+            model=model,
+            reasoning=False,
+            temperature=0.0,
+            num_ctx=64000,
+            keep_alive="5m",
         )
     )
     ollama_embeddings = LangchainEmbeddingsWrapper(
@@ -38,31 +69,17 @@ def _get_ollama_generator(model: str = "qwen2.5-coder:7b") -> TestsetGenerator:
     return generator
 
 
-def _sample_chunks(chunks: list[Chunk]) -> list[Chunk]:
-    chunks_by_paper = defaultdict(list)
-    for chunk in chunks:
-        chunks_by_paper[chunk["metadata"]["arxiv_id"]].append(chunk)
-    sampled_chunks = []
-    for paper_id, paper_chunks in chunks_by_paper.items():
-        sampled_chunks.append(paper_chunks[0])
-        num_to_sample = len(paper_chunks) // 6
-        sampled_chunks.extend(random.sample(paper_chunks[1:], num_to_sample))
-    return sampled_chunks
-
-
 def generate_testset():
     """Generate a testset of 40 questions from the chunks."""
-    chunks = load_chunks_from_jsonl()
-    print(f"Loaded {len(chunks)} chunks")
-    sampled_chunks = _sample_chunks(chunks)
-    print(f"Sampled {len(sampled_chunks)} chunks")
 
-    documents = [_convert_chunk_to_doc(chunk) for chunk in sampled_chunks][:5]
+    # filter out documents that are too long -- potentially over Ollama context window
+    documents = [d for d in load_pdfs() if len(d.page_content) < 80000]
+    print(f"Loaded {len(documents)} documents")
 
     generator = _get_ollama_generator()
 
     dataset = generator.generate_with_langchain_docs(
-        documents, testset_size=5, with_debugging_logs=True, raise_exceptions=False
+        documents, testset_size=40, with_debugging_logs=True, raise_exceptions=False
     )
     output_path = EVAL_DATA_DIR / "ragas_testset.jsonl"
     dataset.to_jsonl(str(output_path))

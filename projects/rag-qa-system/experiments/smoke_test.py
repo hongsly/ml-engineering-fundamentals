@@ -22,6 +22,9 @@ def load_test_questions():
 
 
 def main():
+    model = "qwen2.5-coder:7b"
+    # model = "gpt-4o-mini"
+
     print("=" * 80)
     print("RAG PIPELINE SMOKE TEST")
     print("=" * 80)
@@ -36,6 +39,7 @@ def main():
         if q["id"]
         in ["factual_1", "reasoning_1", "reasoning_2", "multihop_1", "negative_1"]
     ]
+    assistant = RagAssistant()
 
     # Test all 4 modes: hybrid, dense, sparse, none
     modes = ["hybrid", "dense", "sparse", "none"]
@@ -45,7 +49,6 @@ def main():
         print(f"MODE: {mode.upper()}")
         print(f"{'='*80}\n")
 
-        assistant = RagAssistant(model="gpt-4o-mini", retrieval_mode=mode, top_k=5)
 
         for q in test_questions:
             print(f"{'='*80}\n")
@@ -55,7 +58,7 @@ def main():
             print("-" * 80)
 
             try:
-                answer, _context = assistant.query(q["question"])
+                answer, _context = assistant.query(q["question"], model=model, retrieval_mode=mode)
                 print(f"[Answer] {answer}\n")
             except Exception as e:
                 print(f"[ERROR] {e}\n")

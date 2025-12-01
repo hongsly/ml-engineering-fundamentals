@@ -4,9 +4,9 @@ from src.utils import Chunk
 from typing import Callable
 
 try:
-    nltk.data.find("tokenizers/punkt")
+    nltk.data.find("tokenizers/punkt_tab")
 except LookupError:
-    nltk.download("punkt", quiet=True)
+    nltk.download("punkt_tab", quiet=True)
 
 
 def nltk_tokenizer(text: str) -> list[str]:
@@ -24,8 +24,8 @@ class BM25Retriever:
         """Load chunks into BM25 index."""
         self.chunks = chunks
         chunk_texts = [chunk["chunk_text"] for chunk in chunks]
-        # print(f"Chunk texts: {chunk_texts}")
-        self.bm25 = BM25Okapi(chunk_texts, tokenizer=self.tokenizer)
+        tokenized_chunks = [self.tokenizer(chunk) for chunk in chunk_texts]
+        self.bm25 = BM25Okapi(tokenized_chunks)
 
     def search(self, query: str, k: int = 5) -> list[Chunk]:
         """Search for top k chunks using BM25."""

@@ -7,8 +7,10 @@ import tiktoken
 from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).parent.parent
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 EVAL_DATA_DIR = PROJECT_ROOT / "data" / "eval"
+EVAL_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "eval_results"
 FAISS_INDEX_PATH = PROCESSED_DATA_DIR / "rag_index.faiss"
 CHUNKS_JSONL_PATH = PROCESSED_DATA_DIR / "chunks.jsonl"
 
@@ -74,3 +76,4 @@ def get_openai_api_key() -> str:
             "OPENAI_API_KEY not found!",
             "Create a .env file with: OPENAI_API_KEY=<your_api_key>",
         )
+    return api_key

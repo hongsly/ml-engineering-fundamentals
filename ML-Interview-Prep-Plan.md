@@ -1194,11 +1194,6 @@ This is where you need the most practice:
 - 📝 Reference sheet: Comprehensive technical documentation
 - 🎯 Progress: Week 5 Day 1 complete, ready for Day 2 (BM25 + RRF fusion)
 
-**Next Steps (Day 2)**:
-- [ ] Add BM25 sparse retrieval (rank-bm25)
-- [ ] Implement RRF fusion (combine dense + sparse)
-- [ ] Compare retrieval quality: dense-only vs hybrid
-
 ---
 
 ### Week 5 (Nov 25-Dec 1)
@@ -1239,7 +1234,7 @@ This is where you need the most practice:
 - [X] Create evaluate_retrieval.py: Recall@5, MRR, NDCG
 - [X] Run retrieval evaluation on 41 questions (3 modes: sparse, dense, hybrid)
 - [X] **Critical insight**: incomplete ground truth (metrics are lower bounds)
-- [ ] RAG evaluation deferred to Day 5 (use LLM-based context_recall)
+- RAG evaluation deferred to Day 5 (use LLM-based context_recall)
 
 **Day 5 (Sat, Nov 29) - RAG Evaluation & Error Analysis (5 hours)**: ✅ **COMPLETE**
 - [X] Run RAG evaluation on 10 manual + 41 Ragas questions (4 modes)
@@ -1251,17 +1246,17 @@ This is where you need the most practice:
   - Key finding: Dense 29.6% retrieval failures vs Sparse 10.7% (3× worse!)
   - SPARSE success rate: 57.1% (best), HYBRID: 46.4%, DENSE: 25.9%
 - [X] **Decision**: Default to SPARSE (best performance), keep HYBRID as option
-- [ ] Streamlit UI (deferred to Day 6)
-- [ ] Docker deployment (deferred to Day 6)
-- [ ] Write comprehensive README (architecture, results, error analysis, technical decisions)
 
-**Day 6 (Sun, Nov 30) - Deploy + Polish (2 hours)**:
-- [ ] Add Docker containerization
-- [ ] Test locally with docker-compose
-- [ ] Deploy to Streamlit Cloud or GitHub (static demo)
-- [ ] Polish documentation (evaluation limitations, future improvements)
-- [ ] Add interview talking points document
-- [ ] GitHub commit with all code and documentation
+**Day 6 (Sun, Nov 30) - Deploy + Polish (6 hours)**: ✅ **COMPLETE**
+- [X] **Testset regeneration**: Fixed root cause (whole documents vs chunks)
+- [X] **RAG evaluation v2**: 42 questions (10 manual + 32 Ragas)
+- [X] **Error analysis v2**: Validated Dense 3.7× worse retrieval failures
+- [X] **Streamlit UI**: Complete with mode selection, top-K config, example questions
+- [X] **Docker containerization**: Dockerfile + docker-compose.yml
+- [X] **Comprehensive README.md**: Architecture, results, technical decisions
+- [X] **File structure**: Created outputs/eval_results/ for clean separation
+- [ ] Push to GitHub (deferred - will create separate portfolio repo)
+- [ ] Streamlit Cloud deployment (optional)
 
 **Phase 2 Deliverable**:
 - ✅ Production-quality RAG system on GitHub
@@ -1283,24 +1278,24 @@ This is where you need the most practice:
 
 ### Week 6: LeetCode Assessment + Neural Network Start (8-10 hours)
 
-**Mon-Tue: LeetCode Assessment (2.5-3 hours)**:
-- [ ] **Monday** (1.5 hrs): 3 Medium problems (arrays, hashmaps, two pointers)
-- [ ] **Tuesday** (1-1.5 hrs): 2 Medium problems (trees/graphs, DP or recursion)
+**Day 1-2: LeetCode Assessment (2.5-3 hours)**:
+- [ ] **Day 1** (1.5 hrs): 3 Medium problems (arrays, hashmaps, two pointers)
+- [ ] **Day 2** (1-1.5 hrs): 2 Medium problems (trees/graphs, DP or recursion)
 - [ ] **Goal**: Assess current proficiency - if 7+/10 solved in <30 min, skills retained
 - [ ] **Outcome**: Determine if intensive LeetCode prep needed or light ongoing practice sufficient
 
-**Wed-Fri: Neural Network Implementation Part 1 (5.5-7 hours)**:
-- [ ] **Wednesday** (2 hrs): Forward pass
+**Day 3-5: Neural Network Implementation Part 1 (5.5-7 hours)**:
+- [ ] **Day 3** (2 hrs): Forward pass
   - Matrix multiplication for fully-connected layers
   - Activation functions (ReLU, sigmoid, softmax)
   - Loss calculation (cross-entropy)
   - Test on toy data (XOR or synthetic)
-- [ ] **Thursday** (2.5 hrs): Backpropagation
+- [ ] **Day 4** (2.5 hrs): Backpropagation
   - Gradient calculations for each layer (∂L/∂W, ∂L/∂b)
   - Chain rule implementation
   - Numerical gradient check for correctness
   - Validate gradients match numerical approximation
-- [ ] **Friday** (1.5-2 hrs): Basic training loop
+- [ ] **Day 5** (1.5-2 hrs): Basic training loop
   - SGD optimizer implementation
   - Batch processing
   - Train on simple dataset (XOR or small synthetic)
