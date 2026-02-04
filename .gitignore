@@ -6,6 +6,11 @@ resume/
 Behavioral-Questions.md
 CLAUDE.md
 
+notebooks/anthropic_prep/
+scripts/
+data/
+Daily-Knowledge-Check-Details.md
+
 # Personal assessments and job search
 gap_analysis/MLJobSearch2025-README.md
 gap_analysis/Day6-Gap-Analysis.md
@@ -32,12 +37,8 @@ Icon*
 **/Icon
 **/venv/
 **/__pycache__/
+**/.DS_Store
+.DS_Store
 .env
-
-# Jupyter checkpoints
-.ipynb_checkpoints/
-**/.ipynb_checkpoints/
-
-/data/
-/scripts/
-Daily-Knowledge-Check-Details.md
+Icon*
+notebooks/.ipynb_checkpoints/
