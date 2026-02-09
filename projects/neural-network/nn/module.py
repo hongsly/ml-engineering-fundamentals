@@ -7,9 +7,9 @@ class Module:
     Mimic PyTorch's nn.Module pattern.
     """
 
-    def __init__(self):
-        self.parameters = {}
-        self.gradients = {}
+    def __init__(self) -> None:
+        self.parameters: dict[str, np.ndarray] = {}
+        self.gradients: dict[str, np.ndarray] = {}
 
     def forward(self, *args) -> np.ndarray | float:
         """Compute the forward pass of the module. Must be implemented by the subclass."""

@@ -2,9 +2,31 @@ import numpy as np
 from nn.module import Module
 
 
+class SoftmaxCrossEntropyLoss(Module):
+    # cross-entropy loss on logits output
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, logits: np.ndarray, y_true: np.ndarray) -> float:
+        # logits: (batch_size, num_classes)
+        # y_true: (batch_size, num_classes)
+        epsilon = 1e-8
+        self.y_true = y_true
+        batch_size = logits.shape[0]
+        max_logits = np.max(logits, axis=1, keepdims=True)
+        adjusted_logits = logits - max_logits
+        self.logits = adjusted_logits
+        return -np.sum(y_true * (adjusted_logits - np.log(epsilon + np.sum(np.exp(adjusted_logits), axis=1, keepdims=True)))) / batch_size
+
+    def backward(self, grad: float = 1.0) -> np.ndarray:
+        batch_size = self.logits.shape[0]
+        softmax = np.exp(self.logits) / np.sum(np.exp(self.logits), axis=1, keepdims=True)
+        return (softmax - self.y_true) * grad / batch_size
+
+
 class CrossEntropyLoss(Module):
-    # Cros-entropy loss on softmax output
-    # TODO: implement combined SoftmaxCrossEntropyLoss on logits output
+    # Cross-entropy loss on softmax output
 
     def __init__(self):
         super().__init__()

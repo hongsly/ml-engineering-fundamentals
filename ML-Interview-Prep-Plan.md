@@ -1297,27 +1297,183 @@ This is where you need the most practice:
 - [x] **Day 2** (2.5 hrs): Forward pass + initialization ✅ COMPLETE (2025-12-02)
   - Implemented PyTorch-like Module base class with flexible signatures
   - Xavier/He initialization (plain functions, not modules)
-  - Linear layer with forward pass (y = x @ W + b)
-  - Activation functions (ReLU, Sigmoid, Softmax) - forward + backward
+  - Linear layer with forward pass (y = x @ W + b) + backward (already done!)
+  - Activation functions (ReLU, Sigmoid, Softmax) - forward + backward (already done!)
   - Loss calculation (CrossEntropyLoss, MSELoss) with epsilon and batch normalization
   - **Design decisions**: Losses as Modules (PyTorch pattern), flexible `*args` signatures
   - **Reference created**: `references/Week6-Day2-NN-Day1-Reference.md`
-- [ ] **Day 3** (3 hrs): Backpropagation + numerical gradient checking
-  - Implement Linear.backward() with gradient derivations (∂L/∂W, ∂L/∂b, ∂L/∂x)
-  - Activation backward passes (ReLU, Sigmoid)
-  - Loss backward passes (CrossEntropyLoss with combined softmax-CE)
-  - **Numerical gradient checking** ⭐ (THE critical verification)
-    - Implement `numerical_gradient()` with finite differences
-    - Test on 2-layer toy network
-    - Target: Relative error < 1e-7
-  - End-to-end test: Run 10 gradient descent steps, verify loss decreases
-  - **Action item**: Reinforce He/Xavier initialization math (today's weak area)
-- [ ] **Day 4** (2 hrs): Training loop + optimizers
-  - SGD optimizer with momentum
-  - Adam optimizer with bias correction (portfolio differentiator)
-  - Training loop with mini-batches, shuffling, loss tracking
-  - Train on XOR or synthetic data to 95%+ accuracy
-  - Compare SGD vs Adam convergence (simple plot)
+
+**PAUSED: Dec 2, 2025 → Feb 3, 2026** (resuming for learning closure)
+
+- [x] **Day 3** (3 hrs): Vector calculus deep dive + Softmax fix ✅ COMPLETE (2026-02-04)
+  - ✅ Discovered Linear.backward() already implemented on Day 2!
+  - ✅ Fixed Softmax.backward() - Implemented Jacobian formula: `s * (grad - grad_sum)`
+  - ✅ Vector calculus study session:
+    - Softmax Jacobian derivation (`J[i,j] = s_i * (δ_ij - s_j)`)
+    - Understood axis=0 vs axis=1 (parameter vs activation gradients)
+    - Why bias gradient sums over batch (axis=0): parameter shared across samples
+  - ✅ **Study resources identified**:
+    - "Matrix Calculus You Need For Deep Learning" (Parr & Howard) - 2-3 hrs
+    - CS231n backprop notes - 1-2 hrs
+    - 3Blue1Brown NN series Ch 3-4 - 3-4 hrs
+  - ✅ **Reference created**: `projects/neural-network/key-learnings.md`
+- [x] **Day 4** (2 hrs): Numerical gradient checking ✅ COMPLETE (2026-02-05)
+  - ✅ Implemented `numerical_gradient()` in `nn/utils.py` (23 lines, finite differences)
+  - ✅ Created `tests/test_gradient_check.py` (125 lines, comprehensive test suite)
+  - ✅ Test coverage: Linear (W, b, x), ReLU, Sigmoid, Softmax, full network
+  - ✅ All tests use synthetic loss: `sum(output * grad_out)` for intermediate layers
+  - ✅ Quality: 9.5/10 - Professional implementation
+  - ✅ Discussed Sequential container (optional enhancement for cleaner API)
+- [x] **Day 5-6**: Optimizers + training loop ✅ COMPLETE (2026-02-07, 2026-02-09)
+  - ✅ Optimizer base class (PyTorch-style: stores layers, iterates through parameters)
+  - ✅ SGD optimizer implemented (vanilla gradient descent: `param -= lr * grad`)
+  - ✅ Training loop on XOR dataset (4 samples, 2 classes):
+    - Architecture: Linear(2,4,he) → ReLU → Linear(4,2,xavier) → SoftmaxCrossEntropyLoss
+    - SGD results: Loss 0.666 → 0.00093 (5000 epochs, LR=0.1)
+    - 100% accuracy on XOR ✅
+  - ✅ Adam optimizer with bias correction (first + second moment, bias correction)
+  - ✅ Adam results: Loss 0.660 → 0.000032 (35× lower than SGD!, LR=0.01)
+  - ✅ **Key insight**: Adam 5× better at epoch 500 (0.0044 vs 0.0256) despite 10× smaller LR
+  - ✅ **Learnings documented**:
+    - Initialization strategy (He for ReLU, Xavier for softmax output)
+    - Optimizer design patterns (3 options, why store layers is best)
+    - Inference patterns (logits → argmax, no softmax needed for classification)
+  - ✅ **Reference created**: `projects/neural-network/key-learnings.md` (Feb 7 update)
+
+**Neural Network Project Status**: ✅ **CORE COMPLETE** (85-90% done, learning closure achieved)
+- ✅ Forward pass, backward pass, gradient checking
+- ✅ SGD + Adam optimizers
+- ✅ Training loop working on XOR (100% accuracy)
+- ✅ Key learnings documented in `projects/neural-network/key-learnings.md`
+
+** Neural Network Part 2 (4-5 hours) - OPTIONAL** (for portfolio polish):
+- [ ] **Optional**: MNIST training + visualization (2-3 hrs)
+  - Load MNIST dataset
+  - Train full network (2-3 hidden layers)
+  - Generate loss curves and accuracy plots
+  - Decision boundary visualization (if 2D projection)
+  - Achieve >95% accuracy on MNIST
+- [ ] **Optional**: Documentation + polish (2 hrs)
+  - Write comprehensive README:
+    - Architecture diagram
+    - Math formulas (forward pass, backprop equations)
+    - Training results and convergence analysis
+    - Comparison with theoretical backprop derivations
+  - Add code comments and docstrings
+  - GitHub upload with clear usage examples
+
+**Note**: Core learning objectives met. MNIST + documentation optional for portfolio enhancement.
+
+---
+
+## Optional Supplement: Vector Calculus Study (For Deep Understanding)
+
+**When to use**: If you want to deeply understand backpropagation math (Jacobians, gradients, chain rule)
+
+**Time commitment**: 5-8 hours over 1-2 weeks
+
+**Target audience**:
+- Implementing neural networks from scratch
+- Want to understand *why* gradient formulas work, not just *how* to use them
+- Preparing for research-oriented ML roles (less critical for ML Engineer roles)
+
+### Week 1: Foundations (3-4 hours)
+
+**Day 1-2: Core Reading** (2-3 hrs):
+- [ ] **"The Matrix Calculus You Need For Deep Learning"** (2 hrs)
+  - Paper: https://arxiv.org/abs/1802.01528
+  - Authors: Terence Parr (USF) & Jeremy Howard (fast.ai)
+  - Focus: Jacobians, chain rule, backprop for ML
+  - **Why this over textbooks**: ML-specific, practical notation, 25 pages
+- [ ] **CS231n Backprop Notes** (1 hr)
+  - http://cs231n.github.io/optimization-2/
+  - Computational graphs, step-by-step gradient derivations
+  - Visual explanations
+
+**Day 3: Visual Intuition** (1-2 hrs):
+- [ ] **3Blue1Brown Neural Network Series** (Chapters 3-4)
+  - https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+  - Chapter 3: Backpropagation intuition
+  - Chapter 4: Backpropagation calculus
+  - Best for understanding *why* formulas work
+
+### Week 2: Practice & Verification (2-3 hours)
+
+**Day 4-5: Implementation Practice** (2-3 hrs):
+- [ ] Derive all backward passes on paper (don't look at solutions)
+  - Linear layer: ∂L/∂W, ∂L/∂b, ∂L/∂x
+  - Softmax: Full Jacobian derivation
+  - CrossEntropyLoss combined with Softmax
+- [ ] Implement numerical gradient checking
+  - Verify your analytical gradients match numerical (< 1e-7 error)
+  - See `projects/neural-network/key-learnings.md` for implementation outline
+
+**Reference Materials** (bookmark, use as needed):
+- [ ] **The Matrix Cookbook** - Quick formula lookup
+  - https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf
+  - Section 2.4: Derivatives
+- [ ] **Stanford CS224n Gradient Notes** - Chain rule practice
+  - http://web.stanford.edu/class/cs224n/readings/gradient-notes.pdf
+- [ ] **"Mathematics for Machine Learning"** (if going deeper)
+  - https://mml-book.github.io/
+  - Chapter 5: Vector Calculus (~50 pages)
+  - Comprehensive but heavy - read selectively
+
+### Key Concepts to Master
+
+1. **Jacobian matrices** (vector→vector derivatives)
+   - When to use: Softmax, BatchNorm, LayerNorm
+   - Formula: `J[i,j] = ∂y_i/∂x_j`
+   - Backprop: `dx = J^T @ grad`
+
+2. **Gradient vs Jacobian**
+   - Scalar→scalar: Regular derivative
+   - Vector→scalar: Gradient (∇)
+   - Vector→vector: Jacobian (matrix)
+
+3. **Chain rule with matrices**
+   - Forward: `z = f(g(x))`
+   - Backward: `dz/dx = (dz/dg) @ (dg/dx)` (matrix multiply!)
+
+4. **Batch dimension handling**
+   - axis=0 (batch): Sum for parameter gradients (shared across samples)
+   - axis=1 (features): Sum for per-sample operations (Jacobian)
+
+5. **Shape tracking**
+   - Always annotate shapes: `# grad: (batch_size, output_dim)`
+   - Verify shapes match before operations
+
+### Expected Outcomes
+
+After completing this supplement:
+- ✅ Can derive Softmax Jacobian from scratch
+- ✅ Understand why bias gradient sums over axis=0
+- ✅ Can implement numerical gradient checking
+- ✅ Confident explaining backprop math in interviews
+- ✅ Know when element-wise vs matrix derivatives apply
+
+### Interview Impact
+
+**ML Engineer roles**: Nice to have, not critical
+- 70% of candidates can't derive gradients from scratch
+- Demonstrating this puts you in top 30%
+- More important: Can you *implement* and *verify* gradients?
+
+**Research Scientist roles**: Expected
+- Must derive gradients on whiteboard
+- Must explain Jacobians and chain rule
+- Must understand numerical stability implications
+
+### Integration with NN Project
+
+This supplement maps directly to:
+- `projects/neural-network/key-learnings.md` - Detailed derivations
+- Week 6 Day 4: Numerical gradient checking implementation
+- Interview talking points: "I verified my backprop with numerical gradients"
+
+---
+
+# Archive: legacy plan week 7 - 10+
 
 **Ongoing Practice (Weeks 6-12)**:
 - [ ] **Algorithmic coding**: 1-2 problems/week to maintain speed
@@ -1328,29 +1484,10 @@ This is where you need the most practice:
   - Examples: Gradient Descent, Linear Regression Training, Self Attention
   - **Goal**: 15-30 min per problem, validate implementation speed
 
-**Week 6 Checkpoint**: LeetCode proficiency assessed ✅, Neural network 60% complete
 
 ---
 
-### Week 7: Neural Network Completion + ML Coding Drills (8.5-10 hours)
-
-**Mon-Tue: Neural Network Part 2 (4-5 hours)**:
-- [ ] **Monday** (2-3 hrs): MNIST training + visualization
-  - Load MNIST dataset
-  - Train full network (2-3 hidden layers)
-  - Generate loss curves and accuracy plots
-  - Decision boundary visualization (if 2D projection)
-  - Achieve >95% accuracy on MNIST
-- [ ] **Tuesday** (2 hrs): Documentation + polish
-  - Write comprehensive README:
-    - Architecture diagram
-    - Math formulas (forward pass, backprop equations)
-    - Training results and convergence analysis
-    - Comparison with theoretical backprop derivations
-  - Add code comments and docstrings
-  - GitHub upload with clear usage examples
-
-**Deliverable**: ✅ 2nd portfolio project complete (Neural Network from scratch)
+### Week 7: ML Coding Drills 
 
 **Wed-Fri: ML Coding Speed Drills (4-5 hours)**:
 - [ ] **Wednesday** (1.5 hrs): Logistic regression from scratch
@@ -1368,10 +1505,6 @@ This is where you need the most practice:
 **Ongoing Practice**:
 - [ ] **Algorithmic LeetCode**: 1-2 problems/week (NeetCode 150)
 - [ ] **ML Coding**: 1 problem/week (NeetCode ML: https://neetcode.io/practice)
-
-**Week 7 Checkpoint**: 2 portfolio projects complete, speed validated on core algorithms
-
----
 
 ### Week 8: System Design + Mock Interviews (8-10 hours)
 
@@ -1467,11 +1600,7 @@ This is where you need the most practice:
 - [ ] Prioritize by fit: role level (senior), team (ML systems/infrastructure), location
 
 **Resume & Materials (2-3 hours)**:
-- [ ] Tailor resume for each application:
-  - Highlight 2 portfolio projects (RAG + Neural Network)
-  - Emphasize 9.5 years experience (7 years Google production ML + 2.5 years Netflix LLM/RAG)
-  - Quantify impact where possible
-  - Adjust keywords based on job description
+- [ ] Tailor resume for each application
 - [ ] Write company-specific cover letters (optional for some)
 - [ ] Prepare LinkedIn profile with projects and updated skills
 
@@ -1545,57 +1674,6 @@ This is where you need the most practice:
 
 ---
 
-## 📊 Revised Timeline Summary (Updated Day 8 - Week 2 Start)
-
-**Current Status** (End of Week 1 + Day 8):
-- ✅ **Interview Readiness**: 75% (B+)
-- ✅ **Strong Areas**: ML fundamentals (95%), classical ML (90%), deep learning (85%), NLP/transformers (85%)
-- ❌ **Critical Gaps**: LLM systems (0% know, 82% dunno), statistical testing (65%), advanced RAG (30%)
-- 🎯 **Target**: 80-85% readiness for ML Engineer roles by Week 4
-
-**Revised Timeline** (Updated after Week 4 Day 7 completion, Nov 24):
-
-| Week | Focus | Goal | Readiness Target | Status |
-|------|-------|------|------------------|--------|
-| **Week 1** | Algorithm implementations + gap analysis | Validate skills, identify gaps | 75% → Baseline | ✅ Completed |
-| **Week 2** | **5 days LLM systems + 2 days statistics** | Interview-ready in LLM systems (60-70%) | 75% → 78% | ✅ Completed (83% achieved) |
-| **Week 3** | System design + ML infrastructure + statistics | Strengthen system design to 85% | 78% → 82% | ✅ Completed |
-| **Week 4 Day 1-2** | Advanced RAG | Close RAG gap (21% → 55%+) | 82% → 83% | ✅ Completed (99.2% RAG!) |
-| **Week 4 Day 3-4** | Gap reassessment | Measure progress, decide next steps | 83% → **85%** | ✅ **COMPLETED** ⭐ |
-| **Week 4 Day 5-7** | RAG project planning + setup + Day 1 implementation | Start portfolio project 1 | Maintain 85%+ | ✅ **COMPLETED** |
-| **Week 5** | Complete RAG project (hybrid retrieval, generation, evaluation, deploy) | Finish portfolio project 1 | Maintain 85%+ | 🎯 **IN PROGRESS (Day 1 today)** |
-| **Week 6** | LeetCode assessment + Neural Network start | Start portfolio project 2 | Maintain 85%+ | 📅 Planned |
-| **Week 7** | Neural Network completion + ML coding drills | Complete portfolio project 2 | Maintain 85%+ | 📅 Planned |
-| **Week 8** | System design practice + mock interviews | Interview format mastery | 85%+ → 90% | 📅 Planned |
-| **Week 9+** | **Job search + interview loops** | Apply and iterate | **90%+ target** | 🎯 **On track** |
-
-**Key Decisions Made**:
-1. ✅ **Day 8 Topic Coverage Check** revealed 82% dunno in LLM Systems → foundational learning needed
-2. ✅ **Week 2 extended to 5 days** for LLM Systems (was 2 days) - focus on 24 high-impact topics
-3. ✅ **Advanced RAG moved to Week 4** (was Week 2 Day 4-5)
-4. ✅ **Week 3-4 marked subject to adjustment** based on Week 2 progress
-5. ✅ **Gap closure > Projects** - reassessed at Week 4 checkpoint
-6. ✅ **Week 4 Day 3-4 Decision**: Start Projects (Option A) - all critical gaps closed ⭐
-7. ✅ **Week 4 Day 7-Week 5 (Day 28-Nov 24)**: RAG project started - data loading/FAISS complete
-8. ✅ **Phase 2-4 Revamp (Day 29-Nov 25)**: 2 projects + LeetCode + fresh system design problems
-9. ✅ **Prompt engineering integrated**: Zero-shot/few-shot testing in Week 5 Day 2-3 (not separate)
-10. ✅ **Timeline accelerated**: 12 weeks → 8-9 weeks (job search starts Week 9 instead of Week 11)
-
-**Success Metrics**: 
-- **Week 2 (Day 14)**: LLM systems 83% ✅ (exceeded 60-70% target), statistics 81.7% ✅
-- **Week 4 (Day 25)**: **85% readiness** ✅ (exceeded 80-85% target)
-  - LLM Systems: 89.4% ✅
-  - Statistics: 81.7% ✅
-  - Advanced RAG: 99.2% ✅✅
-  - ML Infrastructure: 90.0% ✅
-  - System Design: 86% ✅
-- **Week 4 Day 7 (Day 28)**: RAG Day 1 complete - 1541 chunks indexed, search validated ✅
-- **Week 5 (ongoing)**: Complete RAG project (Days 2-5)
-- **Week 6-8**: 2nd project + interview prep
-- **Week 9+**: **Ready to apply to senior-level ML roles** (2 projects complete) 
-
----
-
 ## Key Milestones & Checkpoints (Revised)
 
 **End of Week 4** (✅ ACHIEVED):
@@ -1606,16 +1684,16 @@ This is where you need the most practice:
 - ✅ Decision made: Start portfolio projects
 
 **End of Week 5** (Target: Dec 1):
-- [ ] Portfolio project 1 complete (RAG Q&A system)
-- [ ] Hybrid retrieval (FAISS + BM25 + RRF)
-- [ ] Automated evaluation (Ragas metrics)
-- [ ] Docker deployment
-- [ ] Comprehensive README and interview talking points
+- [x] Portfolio project 1 complete (RAG Q&A system)
+- [x] Hybrid retrieval (FAISS + BM25 + RRF)
+- [x] Automated evaluation (Ragas metrics)
+- [x] Docker deployment
+- [x] Comprehensive README and interview talking points
 
 **End of Week 6** (Target: Dec 8):
-- [ ] LeetCode proficiency assessed (5 Medium problems)
+- [x] LeetCode proficiency assessed (5 Medium problems)
 - [ ] Neural network 60% complete (forward, backward, basic training)
-- [ ] Know if intensive LeetCode prep needed
+- [x] Know if intensive LeetCode prep needed
 
 **End of Week 7** (Target: Dec 15):
 - [ ] Portfolio project 2 complete (Neural Network from scratch)
@@ -1643,23 +1721,7 @@ This is where you need the most practice:
 
 ---
 
-## Resources Summary (Revised)
-
-### Portfolio Projects:
-1. **RAG Q&A System** - `projects/rag-qa-system/`
-   - 32 ArXiv papers corpus
-   - Hybrid retrieval (FAISS + BM25 + RRF)
-   - Ragas evaluation framework
-   - Reference: `references/day28-rag-implementation.md`
-2. **Neural Network from Scratch** (Week 6-7)
-   - Forward/backward pass implementation
-   - MNIST training and visualization
-   - Demonstrates ML fundamentals depth
-
-### LeetCode Practice:
-- **LeetCode Top Interview Questions**: https://leetcode.com/problem-list/top-interview-questions/
-- **Focus patterns**: Arrays, hashmaps, two pointers, trees/graphs, DFS/BFS, DP
-- **Company-specific**: Use company tags for Google, Meta, Amazon
+# Resources Summary (Revised)
 
 ### Books & Papers:
 - "Machine Learning System Design Interview" by Ali Aminian & Alex Xu
@@ -1692,107 +1754,3 @@ Reference these files throughout your prep:
 3. **`ML-Theory-Questions.md`** - Review theory concepts
 4. **`Behavioral-Questions.md`** - Prepare behavioral responses
 5. **`Project-Ideas.md`** - Detailed project specifications
-
----
-
-## Tips for Success
-
-### Consistency > Intensity
-- Block time on your calendar
-- 1 hour/day is better than 7 hours on Sunday
-- Build a habit, don't rely on motivation
-
-### Projects > Passive Learning
-- Interviewers care about what you've built
-- "Learning by doing" is faster and sticks better
-- Each project teaches you 10x more than watching lectures
-
-### Leverage Your Background
-- Production ML experience is valuable credibility
-- **Continuous ML engagement**: Traditional ML (BERT, neural networks) → Modern AI (LLM/RAG)
-- Emphasize: production ML experience + modern AI stack (LLMs, RAG, evaluation frameworks)
-- Position as: "From ML model development to ML integration, now returning to model development"
-- Hands-on experience across the full ML spectrum
-
-### Interview Strategy
-- Start applying in Week 6-7 (don't wait until "ready")
-- Apply broadly, practice with companies you care less about first
-- Each interview is learning - document and improve
-- Don't get discouraged by rejections - it's a numbers game
-
-### Network
-- Reach out to former colleagues who moved to ML roles
-- LinkedIn outreach to recruiters and hiring managers
-- Attend ML meetups (virtual or in-person)
-- Contribute to open-source ML projects
-
----
-
-## Adjustment Guidelines
-
-**If you're moving faster than planned**:
-- Add more projects (aim for 5-6 total)
-- Go deeper on topics (read papers, implement more algorithms)
-- Start applying earlier (Week 4-5)
-
-**If you're moving slower**:
-- Focus on breadth over depth
-- Prioritize: 3 projects minimum + system design + coding
-- Skip optional items (implementing from scratch, etc.)
-- Extend timeline to 14-16 weeks
-
-**If you get interviews early**:
-- Pause coursework
-- Focus 100% on interview prep for that company
-- Do targeted practice on their interview format
-- Don't decline interviews - treat early ones as practice
-
----
-
-## Progress Tracking
-
-Use this checklist to track your progress:
-
-### Projects:
-- [ ] Project 1: Image Classification
-- [ ] Project 2: Text Classification
-- [ ] Project 3: Structured Data
-- [ ] Project 4: LLM Application
-
-### Interview Skills:
-- [ ] Can design ML systems (5+ practice problems done)
-- [ ] Can implement ML algorithms from scratch (5+ done)
-- [ ] Can answer ML theory questions (reviewed 30+ questions)
-- [ ] Prepared behavioral stories (5+ stories ready)
-
-### Applications:
-- [ ] Resume updated
-- [ ] LinkedIn updated
-- [ ] 20+ applications submitted
-- [ ] 5+ phone screens completed
-- [ ] 3+ onsite/virtual onsites completed
-
----
-
-**Last Updated**: 2025-11-22 (Week 4 Day 3-4 gap reassessment complete)
-**Created for**: Senior SWE → ML Engineer transition
-**Timeline**: 12 weeks (adjustable)
-**Current Status**: 85% interview readiness achieved, ready for senior-level ML Engineer roles ✅
-
----
-
-## Daily Knowledge Check Protocol
-
-**NEW: Starting Day 5** (2025-10-31)
-
-At the end of each study day:
-1. Complete theory/implementation work
-2. **Knowledge Check** (10-15 min):
-   - 70% today's content
-   - 30% previous content (spaced repetition based on forgetting curve)
-3. Create quick reference sheet
-4. Update progress files
-
-**Purpose**: Spaced repetition to maximize retention and identify gaps early
-
-**Details**: See `Daily-Knowledge-Check-Protocol.md`

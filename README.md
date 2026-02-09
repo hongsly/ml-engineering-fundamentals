@@ -15,13 +15,16 @@ A 12-week study plan for ML engineering interview preparation through systematic
 | **Week 3** | PyTorch + ML Infra + System Design | ~18h | 7 days | System design practice, PyTorch from scratch |
 | **Week 4** | Advanced RAG Theory | ~12h | 7 days | 99.2% RAG mastery, paper deep dives |
 | **Week 5** | RAG Project Implementation | ~15h | 6 days | Production RAG system with evaluation & Docker |
+| **Week 6** | Neural Network from Scratch | ~10h | 5 days (paused, resumed Feb 2026) | Forward/backward pass, gradient checking, SGD/Adam optimizers |
 
-**Total Time Investment**: ~72 hours across 34 days
-**Phase 1-2 Complete** (Weeks 1-5): Ready for interviews with portfolio projects
+**Total Time Investment**: ~82 hours across 39 days
+**Phase 1-3 Complete** (Weeks 1-6): Two portfolio projects + interview-ready fundamentals
 
 ## Portfolio Projects
 
 - [**RAG Q&A System**](https://github.com/hongsly/rag-qa-system) - Production-ready hybrid retrieval system with RAGAS evaluation, error analysis, and Docker deployment. Key finding: Dense embeddings underperform on small technical corpus (3.7× worse retrieval failures vs sparse).
+
+- **Neural Network from Scratch** (`projects/neural-network/`) - PyTorch-style NN framework in pure NumPy with verified backpropagation, gradient checking (rel. error < 1e-7), SGD/Adam optimizers. Key insight: Adam converges 35× better than SGD on XOR (loss 0.000032 vs 0.00093) despite 10× smaller learning rate.
 
 ## Strengths
 
@@ -102,12 +105,3 @@ A 12-week study plan for ML engineering interview preparation through systematic
 - **RAFT**: Adapting Language Model to Domain Specific RAG (Zhang et al., 2024) - *Skimmed*
 - **FiD**: Fusion-in-Decoder (Izacard & Grave, 2020)
 - **GraphRAG**: Graph-based Retrieval Augmented Generation (Edge et al., 2024) - *Skimmed*
-
----
-
-## Current Status
-
-**Timeline**: 12 weeks (2-3 hours/day, 5-10 hours/week)
-**Status**: Week 6 of 12 (Phase 1-2 complete, entering Phase 3)
-**Created**: November 2025
-**Last Updated**: December 2025

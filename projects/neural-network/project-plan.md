@@ -86,54 +86,75 @@ references/
 
 ---
 
-### Day 2 (Week 6 Day 3, Dec 3) - 3 hours
+## Project Resumed: Feb 4, 2026
 
-**Goal**: Implement backpropagation with numerical gradient verification (THE MOST CRITICAL DAY)
+**Context**:
+- Paused Dec 2, 2025 (Day 1 complete, 60% done)
+- Resuming for learning closure, not portfolio need
+- Discovered Linear.backward() was already implemented on Day 1 ✅
+- Fixed Softmax backward implementation (Feb 3)
+
+**Current Status**:
+- ✅ Linear.backward() - Already done (layers.py:27-31)
+- ✅ ReLU.backward() - Already done (activations.py:14-16)
+- ✅ Sigmoid.backward() - Already done (activations.py:27-28)
+- ✅ Softmax.forward() - Fixed to save self.output (activations.py:39)
+- ✅ Softmax.backward() - Implemented Jacobian formula (activations.py:42-48)
+- ✅ Vector calculus deep dive - Documented in key-learnings.md
+
+**Key Learnings** (Feb 3):
+- Softmax Jacobian: `J[i,j] = s_i * (δ_ij - s_j)` → backward: `s * (grad - grad_sum)`
+- Bias gradient: Sum over batch (axis=0) because parameter is shared
+- Activation gradient: Sum over features (axis=1) for per-sample Jacobian
+- See `key-learnings.md` for detailed derivations and study resources
+
+---
+
+### Day 2 (Resumed Feb 4, 2026) - 3 hours
+
+**Goal**: Numerical gradient verification + vector calculus mastery
 
 **Tasks**:
-1. **Linear Layer Backward** (45 min)
-   - Derive gradients on paper first:
-     - `∂L/∂W = ∂L/∂y @ x.T` (batch dimension handling)
-     - `∂L/∂b = sum(∂L/∂y, axis=0)` (sum over batch)
-     - `∂L/∂x = ∂L/∂y @ W` (chain rule to previous layer)
-   - Implement `Linear.backward(grad_output)` method
-   - Return `grad_input` for chain rule, store `grad_W` and `grad_b` internally
+1. **Linear Layer Backward** ✅ ALREADY DONE (Dec 2)
+   - Gradients implemented correctly:
+     - `∂L/∂W = x.T @ grad` (batch dimension handled in matmul)
+     - `∂L/∂b = sum(grad, axis=0)` (sum over batch)
+     - `∂L/∂x = grad @ W.T` (chain rule to previous layer)
 
-2. **Activation Backward** (30 min)
-   - ReLU: `grad_input = grad_output * (x > 0)`
-   - Sigmoid: `grad_input = grad_output * sigmoid(x) * (1 - sigmoid(x))`
-   - Store input `x` during forward for backward computation
-
-3. **Loss Backward** (30 min)
-   - CrossEntropyLoss: Combined softmax-CE backward (simpler gradient)
-   - Return `grad_input` for backprop
-
-4. **Numerical Gradient Checking** (60 min) ⭐ **CRITICAL FOR PORTFOLIO**
-   - Implement `numerical_gradient(loss_fn, param, epsilon=1e-5)`:
+2. **Activation Backward** ✅ ALREADY DONE (Dec 2) + FIXED (Feb 3)
+   - ReLU: `grad * (x > 0)` ✅
+   - Sigmoid: `grad * sigmoid(x) * (1 - sigmoid(x))` ✅
+   - Softmax: Fixed Jacobian implementation ✅
      ```python
-     def numerical_grad(f, x, eps=1e-5):
-         grad = np.zeros_like(x)
-         it = np.nditer(x, flags=['multi_index'])
-         while not it.finished:
-             idx = it.multi_index
-             old_value = x[idx]
-             x[idx] = old_value + eps
-             pos = f()
-             x[idx] = old_value - eps
-             neg = f()
-             grad[idx] = (pos - neg) / (2 * eps)
-             x[idx] = old_value
-             it.iternext()
-         return grad
+     s = self.output
+     grad_sum = np.sum(grad * s, axis=1, keepdims=True)
+     return s * (grad - grad_sum)
      ```
-   - Test on toy 2-layer network:
-     - Compute analytical gradient via backprop
-     - Compute numerical gradient via finite differences
-     - Compare: `relative_error = ||grad_analytical - grad_numerical|| / (||grad_analytical|| + ||grad_numerical||)`
-     - **Target**: Relative error < 1e-7
-   - **Interview point**: "I verified my calculus with numerical gradient checking - they matched to 1e-7"
 
-5. **End-to-End Test** (15 min)
+3. **Loss Backward** ✅ ALREADY DONE (Dec 2)
+   - CrossEntropyLoss: `grad = -y_true / (y_pred + ε) / batch_size` ✅
+   - MSELoss: `grad = 2 * (y_pred - y_true) / batch_size` ✅
+
+4. **Vector Calculus Study** ✅ COMPLETE (Feb 3)
+   - Studied Softmax Jacobian derivation
+   - Understood axis=0 vs axis=1 (parameter vs activation gradients)
+   - Created comprehensive study guide in `key-learnings.md`
+   - Recommended resources: Parr & Howard paper, CS231n notes, 3Blue1Brown
+
+5. **Numerical Gradient Checking** ✅ COMPLETE (Feb 5)
+   - Implemented `numerical_gradient()` in `nn/utils.py`
+   - Created comprehensive tests in `tests/test_gradient_check.py`
+   - Coverage: Linear (W, b, x), ReLU, Sigmoid, Softmax, full network
+   - All tests pass with relative error < 1e-7
+
+6. **Combined SoftmaxCrossEntropyLoss** ✅ COMPLETE (Feb 6)
+   - Implemented in `nn/losses.py` (operates on logits, not softmax outputs)
+   - Uses log-sum-exp trick for numerical stability
+   - Backward: `grad = (softmax - y_true) / batch_size` (simpler + more stable)
+   - Added gradient check tests: `test_cross_entropy_loss_backward()`, `test_softmax_cross_entropy_loss_backward()`
+   - Code review: 9/10 - Excellent implementation
+
+7. **End-to-End Test** (15 min) ⭐ **NEXT**
    - Small synthetic dataset (XOR or 2D spiral)
    - Run 10 gradient descent steps
    - Verify loss decreases (don't need convergence yet)
@@ -157,55 +178,72 @@ tests/
 
 ---
 
-### Day 3 (Week 6 Day 4, Dec 4) - 2 hours
+### Day 3 (Resumed Feb 7-9, 2026) - 4 hours ✅ **COMPLETE**
 
 **Goal**: Implement training loop with SGD and Adam optimizers
 
 **Tasks**:
-1. **Optimizer Base Class** (20 min)
+1. **Optimizer Base Class** (20 min) ✅ COMPLETE (Feb 7)
+   - PyTorch-style design: stores list of layers
+   - Accesses `layer.parameters` and `layer.gradients` dicts
    ```python
    class Optimizer:
-       def __init__(self, parameters): ...
+       def __init__(self, layers: list[Module]): ...
        def zero_grad(self): ...
        def step(self): raise NotImplementedError
    ```
 
-2. **SGD Optimizer** (25 min)
-   - Implement vanilla SGD: `param = param - lr * grad`
-   - Support momentum (optional but good practice): `v = momentum * v + grad`, `param -= lr * v`
+2. **SGD Optimizer** (25 min) ✅ COMPLETE (Feb 7)
+   - Implemented vanilla SGD: `param -= lr * grad`
+   - Iterates through layers, then through parameters in each layer
+   - Works correctly with activation layers (empty parameters dict)
 
-3. **Adam Optimizer** (45 min) ⭐ **PORTFOLIO DIFFERENTIATOR**
-   - Implement Adam with bias correction:
-     ```python
-     m = beta1 * m + (1 - beta1) * grad
-     v = beta2 * v + (1 - beta2) * grad**2
-     m_hat = m / (1 - beta1**t)
-     v_hat = v / (1 - beta2**t)
-     param -= lr * m_hat / (sqrt(v_hat) + eps)
-     ```
+3. **Adam Optimizer** (45 min) ✅ COMPLETE (Feb 9)
+   - Implemented Adam with bias correction (first + second moment)
+   - State tracking per parameter: `m` (momentum), `v` (RMSprop), `t` (timestep)
+   - Bias correction: `m_hat = m / (1 - beta1^t)`, `v_hat = v / (1 - beta2^t)`
+   - Update rule: `param -= lr * m_hat / (sqrt(v_hat) + eps)`
+   - Hyperparameters: beta1=0.9, beta2=0.999, eps=1e-8
    - **Interview point**: "Adam combines momentum (first moment) and RMSProp (second moment) with bias correction for early steps"
 
-4. **Training Loop** (30 min)
-   - Implement `train(model, X, y, optimizer, loss_fn, epochs, batch_size)`
-   - Features:
-     - Mini-batch processing
-     - Shuffle data each epoch
-     - Track loss per epoch
-     - Early stopping (optional)
+4. **Basic Training Loop** (30 min) ✅ COMPLETE (Feb 7)
+   - Implemented in `train.ipynb`
+   - Core functionality: forward → loss → backward → optimizer.step() → zero_grad()
+   - Trained on XOR dataset (4 samples, 2 classes)
+   - Architecture: Linear(2,4,he) → ReLU → Linear(4,2,xavier) → SoftmaxCrossEntropyLoss
 
-**Deliverable**: Working training loop on XOR or small synthetic dataset
-- Loss decreases to near-zero
-- Can train 2-layer network to 95%+ accuracy on toy problem
-- Compare SGD vs. Adam convergence speed (simple plot)
+   **SGD Results** (LR=0.1):
+   - Loss: 0.666 → 0.00093 (5000 epochs)
+   - 100% accuracy on XOR ✅
+
+   **Adam Results** (LR=0.01):
+   - Loss: 0.660 → 0.000032 (35× lower than SGD!)
+   - 100% accuracy on XOR ✅
+   - **Key finding**: Adam 5× better at epoch 500 (0.0044 vs 0.0256) despite 10× smaller LR
+
+   **Advanced features** (moved to Optional Enhancements):
+   - Mini-batch processing (not needed for toy datasets)
+   - Shuffle data each epoch (not needed for full-batch)
+   - Early stopping (nice-to-have)
+
+**Deliverable**: Working training loop + optimizer comparison ✅
+- ✅ Loss decreases to near-zero (SGD: 0.00093, Adam: 0.000032)
+- ✅ 2-layer network trains successfully on XOR (100% accuracy)
+- ✅ Compare SGD vs. Adam: Adam converges 35× better!
 
 **Files Created**:
 ```
 nn/
-└── optimizers.py     # SGD, Adam classes
+└── optimizers.py     # Optimizer base class + SGD + Adam ✅
 
-train.py              # Training loop implementation
-test_toy_data.py      # Train on XOR/synthetic to verify
+train.ipynb           # Training loop + XOR test + SGD/Adam comparison ✅
 ```
+
+**Key Learnings** (Feb 7, Feb 9):
+- **Optimizer design**: PyTorch-style (store layers) is cleaner than storing separate param/grad lists
+- **Initialization matters**: He for layers before ReLU, Xavier for output layer before softmax
+- **Inference pattern**: Network outputs logits, apply softmax separately (or just argmax for predictions)
+- **Gradient behavior**: Current implementation overwrites gradients (not accumulates), which works fine for full-batch training
 
 ---
 
@@ -454,42 +492,36 @@ projects/neural-network/
 
 ## Success Criteria
 
-**Technical**:
+**Technical** (Core - Learning Objectives):
 - ✅ Modular PyTorch-like design
 - ✅ Xavier/He initialization implemented
 - ✅ Numerical gradient checking passes (rel. error < 1e-7)
+- ✅ SGD optimizer implemented
 - ✅ Adam optimizer with bias correction
-- ✅ MNIST >95% test accuracy (target: 97-98%)
-- ✅ Loss/accuracy curves generated
+- ✅ Training loop working (XOR: 100% accuracy, loss → 0.000032)
+- ✅ SGD vs Adam comparison (Adam 35× better convergence)
 
-**Portfolio**:
-- ✅ Professional README with math formulas
-- ✅ Interview talking points documented
-- ✅ Code is readable and well-documented
-- ✅ Demonstrates theory + engineering skills
+**Technical** (Optional - Portfolio Polish):
+- ⬜ MNIST training >95% test accuracy (deferred)
+- ⬜ Loss/accuracy curves visualization (deferred)
+- ⬜ Professional README with math formulas (deferred)
 
-**Interview Readiness**:
+**Portfolio** (Core - Achieved):
+- ✅ Interview talking points documented (`key-learnings.md`)
+- ✅ Code is readable and modular
+- ✅ Demonstrates theory + engineering skills (backprop, optimizers, initialization)
+
+**Interview Readiness** (Core - Achieved):
 - ✅ Can explain backprop on whiteboard
-- ✅ Can discuss initialization strategies
-- ✅ Can compare SGD vs. Adam with data
-- ✅ Can explain gradient checking importance
+- ✅ Can discuss initialization strategies (He vs Xavier)
+- ✅ Can compare SGD vs. Adam with data (35× convergence improvement)
+- ✅ Can explain gradient checking importance (verified to 1e-7)
 
----
-
-## Adjustments to ML-Interview-Prep-Plan.md
-
-**Week 6 (Current)**:
-- Day 1: ✅ Complete (LeetCode assessment)
-- Day 2: Forward pass + init (2.5h) ← TODAY
-- Day 3: Backprop + gradient checking (3h)
-- Day 4: Training loop + optimizers (2h)
-
-**Week 7 (Next)**:
-- Monday: MNIST training + eval (2.5h)
-- Tuesday: Documentation + README (2h)
-- Wed-Fri: ML coding drills (4-5h) - unchanged
-
-**Total NN Time**: 12h (vs. original 9.5h, +2.5h for gradient checking and Adam)
+**Status**: ✅ **CORE COMPLETE** (90% done, learning closure achieved)
+- Feb 4-5: Backprop + gradient checking
+- Feb 7: SGD + training loop
+- Feb 9: Adam optimizer
+- Optional: MNIST + documentation (not needed for interview prep)
 
 ---
 
@@ -511,10 +543,62 @@ If pressed for time on Day 5, README priority order:
 
 ---
 
-## Next Steps
+## Optional Enhancements
 
-After plan approval:
-1. Create project directory structure
-2. Start Day 1 implementation (forward pass + initialization)
-3. Daily check-ins after each milestone
-4. Final review before Week 8 starts
+These are nice-to-have features that improve code quality but aren't critical for learning closure:
+
+### 1. Advanced Training Features (30-45 min) - Production-ready training loop
+
+**Current**: Basic full-batch training on XOR (works fine for toy datasets)
+
+**Enhancements**:
+- **Mini-batch processing**: Split data into batches, iterate through them
+- **Data shuffling**: Shuffle dataset each epoch (reduces overfitting)
+- **Early stopping**: Monitor validation loss, stop if no improvement
+- **Learning rate scheduling**: Decay LR over time
+
+**Benefits**:
+- ✅ Scales to large datasets (MNIST, ImageNet)
+- ✅ Better generalization (shuffling prevents order bias)
+- ✅ Prevents overtraining (early stopping)
+
+**When to implement**: If training on MNIST or larger datasets
+
+---
+
+### 2. Sequential Container (30 min) - Makes forward/backward cleaner
+
+**Problem**: Nested backward calls are awkward:
+```python
+grad = linear1.backward(relu.backward(linear2.backward(softmax.backward(loss.backward()))))
+```
+
+**Solution**: PyTorch-style Sequential container
+```python
+model = Sequential([Linear(3, 2), ReLU(), Linear(2, 3), Softmax()])
+y = model(x)
+grad = model.backward(loss.backward())
+```
+
+**Implementation**:
+- Create `nn/sequential.py` with `Sequential` class
+- Forward: iterate through layers
+- Backward: iterate through reversed(layers)
+- 20-30 lines of code
+
+**Benefits**:
+- ✅ Cleaner API (matches PyTorch)
+- ✅ Easier to add/remove layers
+- ✅ Better for debugging (can iterate and inspect)
+
+**When to implement**: After Day 3 (training loop works) or Day 5 (polish phase)
+
+---
+
+### 3. Other Potential Enhancements (Low priority)
+
+- **Layer naming**: Access layers as `model.layer1.W` instead of `model.layers[0].parameters["W"]`
+- **Computation graph**: Automatic differentiation (like PyTorch autograd) - requires ~200+ lines
+- **Checkpoint saving/loading**: Serialize model to disk
+- **Learning rate scheduling**: Decay LR over training
+- **Batch normalization**: Stabilize training for deeper networks
