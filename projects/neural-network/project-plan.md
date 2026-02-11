@@ -244,6 +244,7 @@ train.ipynb           # Training loop + XOR test + SGD/Adam comparison ✅
 - **Initialization matters**: He for layers before ReLU, Xavier for output layer before softmax
 - **Inference pattern**: Network outputs logits, apply softmax separately (or just argmax for predictions)
 - **Gradient behavior**: Current implementation overwrites gradients (not accumulates), which works fine for full-batch training
+- **Terminology note**: The optimizer is called "SGD" but the training loop uses **full-batch gradient descent** (all 4 XOR samples per update), not stochastic/mini-batch sampling. Technically "Batch Gradient Descent" (BGD), but following PyTorch convention of calling the optimizer `SGD` regardless of batch size. The "stochastic" part comes from mini-batch sampling in the training loop, not the optimizer itself.
 
 ---
 
